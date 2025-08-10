@@ -36,3 +36,4 @@ build/
 .DS_Store
 
 src/ListFonts.java
+/Clock App.app/
