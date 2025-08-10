@@ -35,4 +35,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-ListFonts.java
+src/ListFonts.java
