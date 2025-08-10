@@ -1,3 +1,5 @@
 ** Clock App
 
-This is a 
+This is a # clockapp
+Simple Clock App written in Java
+
