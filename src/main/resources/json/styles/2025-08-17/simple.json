@@ -1,0 +1,40 @@
+{
+  "name": "Simple Clock Example",
+  "clock_face": [
+      {
+        "shape": "circle",
+        "color": "#f6ae2d",
+        "cx": 0.0,
+        "cy": 0.00,
+        "radius": 1.0
+      }
+  ],
+  "second_hand": [
+    {
+      "shape": "rectangle",
+      "color": "#FF0000",
+      "fx": -0.01,
+      "fy": 0.99,
+      "tx": 0.01,
+      "ty": -0.1
+    }
+  ],
+  "minute_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.016,
+      "fy": 0.99,
+      "tx": 0.016,
+      "ty": -0.1
+    }
+  ],
+  "hour_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.016,
+      "fy": 0.69,
+      "tx": 0.016,
+      "ty": -0.1
+    }
+  ]
+}

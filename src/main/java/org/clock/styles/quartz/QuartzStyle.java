@@ -16,20 +16,18 @@
 package org.clock.styles.quartz;
 
 import org.clock.HoursMinutesSeconds;
-import org.clock.OffsetRadius;
+import org.clock.graphical.OffsetRadius;
 import org.clock.ClockUtils;
 import org.clock.Style;
 
 import java.awt.*;
-import java.awt.font.LineMetrics;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.font.TextLayout;
+import java.awt.geom.*;
 
 import static org.clock.ClockUtils.paintOnClock;
-import static org.clock.FilledPoly.rotatePoint;
-import static org.clock.LineTransforms.adjust;
-import static org.clock.LineTransforms.rotate;
+import static org.clock.graphical.LineTransforms.adjust;
+import static org.clock.graphical.LineTransforms.rotate;
+import static org.clock.graphical.FilledPoly.rotatePoint;
 import static org.clock.styles.metro.MetroConstants.MINUTE_HAND_LINE;
 import static org.clock.styles.quartz.QuartzConstants.*;
 import static java.awt.Color.*;
@@ -68,7 +66,7 @@ public class QuartzStyle implements Style {
         graphics2D.draw(ellipse2);
 
         Font baseFont = new Font("Gill Sans", Font.PLAIN, 30); // graphics2D.getFont();
-        graphics2D.setFont(baseFont.deriveFont((float) (radius * .229007f)));
+        Font font = baseFont.deriveFont((float) (radius * .229007f));
 
         FontMetrics fontMetrics;
         for (int minute = 0; minute < 60; minute++) {
@@ -81,14 +79,12 @@ public class QuartzStyle implements Style {
                 if (hour == 0) {
                     hour = 12;
                 }
-                fontMetrics = graphics2D.getFontMetrics();
-                String hourString = String.valueOf(hour);
-                double width = fontMetrics.stringWidth(hourString);
-                LineMetrics lineMetrics = fontMetrics.getLineMetrics(hourString, graphics2D);
-                double ascent = lineMetrics.getAscent();
-                double x = offsetRadius.offsetX() + pt.getX();
-                double y = offsetRadius.offsetY() + pt.getY();
-                graphics2D.drawString(hourString, Math.round(x - width / 2d), Math.round(y + ascent / 2d));
+                TextLayout textLayout = new TextLayout(String.valueOf(hour), font, graphics2D.getFontRenderContext());
+                Rectangle2D bounds = textLayout.getBounds();
+                AffineTransform transform = AffineTransform.getTranslateInstance(
+                        offsetRadius.offsetX() + pt.getX() - bounds.getX() - bounds.getWidth() / 2d,
+                        offsetRadius.offsetY() + pt.getY() + bounds.getHeight() / 2d);
+                graphics2D.fill(textLayout.getOutline(transform));
             } else {
                 graphics2D.setStroke(innerLineStroke);
             }

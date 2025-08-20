@@ -15,6 +15,8 @@
  */
 package org.clock;
 
+import org.clock.graphical.OffsetRadius;
+
 import java.awt.*;
 
 /**

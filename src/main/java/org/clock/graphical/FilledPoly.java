@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.clock;
+package org.clock.graphical;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -24,7 +24,7 @@ import java.util.function.Function;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-public class FilledPoly {
+public class FilledPoly implements GraphicalElement {
     protected final Point2D[] points;
     private final Paint paint;
 
@@ -33,7 +33,7 @@ public class FilledPoly {
         this.points = Arrays.copyOf(points, points.length);
     }
 
-    public void fill(Graphics2D graphics2D) {
+    public void draw(Graphics2D graphics2D) {
         Path2D path2D = new Path2D.Double();
         path2D.moveTo(points[0].getX(), points[0].getY());
         for (int i = 1; i < points.length; i++) {
@@ -44,23 +44,7 @@ public class FilledPoly {
         graphics2D.fill(path2D);
     }
 
-    public FilledPoly shift(double xOffset, double yOffset) {
-        return transform(p -> new Point2D.Double(
-                p.getX() + xOffset,
-                p.getY() + yOffset));
-    }
-
-    public FilledPoly scale(double scale) {
-        return scale(scale, scale);
-    }
-
-    public FilledPoly scale(double xScale, double yScale) {
-        return transform(p -> new Point2D.Double(
-                p.getX() * xScale,
-                p.getY() * yScale));
-    }
-
-    FilledPoly transform(Function<Point2D, Point2D> func) {
+    public FilledPoly transform(Function<Point2D, Point2D> func) {
         Point2D[] newPoints = new Point2D[points.length];
         int index = 0;
         for (Point2D p : points) {
@@ -77,15 +61,28 @@ public class FilledPoly {
         return new FilledPoly(paint, newPoints);
     }
 
-    // theta in radians
-   public FilledPoly rotate(double theta) {
+    public FilledPoly shift(double xOffset, double yOffset) {
+        return transform(p -> new Point2D.Double(
+                p.getX() + xOffset,
+                p.getY() + yOffset));
+    }
+    public FilledPoly scale(double scale) {
+        return scale(scale, scale);
+    }
+
+    public FilledPoly scale(double xScale, double yScale) {
+        return transform(p -> new Point2D.Double(
+                p.getX() * xScale,
+                p.getY() * yScale));
+    }
+
+    public FilledPoly rotate(double theta) {
         return transform(p -> rotatePoint(theta, p));
     }
 
     public FilledPoly adjust(OffsetRadius offsetRadius) {
-        return scale(offsetRadius.radius()).shift(offsetRadius.offsetX(), offsetRadius.offsetY());
+        return transform(offsetRadius::adjust);
     }
-
     public static Point2D rotatePoint(double theta, Point2D point2D) {
         return new Point2D.Double(
                 point2D.getX() * cos(theta) - point2D.getY() * sin(theta),

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.clock;
+package org.clock.graphical;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public record OffsetRadius(double offsetX, double offsetY, double radius) {
@@ -25,5 +26,17 @@ public record OffsetRadius(double offsetX, double offsetY, double radius) {
                 offsetY - radius,
                 1 + radius * 2,
                 1 + radius * 2);
+    }
+
+    public Point2D adjust(Point2D point) {
+        double newx = point.getX() * radius();
+        double newy = point.getY() * radius();
+        newx += offsetX();
+        newy += offsetY();
+        return new Point2D.Double(newx, newy);
+    }
+
+    public double adjustDimension(double value) {
+        return radius * value;
     }
 }

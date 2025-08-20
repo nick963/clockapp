@@ -15,6 +15,9 @@
  */
 package org.clock;
 
+import org.clock.graphical.GraphicalElement;
+import org.clock.graphical.OffsetRadius;
+
 import java.awt.*;
 
 public final class ClockUtils {
@@ -24,10 +27,10 @@ public final class ClockUtils {
         return CIRCLE_RADIANS * circleFraction;
     }
 
-    public static void paintOnClock(Graphics2D graphics2D, FilledPoly unscaledHand, OffsetRadius offsetRadius, double fraction) {
+    public static void paintOnClock(Graphics2D graphics2D, GraphicalElement poly, OffsetRadius offsetRadius, double fraction) {
         double theta = toRadians(0.5d + fraction);
-        FilledPoly hand = unscaledHand.rotate(theta).adjust(offsetRadius);
-        hand.fill(graphics2D);
+        GraphicalElement transformedPoly = poly.rotate(theta).adjust(offsetRadius);
+        transformedPoly.draw(graphics2D);
     }
 
     private ClockUtils() {}

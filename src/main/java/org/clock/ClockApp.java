@@ -16,6 +16,8 @@
 package org.clock;
 
 import org.clock.styles.colorful.ColorfulStyle;
+import org.clock.styles.gsonstyle.GsonStyle;
+import org.clock.styles.gsonstyle.StyleGroups;
 import org.clock.styles.metro.MetroStyle;
 import org.clock.styles.quartz.QuartzStyle;
 
@@ -23,19 +25,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ClockApp {
 
-    private static final Style[] CLOCK_STYLES = {
-            new MetroStyle(),
-            new QuartzStyle(),
-            new ColorfulStyle()
-    };
+    private static final List<Style> CLOCK_STYLES;
+    private static final StyleGroups CLOCK_STYLE_GROUPS;
+
+    static {
+        ArrayList<Style> clockStyles = new ArrayList<>();
+        clockStyles.add(new MetroStyle());
+        clockStyles.add(new QuartzStyle());
+        clockStyles.add(new ColorfulStyle());
+        clockStyles.addAll(GsonStyle.toGsonStyles());
+        CLOCK_STYLES = clockStyles;
+
+        CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
+    }
 
     public static void main(String[] args) {
         JWindow window = createAppWindow();
-        ClockPanel clock = new ClockPanel(CLOCK_STYLES);
+        ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);
         clock.addMouseListener(clockMouseListener);

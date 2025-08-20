@@ -17,16 +17,17 @@ package org.clock.styles.colorful;
 
 import org.clock.ClockUtils;
 import org.clock.HoursMinutesSeconds;
-import org.clock.OffsetRadius;
+import org.clock.graphical.OffsetRadius;
 import org.clock.Style;
 
 import java.awt.*;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
-import static org.clock.LineTransforms.adjust;
-import static org.clock.LineTransforms.rotate;
+import static org.clock.graphical.LineTransforms.adjust;
+import static org.clock.graphical.LineTransforms.rotate;
 import static org.clock.styles.colorful.ColorfulConstants.FACE_BACKGROUND_COLORS;
 import static org.clock.styles.colorful.ColorfulConstants.FACE_BACKGROUND_COLOR_FRACTIONS;
 
@@ -62,6 +63,34 @@ public class ColorfulStyle implements Style {
     }
 
     private void printTime(Graphics2D graphics2D, OffsetRadius offsetRadius, HoursMinutesSeconds hoursMinutesSeconds) {
+        // set font
+        double radius = offsetRadius.radius();
+        Font font = BASE_FONT.deriveFont((float) (radius * 0.88f));
+        graphics2D.setFont(font);
+
+        // calculate string
+        long hours = Math.round(hoursMinutesSeconds.hours());
+        String string = String.format("%d:%02d", hours == 0 ? 12 : hours, Math.round(hoursMinutesSeconds.minutes()));
+
+        // derive text shape
+        TextLayout textLayout = new TextLayout(string, font, graphics2D.getFontRenderContext());
+        Rectangle2D bounds = textLayout.getBounds();
+        AffineTransform transform = AffineTransform.getTranslateInstance(
+                offsetRadius.offsetX() - bounds.getWidth() / 2d,
+                offsetRadius.offsetY() + bounds.getHeight() / 2d);
+        Shape textShape = textLayout.getOutline(transform);
+
+        // fill text
+        graphics2D.setPaint(TEXT_FILL_PAINT);
+        graphics2D.fill(textShape);
+
+        // draw text
+        graphics2D.setStroke(new BasicStroke((float) (radius * .010f)));
+        graphics2D.setPaint(TEXT_DRAW_PAINT);
+        graphics2D.draw(textShape);
+    }
+
+    private void printTimeOld(Graphics2D graphics2D, OffsetRadius offsetRadius, HoursMinutesSeconds hoursMinutesSeconds) {
         // set font
         double radius = offsetRadius.radius();
         Font font = BASE_FONT.deriveFont((float) (radius * 0.88f));

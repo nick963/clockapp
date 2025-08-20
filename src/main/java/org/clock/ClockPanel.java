@@ -15,28 +15,35 @@
  */
 package org.clock;
 
+import org.clock.graphical.OffsetRadius;
+import org.clock.styles.gsonstyle.StyleGroup;
+import org.clock.styles.gsonstyle.StyleGroups;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.util.*;
+import java.util.List;
 
 /** Displays a clock. */
 public class ClockPanel extends JPanel {
     private static final boolean BUFFER_CLOCK_FACE = true;
 
-    private final Style[] clockStyles;
-    private int clockStyleIndex = 0;
+    private final List<Style> clockStyles;
+    private final StyleGroups clockStyleGroups;
+    private GroupAndStyle currentGroupAndStyle;
     private Calendar calendar;
     private OffsetRadius lastOffsetRadius;
     private BufferedImage lastBufferedImage;
 
-    public ClockPanel(Style... clockStyles) {
-        this.clockStyles = clockStyles;
+    public ClockPanel(List<Style> clockStyles, StyleGroups clockStyleGroups) {
+        this.clockStyles = new ArrayList<>(clockStyles);
+        this.clockStyleGroups = clockStyleGroups;
         this.calendar = Calendar.getInstance();
         lastOffsetRadius = new OffsetRadius(0,0,0);
         lastBufferedImage = null;
+        currentGroupAndStyle = new GroupAndStyle(null, clockStyles.get(0));
     }
 
     @Override
@@ -49,9 +56,9 @@ public class ClockPanel extends JPanel {
         Rectangle2D.Double r = centerSquare();
         OffsetRadius offsetRadius = new OffsetRadius(r.x + r.width/2, r.y + r.height/2, r.width/2);
         HoursMinutesSeconds hoursMinutesSeconds =
-                HoursMinutesSeconds.getHoursMinutesSeconds(calendar, clockStyles[clockStyleIndex].discreteTimeIntervals());
+                HoursMinutesSeconds.getHoursMinutesSeconds(calendar, currentGroupAndStyle.style.discreteTimeIntervals());
 
-        Style style = clockStyles[clockStyleIndex];
+        Style style = currentGroupAndStyle.style;
         if (BUFFER_CLOCK_FACE && style.staticClockFace()) {
             if (lastOffsetRadius.equals(offsetRadius)) {
                 graphics2D.drawImage(lastBufferedImage, 0, 0, null);
@@ -87,20 +94,34 @@ public class ClockPanel extends JPanel {
         this.calendar = calendar;
     }
 
-    public java.util.List<String> getStyleNames() {
-        return Arrays.stream(clockStyles).map(Style::getName).toList();
-    }
-
-    public String getCurrentStyleName() {
-        return clockStyles[clockStyleIndex].getName();
-    }
-
-    public void setStyle(String styleName) {
-        for (int i = 0; i < clockStyles.length; i++) {
-            if (clockStyles[i].getName().equals(styleName)) {
-                clockStyleIndex = i;
-                lastOffsetRadius = new OffsetRadius(0,0,0);
+    public record GroupAndStyle(StyleGroup group, Style style) {
+        public boolean isSame(GroupAndStyle other) {
+            if (group == null && other.group != null) {
+                return false;
             }
+            if (group != null && other.group == null) {
+                return false;
+            }
+            if (group != null && other.group != null && !group.getName().equals(other.group.getName())) {
+                return false;
+            }
+            return style.getName().equals(other.style.getName());
         }
+    }
+
+    public java.util.List<GroupAndStyle> getGroupsAndStyles() {
+        ArrayList<GroupAndStyle> list = new ArrayList<>();
+        clockStyles.forEach(s -> list.add(new GroupAndStyle(null, s)));
+        clockStyleGroups.groups().forEach(g -> g.getStyles().forEach(s -> list.add(new GroupAndStyle(g, s))));
+        return list;
+    }
+
+    public GroupAndStyle getCurrentGroupAndStyle() {
+        return currentGroupAndStyle;
+    }
+
+    public void setGroupAndStyle(GroupAndStyle groupAndStyle) {
+        currentGroupAndStyle = groupAndStyle;
+        lastOffsetRadius = new OffsetRadius(0, 0, 0);
     }
 }

@@ -16,7 +16,7 @@
 package org.clock.styles.metro;
 
 import org.clock.HoursMinutesSeconds;
-import org.clock.OffsetRadius;
+import org.clock.graphical.OffsetRadius;
 import org.clock.Style;
 
 import java.awt.*;
@@ -50,7 +50,7 @@ public class MetroStyle implements Style {
         for (int minute = 0; minute < 60; minute++) {
             paintOnClock(graphics2D, MINUTE_HAND_MARKER, offsetRadius, minute/60d);
         }
-        LOGO.adjust(offsetRadius).fill(graphics2D);
+        LOGO.adjust(offsetRadius).draw(graphics2D);
     }
 
     @Override

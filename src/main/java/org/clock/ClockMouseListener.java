@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.HashMap;
 
 /**
  * MouseListener/MouseMotionListener for ClockPanel.
@@ -50,16 +51,26 @@ class ClockMouseListener extends MouseAdapter {
         if (e.isPopupTrigger()) {
             JPopupMenu popupMenu = new JPopupMenu();
             ButtonGroup buttonGroup = new ButtonGroup();
-            String currentStyleName = clock.getCurrentStyleName();
-
-            for (String styleName : clock.getStyleNames()) {
-                JRadioButton radioButton = new JRadioButton(styleName);
-                if (styleName.equals(currentStyleName)) {
+            ClockPanel.GroupAndStyle currentStyleName = clock.getCurrentGroupAndStyle();
+            HashMap<String, JMenu> submenus = new HashMap<>();
+            for (ClockPanel.GroupAndStyle groupAndStyle : clock.getGroupsAndStyles()) {
+                JRadioButton radioButton = new JRadioButton(groupAndStyle.style().getName());
+                if (currentStyleName.isSame(groupAndStyle)) {
                     radioButton.setSelected(true);
                 }
-                radioButton.addActionListener(ev -> clock.setStyle(styleName));
+                radioButton.addActionListener(ev -> { clock.setGroupAndStyle(groupAndStyle); popupMenu.setVisible(false); } );
                 buttonGroup.add(radioButton);
-                popupMenu.add(radioButton);
+                if (groupAndStyle.group() == null) {
+                    popupMenu.add(radioButton);
+                } else {
+                    JMenu submenu = submenus.get(groupAndStyle.group().getName());
+                    if (submenu == null) {
+                        submenu = new JMenu(groupAndStyle.group().getName());
+                        submenus.put(groupAndStyle.group().getName(), submenu);
+                    }
+                    popupMenu.add(submenu);
+                    submenu.add(radioButton);
+                }
             }
             popupMenu.add(new JSeparator());
             JMenuItem quitMenuItem = new JMenuItem("Quit");

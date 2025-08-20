@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.clock;
+package org.clock.graphical;
 
 import java.awt.geom.Line2D;
 

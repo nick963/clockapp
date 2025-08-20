@@ -1,0 +1,191 @@
+[
+  {
+    "name": "JSON Red",
+    "clock_face": [
+      {
+        "shape": "rectangle",
+        "fx": -0.005,
+        "fy": 0.99,
+        "tx": 0.005,
+        "ty": 0.72
+      },
+      {
+        "shape": "rectangle",
+        "fx": -0.005,
+        "fy": -0.99,
+        "tx": 0.005,
+        "ty": -0.72
+      },
+      {
+        "shape": "rectangle",
+        "fx": -0.99,
+        "fy": -0.005,
+        "tx": -0.72,
+        "ty": 0.005
+      },
+      {
+        "shape": "rectangle",
+        "fx": 0.99,
+        "fy": -0.005,
+        "tx": 0.72,
+        "ty": 0.005
+      }
+    ],
+    "second_hand": [
+      {
+        "shape": "rectangle",
+        "color": "#FF0000",
+        "fx": -0.01,
+        "fy": 0.99,
+        "tx": 0.01,
+        "ty": -0.1
+      },
+      {
+        "shape": "circle",
+        "color": "#FF0000",
+        "cx": 0.0,
+        "cy": 0.0,
+        "radius": 0.03
+      },
+      {
+        "shape": "circle",
+        "color": "#FF0000",
+        "cx": 0.0,
+        "cy": 0.50,
+        "radius": 0.03
+      }
+    ],
+    "minute_hand": [
+      {
+        "shape": "rectangle",
+        "fx": -0.016,
+        "fy": 0.99,
+        "tx": 0.016,
+        "ty": -0.1
+      }
+    ],
+    "hour_hand": [
+      {
+        "shape": "rectangle",
+        "fx": -0.016,
+        "fy": 0.69,
+        "tx": 0.016,
+        "ty": -0.1
+      }
+    ]
+  },
+  {
+    "name": "JSON Ocean Sunset",
+    "clock_face": [
+      {
+        "shape": "circle",
+        "color": "#f6ae2d",
+        "cx": 0.0,
+        "cy": 0.00,
+        "radius": 1.0
+      },
+      {
+        "shape": "rectangle",
+        "color": "#2F4858",
+        "fx": -0.005,
+        "fy": 0.99,
+        "tx": 0.005,
+        "ty": 0.72
+      },
+      {
+        "shape": "rectangle",
+        "color": "#2F4858",
+        "fx": -0.005,
+        "fy": -0.99,
+        "tx": 0.005,
+        "ty": -0.72
+      },
+      {
+        "shape": "rectangle",
+        "color": "#2F4858",
+        "fx": -0.99,
+        "fy": -0.005,
+        "tx": -0.72,
+        "ty": 0.005
+      },
+      {
+        "shape": "rectangle",
+        "color": "#2F4858",
+        "fx": 0.99,
+        "fy": -0.005,
+        "tx": 0.72,
+        "ty": 0.005
+      },
+      {
+        "shape": "polygon",
+        "color": "#33658A",
+        "points": [
+          {
+            "x": 0.0,
+            "y": 1.0
+          },
+          {
+            "x": -0.5878,
+            "y": -0.809
+          },
+          {
+            "x": 0.9511,
+            "y": 0.309
+          },
+          {
+            "x": -0.9511,
+            "y": 0.309
+          },
+          {
+            "x": 0.5878,
+            "y": -0.809
+          }
+        ]
+      }
+    ],
+    "second_hand": [
+      {
+        "shape": "rectangle",
+        "color": "#F26419",
+        "fx": -0.01,
+        "fy": 0.99,
+        "tx": 0.01,
+        "ty": -0.1
+      },
+      {
+        "shape": "circle",
+        "color": "#2F4858",
+        "cx": 0.0,
+        "cy": 0.0,
+        "radius": 0.03
+      },
+      {
+        "shape": "circle",
+        "color": "#2F4858",
+        "cx": 0.0,
+        "cy": 0.50,
+        "radius": 0.03
+      }
+    ],
+    "minute_hand": [
+      {
+        "shape": "rectangle",
+        "color": "#86BBD8",
+        "fx": -0.016,
+        "fy": 0.99,
+        "tx": 0.016,
+        "ty": -0.1
+      }
+    ],
+    "hour_hand": [
+      {
+        "shape": "rectangle",
+        "color": "#86BBD8",
+        "fx": -0.016,
+        "fy": 0.69,
+        "tx": 0.016,
+        "ty": -0.1
+      }
+    ]
+  }
+]

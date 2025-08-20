@@ -15,7 +15,8 @@
  */
 package org.clock.styles.metro;
 
-import org.clock.FilledPoly;
+import org.clock.graphical.FilledPoly;
+import org.clock.graphical.OffsetRadius;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -87,5 +88,6 @@ public class MetroConstants {
                 new Point2D.Double(0.50, 0.00)); // 9: center bottom of rectangle
         var p2 = p.join(p.scale(-1, 1).shift(1,0));
         LOGO = p2.shift(-.5, -2.5).scale(.15);
+        //LOGO = p2.adjust(new OffsetRadius(-.5, -2.5, .15));
     }
 }

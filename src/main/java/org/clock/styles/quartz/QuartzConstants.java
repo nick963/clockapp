@@ -15,7 +15,7 @@
  */
 package org.clock.styles.quartz;
 
-import org.clock.FilledPoly;
+import org.clock.graphical.FilledPoly;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
