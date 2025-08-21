@@ -58,22 +58,29 @@ public class GsonStyle implements Style {
     }
 
     private static List<Map<?,?>> toMaps(String jsonResource) {
-        ArrayList<Map<?,?>> mapList = new ArrayList<>();
         try {
-            String jsonString;
             try (InputStream stream = GsonStyle.class.getResourceAsStream(jsonResource)) {
                 if (stream == null) {
                     throw new NullPointerException("unable to read resource: " + jsonResource);
                 }
-                jsonString = new String(stream.readAllBytes());
+                return toMaps(stream);
             }
-            Gson gson = new Gson();
-            List<?> list = gson.fromJson(jsonString, List.class);
-            list.forEach(o -> mapList.add((Map<?, ?>) o));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        return mapList;
+    }
+
+    private static List<Map<?,?>> toMaps(InputStream stream) {
+        try {
+            String jsonString = new String(stream.readAllBytes());
+            Gson gson = new Gson();
+            List<?> list = gson.fromJson(jsonString, List.class);
+            ArrayList<Map<?,?>> mapList = new ArrayList<>();
+            list.forEach(o -> mapList.add((Map<?, ?>) o));
+            return mapList;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public GsonStyle(Map<?, ?> josonClockMap) {
@@ -83,6 +90,10 @@ public class GsonStyle implements Style {
         secondHandElements = toGraphicalElements((List<?>)josonClockMap.get("second_hand"));
         minuteHandElements = toGraphicalElements((List<?>)josonClockMap.get("minute_hand"));
         hourHandElements = toGraphicalElements((List<?>)josonClockMap.get("hour_hand"));
+    }
+
+    public GsonStyle(Gson gson, InputStream styleStream) throws IOException {
+        this(gson.fromJson(new String(styleStream.readAllBytes()), Map.class));
     }
 
     List<GraphicalElement> toGraphicalElements(List<?> shapeList) {

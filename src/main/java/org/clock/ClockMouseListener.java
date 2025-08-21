@@ -15,12 +15,23 @@
  */
 package org.clock;
 
+import com.google.gson.Gson;
+import org.clock.styles.gsonstyle.GsonStyle;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * MouseListener/MouseMotionListener for ClockPanel.
@@ -41,6 +52,9 @@ class ClockMouseListener extends MouseAdapter {
     // clockIsResizing is set at the start of resizing the clock.
     private boolean clockIsResizing = false;
 
+    private File lastLoadedJSONFile = null;
+    private JMenuItem loadJSONFile = null;
+
     ClockMouseListener(JWindow windowContainingClock, ClockPanel clock) {
         this.windowContainingClock = windowContainingClock;
         this.clock = clock;
@@ -49,38 +63,118 @@ class ClockMouseListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.isPopupTrigger()) {
-            JPopupMenu popupMenu = new JPopupMenu();
-            ButtonGroup buttonGroup = new ButtonGroup();
-            ClockPanel.GroupAndStyle currentStyleName = clock.getCurrentGroupAndStyle();
-            HashMap<String, JMenu> submenus = new HashMap<>();
-            for (ClockPanel.GroupAndStyle groupAndStyle : clock.getGroupsAndStyles()) {
-                JRadioButton radioButton = new JRadioButton(groupAndStyle.style().getName());
-                if (currentStyleName.isSame(groupAndStyle)) {
-                    radioButton.setSelected(true);
-                }
-                radioButton.addActionListener(ev -> { clock.setGroupAndStyle(groupAndStyle); popupMenu.setVisible(false); } );
-                buttonGroup.add(radioButton);
-                if (groupAndStyle.group() == null) {
-                    popupMenu.add(radioButton);
-                } else {
-                    JMenu submenu = submenus.get(groupAndStyle.group().getName());
-                    if (submenu == null) {
-                        submenu = new JMenu(groupAndStyle.group().getName());
-                        submenus.put(groupAndStyle.group().getName(), submenu);
-                    }
-                    popupMenu.add(submenu);
-                    submenu.add(radioButton);
-                }
-            }
-            popupMenu.add(new JSeparator());
-            JMenuItem quitMenuItem = new JMenuItem("Quit");
-            quitMenuItem.addActionListener(ev -> {
-                windowContainingClock.setVisible(false);
-                System.exit(0);
-            });
-            popupMenu.add(quitMenuItem);
-            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+            JPopupMenu popup = createPopup();
+            SwingUtilities.invokeLater(popup::requestFocus);
+            popup.show(clock, e.getX(), e.getY());
         }
+    }
+
+    private JPopupMenu createPopup() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        ButtonGroup buttonGroup = new ButtonGroup();
+        ClockPanel.GroupAndStyle currentStyleName = clock.getCurrentGroupAndStyle();
+        HashMap<String, JMenu> submenus = new HashMap<>();
+        for (ClockPanel.GroupAndStyle groupAndStyle : clock.getGroupsAndStyles()) {
+            JRadioButton radioButton = new JRadioButton(groupAndStyle.style().getName());
+            if (currentStyleName.isSame(groupAndStyle)) {
+                radioButton.setSelected(true);
+            }
+            radioButton.addActionListener(ev -> { clock.setGroupAndStyle(groupAndStyle); popupMenu.setVisible(false); } );
+            buttonGroup.add(radioButton);
+            if (groupAndStyle.group() == null) {
+                popupMenu.add(radioButton);
+            } else {
+                JMenu submenu = submenus.get(groupAndStyle.group().getName());
+                if (submenu == null) {
+                    submenu = new JMenu(groupAndStyle.group().getName());
+                    submenus.put(groupAndStyle.group().getName(), submenu);
+                }
+                popupMenu.add(submenu);
+                submenu.add(radioButton);
+            }
+        }
+        popupMenu.add(new JSeparator());
+        JMenuItem quitMenuItem = new JMenuItem("Quit");
+        quitMenuItem.addActionListener(ev -> {
+            windowContainingClock.setVisible(false);
+            System.exit(0);
+        });
+        popupMenu.add(loadJSONFile(popupMenu));
+        reloadJSSONFile().ifPresent(popupMenu::add);
+        popupMenu.add(quitMenuItem);
+        return popupMenu;
+    }
+
+    Optional<JMenuItem> reloadJSSONFile() {
+        if (lastLoadedJSONFile == null) {
+            return Optional.empty();
+        }
+        JMenuItem menuItem = new JMenuItem(
+                String.format(
+                        "Reload file: \".../%s\"",
+                        lastLoadedJSONFile.getName()));
+        menuItem.addActionListener(ev -> {
+            try {
+                loadJSONFile(lastLoadedJSONFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return Optional.of(menuItem);
+    }
+
+    JFrame fileChooser = null;
+
+    JMenuItem loadJSONFile(JPopupMenu popup) {
+        if (loadJSONFile != null) {
+            return loadJSONFile;
+        }
+        loadJSONFile = new JMenuItem("Load JSON Clock File...");
+        loadJSONFile.addActionListener(ev -> {
+            if (fileChooser == null) {
+                fileChooser = newJFrameFileChooser();
+            }
+            fileChooser.setVisible(true);
+        });
+        return loadJSONFile;
+    }
+
+    private JFrame newJFrameFileChooser() {
+
+        JFrame frame = new JFrame("Embedded JFileChooser");
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = 600;
+        int height = 400;
+        frame.setLocation((screenSize.width - width)/2, (screenSize.height - height)/2);
+        frame.setSize(width, height);
+        frame.setLayout(new BorderLayout());
+
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
+        fileChooser.addChoosableFileFilter(filter);
+        fileChooser.addActionListener(ae -> {
+            if (JFileChooser.APPROVE_SELECTION.equals(ae.getActionCommand())) {
+                try {
+                    loadJSONFile(fileChooser.getSelectedFile());
+                    GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
+                    clock.setStyle(style);
+                    frame.setVisible(false);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (JFileChooser.CANCEL_SELECTION.equals(ae.getActionCommand())) {
+                frame.setVisible(false);
+            }
+        });
+        frame.add(fileChooser);
+        return frame;
+    }
+
+    void loadJSONFile(File file) throws IOException {
+        lastLoadedJSONFile = file;
+        GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(file));
+        clock.setStyle(style);
     }
 
     @Override

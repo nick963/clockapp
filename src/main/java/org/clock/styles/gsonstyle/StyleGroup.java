@@ -56,9 +56,7 @@ public class StyleGroup {
                     if (styleStream == null) {
                         throw new RuntimeException("Resource InputStream is null: " + propertiesResource);
                     }
-                    String styleJson = new String(styleStream.readAllBytes());
-                    Map<?, ?> map = gson.fromJson(styleJson, Map.class);
-                    gsonStyleList.add(new GsonStyle(map));
+                    gsonStyleList.add(new GsonStyle(gson, styleStream));
                 } catch (IOException ioException) {
                     throw new RuntimeException("IOException reading resource: " + propertiesResource);
                 }

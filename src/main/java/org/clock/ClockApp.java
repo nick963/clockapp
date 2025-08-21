@@ -41,12 +41,12 @@ public class ClockApp {
         clockStyles.add(new ColorfulStyle());
         clockStyles.addAll(GsonStyle.toGsonStyles());
         CLOCK_STYLES = clockStyles;
-
         CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
     }
 
     public static void main(String[] args) {
         JWindow window = createAppWindow();
+        //window.setAlwaysOnTop(true);
         ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);

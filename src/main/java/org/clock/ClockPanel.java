@@ -16,6 +16,7 @@
 package org.clock;
 
 import org.clock.graphical.OffsetRadius;
+import org.clock.styles.gsonstyle.GsonStyle;
 import org.clock.styles.gsonstyle.StyleGroup;
 import org.clock.styles.gsonstyle.StyleGroups;
 
@@ -92,6 +93,11 @@ public class ClockPanel extends JPanel {
 
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public void setStyle(Style style) {
+        currentGroupAndStyle = new GroupAndStyle(null, style);
+        lastOffsetRadius = new OffsetRadius(0, 0, 0);
     }
 
     public record GroupAndStyle(StyleGroup group, Style style) {
