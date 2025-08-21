@@ -52,13 +52,17 @@ public class StyleGroup {
             String[] styleIds = stylesString.split(",");
             ArrayList<GsonStyle> gsonStyleList = new ArrayList<>();
             for (String styleId : styleIds) {
-                try (InputStream styleStream = StyleGroup.class.getResourceAsStream(directoryResource + "/" + styleId + ".json")) {
-                    if (styleStream == null) {
-                        throw new RuntimeException("Resource InputStream is null: " + propertiesResource);
-                    }
+                InputStream styleStream;
+                String resource = directoryResource + "/" + styleId + ".json";
+                styleStream = StyleGroup.class.getResourceAsStream(resource);
+
+                if (styleStream == null) {
+                    throw new RuntimeException("Resource InputStream is null: " + resource);
+                }
+                try {
                     gsonStyleList.add(new GsonStyle(gson, styleStream));
-                } catch (IOException ioException) {
-                    throw new RuntimeException("IOException reading resource: " + propertiesResource);
+                } catch (Exception exception) {
+                    throw new RuntimeException("Error reading " + resource + ". " + exception.getMessage(), exception);
                 }
             }
             return new StyleGroup(name, gsonStyleList);

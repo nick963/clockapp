@@ -39,7 +39,11 @@ public class ClockApp {
         clockStyles.add(new MetroStyle());
         clockStyles.add(new QuartzStyle());
         clockStyles.add(new ColorfulStyle());
-        clockStyles.addAll(GsonStyle.toGsonStyles());
+        try {
+            clockStyles.addAll(GsonStyle.toGsonStyles());
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
         CLOCK_STYLES = clockStyles;
         CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
     }

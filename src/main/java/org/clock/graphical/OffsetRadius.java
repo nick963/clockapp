@@ -20,6 +20,10 @@ import java.awt.geom.Rectangle2D;
 
 public record OffsetRadius(double offsetX, double offsetY, double radius) {
 
+    public OffsetRadius() {
+        this(0,0,0);
+    }
+
     public Rectangle2D getBounds() {
         return new Rectangle2D.Double(
                 offsetX - radius,

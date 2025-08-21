@@ -1,0 +1,107 @@
+
+        {
+                "name": "JSON Neon Circuit Full",
+                "clock_face": [
+                        { "shape": "circle", "color": "#1E2A5A", "x": 0.0, "y": 0.0, "radius": 1.0 },
+                        { "shape": "circle", "color": "#0A0F1E", "x": 0.0, "y": 0.0, "radius": 0.94 },
+
+                        { "shape": "circle", "color": "#133B5C", "x": 0.0, "y": 0.0, "radius": 0.90 },
+                        { "shape": "circle", "color": "#0A0F1E", "x": 0.0, "y": 0.0, "radius": 0.84 },
+
+                        { "shape": "text", "color": "#39FF14", "x": 0.0,  "y": 0.78,  "text": "12", "font": "SansSerif", "size": 0.12, "styles": "bold" },
+                        { "shape": "text", "color": "#39FF14", "x": 0.78, "y": 0.0,   "text": "3",  "font": "SansSerif", "size": 0.10, "styles": "bold" },
+                        { "shape": "text", "color": "#39FF14", "x": 0.0,  "y": -0.78, "text": "6",  "font": "SansSerif", "size": 0.10, "styles": "bold" },
+                        { "shape": "text", "color": "#39FF14", "x": -0.78,"y": 0.0,   "text": "9",  "font": "SansSerif", "size": 0.10, "styles": "bold" },
+
+                        { "shape": "text", "color": "#00E5FF", "x": 0.0, "y": -0.60, "text": "Neon Circuit", "font": "SansSerif", "size": 0.08, "styles": "italic" },
+
+                        { "shape": "circle", "color": "#39FF14", "x": 0.0000, "y": 0.8800, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.0920, "y": 0.8752, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.1840, "y": 0.8609, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.2720, "y": 0.8365, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.3520, "y": 0.8026, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.4220, "y": 0.7600, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.4900, "y": 0.7078, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.5480, "y": 0.6480, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.5960, "y": 0.5805, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6340, "y": 0.5060, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6610, "y": 0.4254, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6780, "y": 0.3397, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6840, "y": 0.2499, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6800, "y": 0.1570, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6660, "y": 0.0620, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6420, "y": -0.0340, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.6080, "y": -0.1280, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.5640, "y": -0.2190, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.5100, "y": -0.3060, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.4460, "y": -0.3880, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.3740, "y": -0.4630, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.2940, "y": -0.5310, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.2060, "y": -0.5900, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.1120, "y": -0.6390, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": 0.0120, "y": -0.6780, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.0880, "y": -0.7070, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.1880, "y": -0.7240, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.2850, "y": -0.7310, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.3800, "y": -0.7260, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.4700, "y": -0.7100, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.5560, "y": -0.6830, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.6360, "y": -0.6440, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.7090, "y": -0.5960, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.7740, "y": -0.5380, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.8300, "y": -0.4710, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.8760, "y": -0.3960, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9120, "y": -0.3150, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9380, "y": -0.2280, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9520, "y": -0.1370, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9560, "y": -0.0430, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9480, "y": 0.0520, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.9290, "y": 0.1460, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.8990, "y": 0.2370, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.8580, "y": 0.3240, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.8070, "y": 0.4060, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.7460, "y": 0.4820, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.6760, "y": 0.5500, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.5980, "y": 0.6100, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.5120, "y": 0.6600, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.4190, "y": 0.7000, "radius": 0.030 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.3200, "y": 0.7300, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.2160, "y": 0.7490, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.1080, "y": 0.7560, "radius": 0.015 },
+                        { "shape": "circle", "color": "#39FF14", "x": -0.0000, "y": 0.7520, "radius": 0.015 }
+                ],
+
+                "second_hand": [
+                        { "shape": "rectangle", "color": "#FF2A6D", "fx": -0.010, "fy": 0.99, "tx": 0.010, "ty": -0.20 },
+                        { "shape": "circle",    "color": "#FF2A6D", "x": 0.0, "y": 0.0,  "radius": 0.040 },
+                        { "shape": "circle",    "color": "#FF2A6D", "x": 0.0, "y": 0.62, "radius": 0.022 }
+                ],
+
+                "minute_hand": [
+                        {
+                                "shape": "polygon",
+                                "color": "#00E5FF",
+                                "points": [
+                                        { "x": -0.018, "y": 0.96 },
+                                        { "x":  0.000, "y": 1.00 },
+                                        { "x":  0.018, "y": 0.96 },
+                                        { "x":  0.012, "y": -0.15 },
+                                        { "x": -0.012, "y": -0.15 }
+                                ]
+                        }
+                ],
+
+                "hour_hand": [
+                        {
+                                "shape": "polygon",
+                                "color": "#FFD166",
+                                "points": [
+                                        { "x": -0.024, "y": 0.70 },
+                                        { "x":  0.000, "y": 0.76 },
+                                        { "x":  0.024, "y": 0.70 },
+                                        { "x":  0.016, "y": -0.12 },
+                                        { "x": -0.016, "y": -0.12 }
+                                ]
+                        }
+                ]
+        }

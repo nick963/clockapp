@@ -3,16 +3,16 @@
   "clock_face": [
     {
       "shape": "circle",
-      "color": "#f6ae2d",
-      "cx": 0.0,
-      "cy": 0.00,
+      "color": "#000000",
+      "x": 0.0,
+      "y": 0.0,
       "radius": 1.0
     },
     {
       "shape": "text",
       "color": "#FF0000",
-      "cx": 0.5,
-      "cy": 0.00,
+      "x": 0.5,
+      "y": 0.00,
       "font": "Courier",
       "size": 0.05,
       "text": "red bold (0.5,0.0)",
@@ -21,15 +21,15 @@
     {
       "shape": "circle",
       "color": "#FF0000",
-      "cx": 0.5,
-      "cy": 0.04,
+      "x": 0.5,
+      "y": 0.04,
       "radius": 0.01
     },
     {
       "shape": "text",
       "color": "#00FF00",
-      "cx": -0.5,
-      "cy": 0.00,
+      "x": -0.5,
+      "y": 0.00,
       "font": "Courier",
       "size": 0.05,
       "text": "green italic (-0.5,0.0)",
@@ -38,15 +38,15 @@
     {
       "shape": "circle",
       "color": "#00FF00",
-      "cx": -0.5,
-      "cy": 0.04,
+      "x": -0.5,
+      "y": 0.04,
       "radius": 0.01
     },
     {
       "shape": "text",
       "color": "#0000FF",
-      "cx": 0.0,
-      "cy": 0.50,
+      "x": 0.0,
+      "y": 0.50,
       "font": "Courier",
       "size": 0.05,
       "text": "blue bold italic (0.0,0.5)",
@@ -55,25 +55,24 @@
     {
       "shape": "circle",
       "color": "#0000FF",
-      "cx": 0.0,
-      "cy": 0.54,
+      "x": 0.0,
+      "y": 0.54,
       "radius": 0.01
     },
     {
       "shape": "text",
-      "color": "#000000",
-      "cx": 0.0,
-      "cy": -0.50,
+      "color": "#FFFFFF",
+      "x": 0.0,
+      "y": -0.50,
       "font": "Courier",
       "size": 0.05,
-      "text": "black bold italic (0.0,-0.5)",
-      "styles": "bold,italic"
+      "text": "white (0.0,-0.5)"
     },
     {
       "shape": "circle",
-      "color": "#000000",
-      "cx": 0.0,
-      "cy": -0.46,
+      "color": "#FFFFFF",
+      "x": 0.0,
+      "y": -0.46,
       "radius": 0.01
     }
   ],
@@ -90,6 +89,7 @@
   "minute_hand": [
     {
       "shape": "rectangle",
+      "color": "#a7a7a7",
       "fx": -0.016,
       "fy": 0.99,
       "tx": 0.016,
@@ -99,6 +99,7 @@
   "hour_hand": [
     {
       "shape": "rectangle",
+      "color": "#a7a7a7",
       "fx": -0.016,
       "fy": 0.69,
       "tx": 0.016,

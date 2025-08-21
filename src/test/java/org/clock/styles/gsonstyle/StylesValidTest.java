@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class StylesValidTest {
     @Test
-    public void validate() {
+    public void validate() throws Exception {
         new MetroStyle();
         new QuartzStyle();
         new ColorfulStyle();

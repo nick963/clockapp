@@ -54,6 +54,7 @@ class ClockMouseListener extends MouseAdapter {
 
     private File lastLoadedJSONFile = null;
     private JMenuItem loadJSONFile = null;
+    private JFrame fileChooser = null;
 
     ClockMouseListener(JWindow windowContainingClock, ClockPanel clock) {
         this.windowContainingClock = windowContainingClock;
@@ -116,14 +117,12 @@ class ClockMouseListener extends MouseAdapter {
         menuItem.addActionListener(ev -> {
             try {
                 loadJSONFile(lastLoadedJSONFile);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
         return Optional.of(menuItem);
     }
-
-    JFrame fileChooser = null;
 
     JMenuItem loadJSONFile(JPopupMenu popup) {
         if (loadJSONFile != null) {
@@ -140,7 +139,6 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     private JFrame newJFrameFileChooser() {
-
         JFrame frame = new JFrame("Embedded JFileChooser");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -160,7 +158,7 @@ class ClockMouseListener extends MouseAdapter {
                     GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
                     clock.setStyle(style);
                     frame.setVisible(false);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             } else if (JFileChooser.CANCEL_SELECTION.equals(ae.getActionCommand())) {
@@ -171,10 +169,19 @@ class ClockMouseListener extends MouseAdapter {
         return frame;
     }
 
-    void loadJSONFile(File file) throws IOException {
+    void loadJSONFile(File file) {
         lastLoadedJSONFile = file;
-        GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(file));
-        clock.setStyle(style);
+        try {
+            GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(file));
+            clock.setStyle(style);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,                                // Parent component (can be null for default positioning)
+                    ex.getMessage(), // The error message
+                    "Error",                              // The title of the dialog
+                    JOptionPane.ERROR_MESSAGE             // The message type (displays an error icon)
+            );
+        }
     }
 
     @Override

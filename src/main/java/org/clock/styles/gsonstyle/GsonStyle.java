@@ -44,15 +44,19 @@ public class GsonStyle implements Style {
         return name;
     }
 
-    public static Collection<GsonStyle> toGsonStyles() {
+    public static Collection<GsonStyle> toGsonStyles() throws Exception {
         return toGsonStyles(DEFAULT_JSON_RESOURCE);
     }
 
-    public static Collection<GsonStyle> toGsonStyles(String resource) {
+    public static Collection<GsonStyle> toGsonStyles(String resource) throws Exception {
         List<Map<?, ?>> maps = toMaps(resource);
         ArrayList<GsonStyle> styles = new ArrayList<>();
-        for (Map<?,?> map : maps) {
-            styles.add(new GsonStyle(map));
+        for (Map<?, ?> map : maps) {
+            try {
+                styles.add(new GsonStyle(map));
+            } catch (Exception ex) {
+                throw new Exception("Error loading " + resource + "\n" + ex.getMessage(), ex);
+            }
         }
         return styles;
     }
@@ -83,7 +87,7 @@ public class GsonStyle implements Style {
         }
     }
 
-    public GsonStyle(Map<?, ?> josonClockMap) {
+    public GsonStyle(Map<?, ?> josonClockMap) throws Exception {
         name = josonClockMap.get("name").toString();
 
         clockFaceElements= toGraphicalElements((List<?>)josonClockMap.get("clock_face"));
@@ -92,79 +96,117 @@ public class GsonStyle implements Style {
         hourHandElements = toGraphicalElements((List<?>)josonClockMap.get("hour_hand"));
     }
 
-    public GsonStyle(Gson gson, InputStream styleStream) throws IOException {
+    public GsonStyle(Gson gson, InputStream styleStream) throws Exception {
         this(gson.fromJson(new String(styleStream.readAllBytes()), Map.class));
     }
 
-    List<GraphicalElement> toGraphicalElements(List<?> shapeList) {
+    List<GraphicalElement> toGraphicalElements(List<?> shapeList) throws Exception{
         ArrayList<GraphicalElement> graphicalElements = new ArrayList<>();
         if (shapeList != null) {
             for (Object object : shapeList) {
                 var map = (Map<?,?>)object;
                 String shape = (String) map.get("shape");
-                if (shape.equals("polygon")) {
-                    Color color = readColor(map.get("color"));
-                    List<?> pointList = (List<?>) map.get("points");
-                    List<Point2D> points = new ArrayList<>();
-                    for (Object o : pointList) {
-                        Map<?, ?> m = (Map<?, ?>) o;
-                        points.add(readPoint(m, "x","y"));
-                    }
-                    graphicalElements.add(new FilledPoly(color, points.toArray(new Point2D[0])));
-                } else if (shape.equals("rectangle")) {
-                    Color color = readColor(map.get("color"));
-                    Point2D fp = readPoint(map, "fx", "fy");
-                    Point2D tp = readPoint(map, "tx", "ty");
-                    graphicalElements.add(new FilledPoly(color, fp, new Point2D.Double(fp.getX(), tp.getY()), tp, new Point2D.Double(tp.getX(), fp.getY())));
-                } else if (shape.equals("circle")) {
-                    Color color = readColor(map.get("color"));
-                    double radius = (double) map.get("radius");
-                    graphicalElements.add(new CircleGraphicalElement(color, readPoint(map, "cx", "cy"), radius));
-                } else if (shape.equals("text")) {
-                    Color color = readColor(map.get("color"));
-                    Point2D center = readPoint(map, "cx", "cy");
-                    String text = (String) map.get("text");
-                    String font = (String) map.get("font");
-                    double size = (double) map.get("size");
-                    String stylesString = (String) map.get("styles");
-                    int styles = 0;
-                    if (stylesString != null) {
-                        String[] array = stylesString.split(",");
-                        for (String token : array) {
-                            styles |= switch (token) {
-                                case "bold" -> Font.BOLD;
-                                case "italic" -> Font.ITALIC;
-                                case "plain" -> Font.PLAIN;
-                                default -> throw new RuntimeException("unknown style:" + token);
-                            };
-                        }
-
-                    }
-                    graphicalElements.add(new TextGraphicalElement(color, text, center, font, size, styles));
-                } else {
-                    throw new RuntimeException("Unknown shape:" + shape);
+                boolean invalidShape = false;
+                if (shape == null) {
+                    throw new Exception("shape is not specified for graphical element.");
                 }
+                try {
+                    GraphicalElement element = switch (shape) {
+                        case "polygon" -> {
+                            Color color = readColor(map.get("color"));
+                            List<?> pointList = (List<?>) map.get("points");
+                            List<Point2D> points = new ArrayList<>();
+                            for (Object o : pointList) {
+                                Map<?, ?> m = (Map<?, ?>) o;
+                                points.add(readPoint(m));
+                            }
+                            yield new FilledPoly(color, points.toArray(new Point2D[0]));
+                        }
+                        case "rectangle" -> {
+                            Color color = readColor(map.get("color"));
+                            Point2D fp = readPoint(map, "fx", "fy");
+                            Point2D tp = readPoint(map, "tx", "ty");
+                            yield new FilledPoly(color, fp, new Point2D.Double(fp.getX(), tp.getY()), tp, new Point2D.Double(tp.getX(), fp.getY()));
+                        }
+                        case "circle" -> {
+                            Color color = readColor(map.get("color"));
+                            double radius = (double) map.get("radius");
+                            yield new CircleGraphicalElement(color, readPoint(map), radius);
+                        }
+                        case "text" -> {
+                            Color color = readColor(map.get("color"));
+                            Point2D center = readPoint(map);
+                            String text = (String) map.get("text");
+                            String font = (String) map.get("font");
+                            double size = (double) map.get("size");
+                            String stylesString = (String) map.get("styles");
+                            int styles = 0;
+                            if (stylesString != null) {
+                                String[] array = stylesString.split(",");
+                                for (String token : array) {
+                                    styles |= switch (token) {
+                                        case "bold" -> Font.BOLD;
+                                        case "italic" -> Font.ITALIC;
+                                        case "plain" -> Font.PLAIN;
+                                        default -> throw new RuntimeException("unknown style:" + token);
+                                    };
+                                }
+
+                            }
+                            yield new TextGraphicalElement(color, text, center, font, size, styles);
+                        }
+                        default -> {
+                            invalidShape = true;
+                            throw new Exception("Invalid shape:" + shape);
+                        }
+                    };
+                    graphicalElements.add(element);
+                } catch (Exception ex) {
+                    if (invalidShape) {
+                        throw ex;
+                    }
+                    throw new Exception(String.format("Error reading \"%s\". ", shape) + '\n' + ex.getMessage());
+                }
+
             }
         }
         return graphicalElements;
     }
 
-    static Point2D readPoint(Map<?,?> map, String xKey, String yKey) {
+    static Point2D readPoint(Map<?,?> map, String xKey, String yKey) throws Exception {
+        if (!map.containsKey(xKey) || !map.containsKey(yKey)) {
+            throw new Exception(String.format("Point specified incorrectly (expecting: %s = <double>, %s = <double>).", xKey, yKey));
+        }
         return new Point2D.Double((double) map.get(xKey), (double) map.get(yKey));
     }
 
-    private static Color readColor(Object object) {
-        if (object == null) {
-            return Color.BLACK;
+    static Point2D readPoint(Map<?,?> map) throws Exception {
+        return readPoint(map,"x","y");
+    }
+
+    private static Color readColor(Object object) throws Exception {
+        try {
+            if (object == null) {
+                return Color.BLACK;
+            }
+            if (object instanceof String) {
+                return Color.decode((String) object);
+            }
+            Map<?, ?> colorMap = (Map<?, ?>) object;
+            if (colorMap.containsKey("a")) {
+                return new Color(
+                        Float.parseFloat(colorMap.get("r").toString()) / 255f,
+                        Float.parseFloat(colorMap.get("g").toString()) / 255f,
+                        Float.parseFloat(colorMap.get("b").toString()) / 255f,
+                        Float.parseFloat(colorMap.get("a").toString()) / 255f);
+            }
+            return new Color(
+                    Float.parseFloat(colorMap.get("r").toString()) / 255f,
+                    Float.parseFloat(colorMap.get("g").toString()) / 255f,
+                    Float.parseFloat(colorMap.get("b").toString()) / 255f);
+        } catch (Exception ex) {
+            throw new Exception("Error reading color.\n" + ex.getMessage());
         }
-        if (object instanceof String) {
-            return Color.decode((String) object);
-        }
-        Map<?, ?> colorMap = (Map<?, ?>)object;
-        return new Color(
-                Float.parseFloat(colorMap.get("r").toString()) / 255f,
-                Float.parseFloat(colorMap.get("g").toString()) / 255f,
-                Float.parseFloat(colorMap.get("b").toString()) / 255f);
     }
 
     @Override

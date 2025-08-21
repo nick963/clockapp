@@ -1,14 +1,5 @@
 {
-  "name": "Simple Clock Example",
-  "clock_face": [
-      {
-        "shape": "circle",
-        "color": "#f6ae2d",
-        "cx": 0.0,
-        "cy": 0.00,
-        "radius": 1.0
-      }
-  ],
+  "name": "Clock Hands",
   "second_hand": [
     {
       "shape": "rectangle",

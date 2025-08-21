@@ -44,7 +44,7 @@ public class ClockPanel extends JPanel {
         this.calendar = Calendar.getInstance();
         lastOffsetRadius = new OffsetRadius(0,0,0);
         lastBufferedImage = null;
-        currentGroupAndStyle = new GroupAndStyle(null, clockStyles.get(0));
+        setGroupAndStyle(new GroupAndStyle(null, clockStyles.get(0)));
     }
 
     @Override
@@ -53,7 +53,6 @@ public class ClockPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         Rectangle2D.Double r = centerSquare();
         OffsetRadius offsetRadius = new OffsetRadius(r.x + r.width/2, r.y + r.height/2, r.width/2);
         HoursMinutesSeconds hoursMinutesSeconds =
@@ -96,22 +95,19 @@ public class ClockPanel extends JPanel {
     }
 
     public void setStyle(Style style) {
-        currentGroupAndStyle = new GroupAndStyle(null, style);
-        lastOffsetRadius = new OffsetRadius(0, 0, 0);
+        setGroupAndStyle(new GroupAndStyle(null, style));
     }
 
     public record GroupAndStyle(StyleGroup group, Style style) {
         public boolean isSame(GroupAndStyle other) {
-            if (group == null && other.group != null) {
+            if (group == null && other.group == null) {
+                return true;
+            }
+            if (group == null || other.group == null) {
                 return false;
             }
-            if (group != null && other.group == null) {
-                return false;
-            }
-            if (group != null && other.group != null && !group.getName().equals(other.group.getName())) {
-                return false;
-            }
-            return style.getName().equals(other.style.getName());
+            return group.getName().equals(other.group.getName())
+                    && style.getName().equals(other.style.getName());
         }
     }
 
@@ -128,6 +124,7 @@ public class ClockPanel extends JPanel {
 
     public void setGroupAndStyle(GroupAndStyle groupAndStyle) {
         currentGroupAndStyle = groupAndStyle;
-        lastOffsetRadius = new OffsetRadius(0, 0, 0);
+        lastOffsetRadius = new OffsetRadius();
+        setToolTipText(groupAndStyle.style.getName());
     }
 }
