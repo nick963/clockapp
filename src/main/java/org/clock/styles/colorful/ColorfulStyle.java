@@ -69,7 +69,7 @@ public class ColorfulStyle implements Style {
         graphics2D.setFont(font);
 
         // calculate string
-        long hours = Math.round(hoursMinutesSeconds.hours());
+        long hours = (int) hoursMinutesSeconds.hours();
         String string = String.format("%d:%02d", hours == 0 ? 12 : hours, Math.round(hoursMinutesSeconds.minutes()));
 
         // derive text shape

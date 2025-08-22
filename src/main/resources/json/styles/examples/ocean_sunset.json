@@ -1,7 +1,8 @@
 {
-  "name": "Ocean Sunset",
+  "name": "Simple Sunset",
   "clock_face": [
     {
+      "name": "sky",
       "shape": "circle",
       "color": "#87CEEB",
       "x": 0.0,
@@ -9,10 +10,11 @@
       "radius": 1.0
     },
     {
+      "name": "sun",
       "shape": "circle",
       "color": "#FF5C00",
       "x": 0.0,
-      "y": 0.00,
+      "y": 0.10,
       "radius": 0.25
     },
     {

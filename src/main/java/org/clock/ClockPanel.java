@@ -101,7 +101,7 @@ public class ClockPanel extends JPanel {
     public record GroupAndStyle(StyleGroup group, Style style) {
         public boolean isSame(GroupAndStyle other) {
             if (group == null && other.group == null) {
-                return true;
+                return style.getName().equals(other.style.getName());
             }
             if (group == null || other.group == null) {
                 return false;

@@ -11,7 +11,6 @@ public class StylesValidTest {
         new MetroStyle();
         new QuartzStyle();
         new ColorfulStyle();
-        GsonStyle.toGsonStyles();
         StyleGroups.loadFromResource("/json/styles");
     }
 }

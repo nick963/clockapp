@@ -16,9 +16,16 @@
 # ==============================================================================
 
 cd ..
+# --- 1. Define variables for jpackage command ---
+APP_NAME="Clock App"
+MAIN_JAR="clockapp-1.0-SNAPSHOT.jar"
+MAIN_CLASS="org.clock.ClockApp"
+VENDOR_NAME="Nick Lerissa"
+MAC_PACKAGE_ID="org.clock"
+
 echo "--- Starting the build and packaging process ---"
 
-# --- 1. Clean and build the Maven project ---
+# --- 2. Clean and build the Maven project ---
 # This step ensures you have the latest executable JAR.
 echo "Running Maven clean and package..."
 mvn clean package
@@ -30,27 +37,23 @@ fi
 
 echo "Maven build successful."
 
-# --- 2. Prepare the distribution directory ---
+# --- 3. Prepare the distribution directory ---
 # Create a 'dist' directory and copy the main JAR into it.
 # This assumes the JAR is in the 'target' directory after a successful build.
 echo "Preparing 'dist' directory..."
 rm -rf dist
 mkdir dist
-cp target/clockapp-1.0-SNAPSHOT.jar dist/
+cp target/"$MAIN_JAR" dist/
 
 if [ $? -ne 0 ]; then
     echo "Failed to copy JAR to dist directory. Aborting."
     exit 1
 fi
 
-# --- 3. Define variables for jpackage command ---
-APP_NAME="Clock App"
-MAIN_JAR="clockapp-1.0-SNAPSHOT.jar"
-MAIN_CLASS="org.clock.ClockApp"
-VENDOR_NAME="Nick Lerissa"
-MAC_PACKAGE_ID="org.clock"
+# --- 4. Remove old app
+rm -rf ./"$APP_NAME".app
 
-# --- 4. Run the jpackage command ---
+# --- 5. Run the jpackage command ---
 echo "Running jpackage to create the .app bundle..."
 jpackage \
   --input dist \

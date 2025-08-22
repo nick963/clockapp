@@ -16,7 +16,6 @@
 package org.clock;
 
 import org.clock.styles.colorful.ColorfulStyle;
-import org.clock.styles.gsonstyle.GsonStyle;
 import org.clock.styles.gsonstyle.StyleGroups;
 import org.clock.styles.metro.MetroStyle;
 import org.clock.styles.quartz.QuartzStyle;
@@ -39,18 +38,12 @@ public class ClockApp {
         clockStyles.add(new MetroStyle());
         clockStyles.add(new QuartzStyle());
         clockStyles.add(new ColorfulStyle());
-        try {
-            clockStyles.addAll(GsonStyle.toGsonStyles());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
         CLOCK_STYLES = clockStyles;
         CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
     }
 
     public static void main(String[] args) {
         JWindow window = createAppWindow();
-        //window.setAlwaysOnTop(true);
         ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);

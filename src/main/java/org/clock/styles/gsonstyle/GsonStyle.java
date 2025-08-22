@@ -21,18 +21,14 @@ import org.clock.graphical.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import static org.clock.ClockUtils.paintOnClock;
 
 public class GsonStyle implements Style {
-
-    public static final String DEFAULT_JSON_RESOURCE = "/graphical-artifacts.json";
 
     private final String name;
     private final List<GraphicalElement> clockFaceElements;
@@ -42,49 +38,6 @@ public class GsonStyle implements Style {
     @Override
     public String getName() {
         return name;
-    }
-
-    public static Collection<GsonStyle> toGsonStyles() throws Exception {
-        return toGsonStyles(DEFAULT_JSON_RESOURCE);
-    }
-
-    public static Collection<GsonStyle> toGsonStyles(String resource) throws Exception {
-        List<Map<?, ?>> maps = toMaps(resource);
-        ArrayList<GsonStyle> styles = new ArrayList<>();
-        for (Map<?, ?> map : maps) {
-            try {
-                styles.add(new GsonStyle(map));
-            } catch (Exception ex) {
-                throw new Exception("Error loading " + resource + "\n" + ex.getMessage(), ex);
-            }
-        }
-        return styles;
-    }
-
-    private static List<Map<?,?>> toMaps(String jsonResource) {
-        try {
-            try (InputStream stream = GsonStyle.class.getResourceAsStream(jsonResource)) {
-                if (stream == null) {
-                    throw new NullPointerException("unable to read resource: " + jsonResource);
-                }
-                return toMaps(stream);
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    private static List<Map<?,?>> toMaps(InputStream stream) {
-        try {
-            String jsonString = new String(stream.readAllBytes());
-            Gson gson = new Gson();
-            List<?> list = gson.fromJson(jsonString, List.class);
-            ArrayList<Map<?,?>> mapList = new ArrayList<>();
-            list.forEach(o -> mapList.add((Map<?, ?>) o));
-            return mapList;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     public GsonStyle(Map<?, ?> josonClockMap) throws Exception {
