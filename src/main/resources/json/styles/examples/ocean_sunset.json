@@ -1,0 +1,70 @@
+{
+  "name": "Ocean Sunset",
+  "clock_face": [
+    {
+      "shape": "circle",
+      "color": "#87CEEB",
+      "x": 0.0,
+      "y": 0.00,
+      "radius": 1.0
+    },
+    {
+      "shape": "circle",
+      "color": "#FF5C00",
+      "x": 0.0,
+      "y": 0.00,
+      "radius": 0.25
+    },
+    {
+      "shape": "rectangle",
+      "color": "#0066CC",
+      "fx": -1,
+      "fy": 0,
+      "tx": 1,
+      "ty": 0.5
+    },
+    {
+      "shape": "rectangle",
+      "color": "#EEAF61",
+      "fx": -1,
+      "fy": 0.5,
+      "tx": 1,
+      "ty": 1
+    }
+  ],
+  "second_hand": [
+    {
+      "shape": "rectangle",
+      "color": "#FFDA03",
+      "fx": -0.01,
+      "fy": 0.99,
+      "tx": 0.01,
+      "ty": -0.1
+    },
+    {
+      "shape": "circle",
+      "color": "#2F4858",
+      "x": 0.0,
+      "y": 0.0,
+      "radius": 0.03
+    }
+  ],
+  "minute_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.016,
+      "fy": 0.99,
+      "tx": 0.016,
+      "ty": -0.1
+    }
+  ],
+  "hour_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.016,
+      "fy": 0.69,
+      "tx": 0.016,
+      "ty": -0.1
+    }
+  ]
+}
