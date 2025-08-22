@@ -14,13 +14,53 @@ The project is designed as both a lightweight utility and a playground for exper
 ---
 
 ## Why ClockApp?
-
 This project is both a functional desktop clock and an educational example of how to:
 - Work with Java Swing graphics including JTimers and non-rectangular JWindows.
 - Use JSON-driven design for flexible UI rendering.
 - Explore creative visualizations (traditional faces, futuristic designs, or playful experiments).
 ---
+## JSON Schema
 
+The schema to define clocks in JSON is minimal:
+```json
+{
+  "name": "Name of Clock",
+  "clock_face": [],
+  "second_hand": [],
+  "minute_hand": [],
+  "hour_hand": []
+}
+```
+| clock object keys | key description                                                                                      |
+|-------------------|------------------------------------------------------------------------------------------------------|
+| name              | Name of the clock specified as a string.                                                             |
+| clock_face        | List of shapes for the clock's face.                                                                 |
+| second_hand       | List of shapes for the clock's second hand. It should be oriented towards 12:00 and will be rotated. |
+| minute_hand       | List of shapes for the clock's minute hand.                                                          |
+| hour_hand         | List of shapes for the clock's hour hand.                                                            |
+
+### JSON Shapes Schema
+
+There are 4 shapes that can be used to construct the clocks: "rectangle", "polygon", "text", "circle".
+
+| shape object keys | key description                                                                             | applicable shapes |
+|-------------------|---------------------------------------------------------------------------------------------|-------------------|
+| shape             | String with the following possible string values: "rectangle", "polygon", "text", "circle". | all               |
+| x                 | x position of the shape.                                                                    | all but polygon   |
+| y                 | y position of the shape.                                                                    | all but polygon   |
+| color             | shape color, example simple format "#0F0F0F".                                               | all               |
+| text              | text string to draw.                                                                        | text              |
+| font              | font for text.                                                                              | text              |
+| size              | font size for text.                                                                         | text              |
+| styles            | font styles for text (separated by commas): "bold", "italic", or "plain".                   | text              |
+| radius            | radius of the circle.                                                                       | circle            |
+| fx                | from x position of the rectangle.                                                           | rectangle         |
+| fy                | from y position of the rectangle.                                                           | rectangle         |
+| tx                | to x position of the rectangle.                                                             | rectangle         |
+| ty                | to y position of the rectangle.                                                             | rectangle         |
+| points            | list of points. Each point is a JSON object with x and y key-values.                        | polygon           |
+
+See the [example clocks](./src/main/resources/json/styles/examples) which illustrate the usage of shapes.
 ## License
 
 This project is licensed under the Apache License. See [LICENSE](LICENSE) for details.
