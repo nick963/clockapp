@@ -51,6 +51,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # --- 4. Remove old app
+echo "Removing previous .app bundle..." ./"$APP_NAME".app
 rm -rf ./"$APP_NAME".app
 
 # --- 5. Run the jpackage command ---
