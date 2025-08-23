@@ -135,12 +135,15 @@ class ClockMouseListener extends MouseAdapter {
             return loadJSONFile;
         }
         loadJSONFile = new JMenuItem("Load JSON Clock File...");
-        loadJSONFile.addActionListener(ev -> showJsonFileSelector());
+        loadJSONFile.addActionListener(ev -> showJsonFileSelector(popup));
         return loadJSONFile;
     }
 
-    private void showJsonFileSelector() {
+    private void showJsonFileSelector(JPopupMenu popup) {
         JFileChooser fileChooser = new JFileChooser();
+        if (popup != null) {
+            fileChooser.setComponentPopupMenu(popup);
+        }
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
         fileChooser.addChoosableFileFilter(filter);
         if (fileChooser.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {

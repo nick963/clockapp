@@ -20,7 +20,6 @@ This project is both a functional desktop clock and an educational example of ho
 - Explore creative visualizations (traditional faces, futuristic designs, or playful experiments).
 ---
 ## JSON Schema
-
 The schema to define clocks in JSON is minimal:
 ```json
 {
@@ -41,6 +40,12 @@ The schema to define clocks in JSON is minimal:
 
 ### JSON Shapes Schema
 
+#### Key Characteristics of the Coordinate System
+- **Origin**: The origin is in the center of the clock face.
+- **X-axis**: The x-values increase as you move to the right. This is the same as a standard Cartesian coordinate system.
+- **Y-axis**: The y-values increase as you move down. This is the opposite of a standard Cartesian system, where y-values
+  increase as you move up. This is consistent with computer screens and visual displays.
+
 There are 4 shapes that can be used to construct the clocks: "rectangle", "polygon", "text", "circle".
 
 | shape object keys | key description                                                                             | applicable shapes |
@@ -48,7 +53,8 @@ There are 4 shapes that can be used to construct the clocks: "rectangle", "polyg
 | shape             | String with the following possible string values: "rectangle", "polygon", "text", "circle". | all               |
 | x                 | x position of the shape.                                                                    | all but polygon   |
 | y                 | y position of the shape.                                                                    | all but polygon   |
-| color             | shape color, example simple format "#0F0F0F".                                               | all               |
+| color             | shape color, example simple format "#0F0F0F". For alpha channel, use "#0F0F0F0F".           | all               |
+| ticks             | whole value between 2 and 60. The shape will repeat around the clock the number of ticks.   | all               |
 | text              | text string to draw.                                                                        | text              |
 | font              | font for text.                                                                              | text              |
 | size              | font size for text.                                                                         | text              |

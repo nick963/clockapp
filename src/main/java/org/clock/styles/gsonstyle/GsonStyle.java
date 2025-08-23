@@ -51,6 +51,10 @@ public class GsonStyle implements Style {
         hourHandElements = toGraphicalElements((List<?>)josonClockMap.get("hour_hand"));
     }
 
+    public boolean hasSecondHand() {
+        return !secondHandElements.isEmpty();
+    }
+
     public GsonStyle(Gson gson, InputStream styleStream) throws JSONSchemaException {
         this(gson.fromJson(readContents(styleStream), Map.class));
     }
