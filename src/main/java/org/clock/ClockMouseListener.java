@@ -22,15 +22,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Optional;
@@ -43,7 +40,7 @@ import java.util.Optional;
  */
 class ClockMouseListener extends MouseAdapter {
 
-    private final JWindow windowContainingClock;
+    private final Window windowContainingClock;
     private final ClockPanel clock;
 
     // "initial" fields are set at the start of moving or resizing the clock.
@@ -56,9 +53,8 @@ class ClockMouseListener extends MouseAdapter {
 
     private File lastLoadedJSONFile = null;
     private JMenuItem loadJSONFile = null;
-    private JFrame fileChooser = null;
 
-    ClockMouseListener(JWindow windowContainingClock, ClockPanel clock) {
+    ClockMouseListener(Window windowContainingClock, ClockPanel clock) {
         this.windowContainingClock = windowContainingClock;
         this.clock = clock;
     }
@@ -113,8 +109,7 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     void saveImageAction() {
-        JFrame frame = newSaveImageFileChooser(clock.getCurrentGroupAndStyle().style().getName());
-        frame.setVisible(true);
+        showSavePngDialog(clock.getCurrentGroupAndStyle().style().getName());
     }
 
     Optional<JMenuItem> reloadJSSONFile() {
@@ -140,81 +135,46 @@ class ClockMouseListener extends MouseAdapter {
             return loadJSONFile;
         }
         loadJSONFile = new JMenuItem("Load JSON Clock File...");
-        loadJSONFile.addActionListener(ev -> {
-            if (fileChooser == null) {
-                fileChooser = newJFrameFileChooser();
-            }
-            fileChooser.setVisible(true);
-        });
+        loadJSONFile.addActionListener(ev -> showJsonFileSelector());
         return loadJSONFile;
     }
 
-    private JFrame newJFrameFileChooser() {
-        JFrame frame = new JFrame("Embedded JFileChooser");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = 600;
-        int height = 400;
-        frame.setLocation((screenSize.width - width)/2, (screenSize.height - height)/2);
-        frame.setSize(width, height);
-        frame.setLayout(new BorderLayout());
-
+    private void showJsonFileSelector() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
         fileChooser.addChoosableFileFilter(filter);
-        fileChooser.addActionListener(ae -> {
-            if (JFileChooser.APPROVE_SELECTION.equals(ae.getActionCommand())) {
-                try {
-                    loadJSONFile(fileChooser.getSelectedFile());
-                    GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
-                    clock.setStyle(style);
-                    frame.setVisible(false);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else if (JFileChooser.CANCEL_SELECTION.equals(ae.getActionCommand())) {
-                frame.setVisible(false);
+        if (fileChooser.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
+            try {
+                loadJSONFile(fileChooser.getSelectedFile());
+                GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
+                clock.setStyle(style);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        });
-        frame.add(fileChooser);
-        return frame;
+        }
     }
 
-    private JFrame newSaveImageFileChooser(String baseName) {
-        JFrame frame = new JFrame("Save Clock Image");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = 600;
-        int height = 400;
-        frame.setLocation((screenSize.width - width)/2, (screenSize.height - height)/2);
-        frame.setSize(width, height);
-        frame.setLayout(new BorderLayout());
-
+    private void showSavePngDialog(String baseName) {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files (*.png)", "png");
         fileChooser.addChoosableFileFilter(filter);
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         fileChooser.setSelectedFile(new File(clock.getCurrentGroupAndStyle().style().getName() + ".png"));
-        fileChooser.addActionListener(ae -> {
-            if (JFileChooser.APPROVE_SELECTION.equals(ae.getActionCommand())) {
+        if (fileChooser.showSaveDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null) {
+                BufferedImage image = new BufferedImage(clock.getWidth(), clock.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+                Graphics graphics = image.getGraphics();
+                graphics.setColor(new Color(0f, 0f, 0f, 0f));
+                graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+                clock.paint(graphics);
                 try {
-                    File file = fileChooser.getSelectedFile();
-                    BufferedImage image = new BufferedImage(clock.getWidth(), clock.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-                    Graphics graphics = image.getGraphics();
-                    graphics.setColor(new Color(0f,0f,0f,0f));
-                    graphics.fillRect(0,0,image.getWidth(),image.getHeight());
-                    clock.paint(graphics);
-                    ImageIO.write(image, "png", file);
-                    frame.setVisible(false);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    ImageIO.write(image, "png", selectedFile);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
-            } else if (JFileChooser.CANCEL_SELECTION.equals(ae.getActionCommand())) {
-                frame.setVisible(false);
             }
-        });
-        frame.add(fileChooser);
-        return frame;
+        }
     }
 
     void loadJSONFile(File file) {
@@ -224,11 +184,10 @@ class ClockMouseListener extends MouseAdapter {
             clock.setStyle(style);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
-                    null,                                // Parent component (can be null for default positioning)
-                    ex.getMessage(), // The error message
-                    "Error",                              // The title of the dialog
-                    JOptionPane.ERROR_MESSAGE             // The message type (displays an error icon)
-            );
+                    windowContainingClock,
+                    ex.getMessage(),
+                    "Error Loading JSON Clock",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -46,7 +46,7 @@ public class ClockApp {
     }
 
     public static void main(String[] args) {
-        JWindow window = createAppWindow();
+        Window window = createAppWindow();
         ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);
@@ -63,8 +63,10 @@ public class ClockApp {
         timer.start();
     }
 
-    static JWindow createAppWindow() {
-        JWindow window = new JWindow();
+    static Window createAppWindow() {
+        //JWindow window = new JWindow();
+        JFrame window = new JFrame();
+        window.setUndecorated(true);
         window.setLayout(new BorderLayout());
         window.setBounds(300, 300, 800, 800);
         window.setShape(new RoundRectangle2D.Double(0, 0, window.getWidth(), window.getHeight(), window.getWidth(), window.getHeight()));

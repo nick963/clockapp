@@ -71,4 +71,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "--- Packaging complete! ---"
-echo "Your application can be found at: $APP_NAME.app"
+echo "Your application can be found at: $PWD/$APP_NAME.app"
