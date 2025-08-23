@@ -21,11 +21,13 @@ import org.clock.styles.gsonstyle.StyleGroup;
 import org.clock.styles.gsonstyle.StyleGroups;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.util.function.Supplier;
 
 /** Displays a clock. */
 public class ClockPanel extends JPanel {
@@ -37,8 +39,14 @@ public class ClockPanel extends JPanel {
     private Calendar calendar;
     private OffsetRadius lastOffsetRadius;
     private BufferedImage lastBufferedImage;
+    private final Timer updateTimer;
 
-    public ClockPanel(List<Style> clockStyles, StyleGroups clockStyleGroups) {
+    public ClockPanel(List<Style> clockStyles, StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
+        updateTimer = new Timer(25, e -> {
+            setCalendar(calendarSupplier.get());
+            repaint();
+        });
+        updateTimer.setInitialDelay(15);
         this.clockStyles = new ArrayList<>(clockStyles);
         this.clockStyleGroups = clockStyleGroups;
         this.calendar = Calendar.getInstance();
@@ -128,5 +136,8 @@ public class ClockPanel extends JPanel {
         currentGroupAndStyle = groupAndStyle;
         lastOffsetRadius = new OffsetRadius();
         setToolTipText(groupAndStyle.style.getName());
+        updateTimer.stop();
+        updateTimer.setDelay(15);
+        updateTimer.start();
     }
 }

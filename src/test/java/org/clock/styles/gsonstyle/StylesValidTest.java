@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class StylesValidTest {
     @Test
@@ -15,7 +16,7 @@ public class StylesValidTest {
         new MetroStyle();
         new ColorfulStyle();
         StyleGroups groups = StyleGroups.loadFromResource("/json/styles");
-        ClockPanel clockPanel = new ClockPanel(new ArrayList<>(), groups);
+        ClockPanel clockPanel = new ClockPanel(new ArrayList<>(), groups, Calendar::getInstance);
         clockPanel.setSize(300, 300);
         BufferedImage image = new BufferedImage(300, 300, BufferedImage.TYPE_4BYTE_ABGR);
         for (StyleGroup group : groups.groups()) {

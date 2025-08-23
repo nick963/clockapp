@@ -47,20 +47,12 @@ public class ClockApp {
 
     public static void main(String[] args) {
         Window window = createAppWindow();
-        ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS);
+        ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS, Calendar::getInstance);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);
         clock.addMouseListener(clockMouseListener);
         clock.addMouseMotionListener(clockMouseListener);
-
         window.setVisible(true);
-        Timer timer = new Timer(10, e -> {
-            Calendar now = Calendar.getInstance();
-            clock.setCalendar(now);
-            clock.repaint();
-        });
-        timer.setInitialDelay(5);
-        timer.start();
     }
 
     static Window createAppWindow() {
