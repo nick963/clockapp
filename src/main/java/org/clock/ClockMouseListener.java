@@ -18,6 +18,7 @@ package org.clock;
 import com.google.gson.Gson;
 import org.clock.styles.gsonstyle.GsonStyle;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -102,8 +104,17 @@ class ClockMouseListener extends MouseAdapter {
         });
         popupMenu.add(loadJSONFile(popupMenu));
         reloadJSSONFile().ifPresent(popupMenu::add);
+        popupMenu.add(new JSeparator());
+        JMenuItem saveImage = new JMenuItem("Save Clock Image...");
+        saveImage.addActionListener(ev -> saveImageAction());
+        popupMenu.add(saveImage);
         popupMenu.add(quitMenuItem);
         return popupMenu;
+    }
+
+    void saveImageAction() {
+        JFrame frame = newSaveImageFileChooser(clock.getCurrentGroupAndStyle().style().getName());
+        frame.setVisible(true);
     }
 
     Optional<JMenuItem> reloadJSSONFile() {
@@ -157,6 +168,43 @@ class ClockMouseListener extends MouseAdapter {
                     loadJSONFile(fileChooser.getSelectedFile());
                     GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
                     clock.setStyle(style);
+                    frame.setVisible(false);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (JFileChooser.CANCEL_SELECTION.equals(ae.getActionCommand())) {
+                frame.setVisible(false);
+            }
+        });
+        frame.add(fileChooser);
+        return frame;
+    }
+
+    private JFrame newSaveImageFileChooser(String baseName) {
+        JFrame frame = new JFrame("Save Clock Image");
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = 600;
+        int height = 400;
+        frame.setLocation((screenSize.width - width)/2, (screenSize.height - height)/2);
+        frame.setSize(width, height);
+        frame.setLayout(new BorderLayout());
+
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files (*.png)", "png");
+        fileChooser.addChoosableFileFilter(filter);
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        fileChooser.setSelectedFile(new File(clock.getCurrentGroupAndStyle().style().getName() + ".png"));
+        fileChooser.addActionListener(ae -> {
+            if (JFileChooser.APPROVE_SELECTION.equals(ae.getActionCommand())) {
+                try {
+                    File file = fileChooser.getSelectedFile();
+                    BufferedImage image = new BufferedImage(clock.getWidth(), clock.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+                    Graphics graphics = image.getGraphics();
+                    graphics.setColor(new Color(0f,0f,0f,0f));
+                    graphics.fillRect(0,0,image.getWidth(),image.getHeight());
+                    clock.paint(graphics);
+                    ImageIO.write(image, "png", file);
                     frame.setVisible(false);
                 } catch (Exception e) {
                     throw new RuntimeException(e);

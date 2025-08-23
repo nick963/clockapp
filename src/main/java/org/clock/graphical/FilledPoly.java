@@ -88,4 +88,8 @@ public class FilledPoly implements GraphicalElement {
                 point2D.getX() * cos(theta) - point2D.getY() * sin(theta),
                 point2D.getX() * sin(theta) + point2D.getY() * cos(theta));
     }
+
+    public static FilledPoly rectangle(Color color, Point2D fp, Point2D tp) {
+        return new FilledPoly(color, fp, new Point2D.Double(fp.getX(), tp.getY()), tp, new Point2D.Double(tp.getX(), fp.getY()));
+    }
 }

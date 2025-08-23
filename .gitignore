@@ -37,3 +37,4 @@ build/
 
 src/ListFonts.java
 /Clock App.app/
+*.json

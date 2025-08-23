@@ -22,6 +22,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public record TextGraphicalElement(Color color, String text, Point2D center, String fontName, double size, int styles) implements GraphicalElement {
+
+    private static final boolean SHOW_TEXT_DIMENSIONS = false;
     @Override
     public GraphicalElement rotate(double theta) {
         return new TextGraphicalElement(color, text, FilledPoly.rotatePoint(theta, center), fontName, size, styles);
@@ -44,13 +46,23 @@ public record TextGraphicalElement(Color color, String text, Point2D center, Str
         // derive text shape
         TextLayout textLayout = new TextLayout(text, font, graphics2D.getFontRenderContext());
         Rectangle2D bounds = textLayout.getBounds();
+
         AffineTransform transform = AffineTransform.getTranslateInstance(
-                center.getX() - bounds.getWidth() / 2d,
+                center.getX() - bounds.getX() - bounds.getWidth() / 2d,
                 center.getY() + bounds.getHeight() / 2d);
         Shape textShape = textLayout.getOutline(transform);
 
         // fill text
         graphics2D.setPaint(color);
         graphics2D.fill(textShape);
+        if (SHOW_TEXT_DIMENSIONS) {
+            Rectangle2D newBounds = new Rectangle2D.Double(
+                    center.getX() - bounds.getWidth() / 2d,
+                    center.getY() - bounds.getHeight() / 2d,
+                    bounds.getWidth(), bounds.getHeight());
+            graphics2D.setColor(Color.RED);
+            graphics2D.draw(newBounds);
+            graphics2D.fill(new Rectangle2D.Double(center.getX() - 4, center.getY() - 4, 8, 8));
+        }
     }
 }

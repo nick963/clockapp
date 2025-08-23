@@ -1,0 +1,91 @@
+{
+  "name": "Quartz",
+  "clock_face": [
+    {
+      "shape": "circle",
+      "radius": 1.1,
+      "x": 0.0,
+      "y": 0.0
+    },
+    {
+      "shape": "circle",
+      "radius": 0.99,
+      "x": 0.0,
+      "y": 0.0,
+      "color": "#C0C0C0"
+    },
+    {
+      "shape": "rectangle",
+      "ticks": 12,
+      "fx": -0.01,
+      "fy": 1,
+      "tx": 0.01,
+      "ty": 0.93
+    },
+    {
+      "shape": "rectangle",
+      "ticks": 60,
+      "fx": -0.003,
+      "fy": 1,
+      "tx": 0.003,
+      "ty": 0.93
+    },
+    {
+      "shape": "circle",
+      "radius": 0.935,
+      "x": 0.0,
+      "y": 0.0
+    },
+    {
+      "shape": "circle",
+      "radius": 0.93,
+      "x": 0.0,
+      "y": 0.0,
+      "color": "#C0C0C0"
+    },
+    {
+      "shape": "circle",
+      "radius": 0.05,
+      "x": 0.0,
+      "y": 0.0
+    },
+    {
+      "shape": "text",
+      "text": "quartz",
+      "x": 0,
+      "y": 0.455,
+      "font": "Gill Sans",
+      "size": 0.06
+    },
+    { "shape": "text", "text": "12", "x": 0.0, "y": -0.8, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "1", "x": 0.40, "y": -0.702, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "2", "x": 0.676, "y": -0.405, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "3", "x": 0.80, "y": 0.0, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "4", "x": 0.676, "y": 0.405, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "5", "x": 0.40, "y": 0.702, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "6", "x": 0.00, "y": 0.8, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "7", "x": -0.40, "y": 0.702, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "8", "x": -0.676, "y": 0.405, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "9", "x": -0.8, "y": 0.0, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "10", "x": -0.676, "y": -0.405, "font": "Gill Sans", "size": 0.229007 },
+    { "shape": "text", "text":  "11", "x": -0.40, "y": -0.702, "font": "Gill Sans", "size": 0.229007 }
+  ],
+  "minute_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.028,
+      "fy": 0.92,
+      "tx": 0.028,
+      "ty": -0.15
+    }
+  ],
+  "hour_hand": [
+    {
+      "shape": "rectangle",
+      "fx": -0.028,
+      "fy": 0.69,
+      "tx": 0.028,
+      "ty": -0.15
+    }
+  ]
+}

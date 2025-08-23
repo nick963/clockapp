@@ -1,5 +1,15 @@
 {
   "name": "Clock Hands",
+  "clock_face": [
+    {
+      "shape": "circle",
+      "radius": 0.04,
+      "ticks": 12,
+      "x": 0.0,
+      "y": 0.9,
+      "color": "#777B7E"
+    }
+  ],
   "second_hand": [
     {
       "shape": "rectangle",

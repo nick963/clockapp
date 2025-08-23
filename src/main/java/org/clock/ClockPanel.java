@@ -44,7 +44,9 @@ public class ClockPanel extends JPanel {
         this.calendar = Calendar.getInstance();
         lastOffsetRadius = new OffsetRadius(0,0,0);
         lastBufferedImage = null;
-        setGroupAndStyle(new GroupAndStyle(null, clockStyles.get(0)));
+        if (!clockStyles.isEmpty()) {
+            setGroupAndStyle(new GroupAndStyle(null, clockStyles.get(0)));
+        }
     }
 
     @Override

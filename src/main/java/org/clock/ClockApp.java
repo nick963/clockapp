@@ -16,9 +16,9 @@
 package org.clock;
 
 import org.clock.styles.colorful.ColorfulStyle;
+import org.clock.styles.gsonstyle.JSONSchemaException;
 import org.clock.styles.gsonstyle.StyleGroups;
 import org.clock.styles.metro.MetroStyle;
-import org.clock.styles.quartz.QuartzStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,10 +36,13 @@ public class ClockApp {
     static {
         ArrayList<Style> clockStyles = new ArrayList<>();
         clockStyles.add(new MetroStyle());
-        clockStyles.add(new QuartzStyle());
         clockStyles.add(new ColorfulStyle());
         CLOCK_STYLES = clockStyles;
-        CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
+        try {
+            CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
+        } catch (JSONSchemaException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public static void main(String[] args) {

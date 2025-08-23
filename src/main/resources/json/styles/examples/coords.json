@@ -1,6 +1,8 @@
 {
   "name": "Coords",
   "clock_face": [
+    { "shape": "rectangle", "fx": -1.0, "tx": 1.0, "fy": -1.0, "ty": 1.0, "color": "#D8EEDF" },
+
     { "shape": "rectangle", "fx": 1.0, "tx": -1.0, "fy": 0.002, "ty": -0.002 },
     { "shape": "rectangle", "fy": 1.0, "ty": -1.0, "fx": 0.002, "tx": -0.002 },
 
@@ -55,12 +57,7 @@
   "second_hand": [
     {
       "shape": "rectangle",
-      "color": {
-        "r": 255,
-        "g": 0,
-        "b": 0,
-        "a": 50
-      },
+      "color": "#32FF0000",
       "fx": -0.01,
       "fy": 0.99,
       "tx": 0.01,
@@ -70,12 +67,7 @@
   "minute_hand": [
     {
       "shape": "rectangle",
-      "color": {
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 50
-      },
+      "color": "#32000000",
       "fx": -0.016,
       "fy": 0.99,
       "tx": 0.016,
@@ -85,12 +77,7 @@
   "hour_hand": [
     {
       "shape": "rectangle",
-      "color": {
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 50
-      },
+      "color": "#32000000",
       "fx": -0.016,
       "fy": 0.69,
       "tx": 0.016,

@@ -41,7 +41,7 @@ public class StyleGroup {
         return styles;
     }
 
-    static StyleGroup loadFromResource(String directoryResource) {
+    static StyleGroup loadFromResource(String directoryResource) throws JSONSchemaException {
         Gson gson = new Gson();
         String propertiesResource = directoryResource + "/group.properties";
         try (InputStream groupPropertiesStream = StyleGroup.class.getResourceAsStream(propertiesResource)) {
@@ -61,8 +61,8 @@ public class StyleGroup {
                 }
                 try {
                     gsonStyleList.add(new GsonStyle(gson, styleStream));
-                } catch (Exception exception) {
-                    throw new RuntimeException("Error reading " + resource + ". " + exception.getMessage(), exception);
+                } catch (JSONSchemaException exception) {
+                    throw exception.setResource(resource);
                 }
             }
             return new StyleGroup(name, gsonStyleList);

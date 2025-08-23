@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 public record StyleGroups(String name, List<StyleGroup> groups) {
-    public static StyleGroups loadFromResource(String directoryResource) {
+    public static StyleGroups loadFromResource(String directoryResource) throws JSONSchemaException {
         String propertyResource = directoryResource + "/groups.properties";
         try (InputStream groupsPropertiesStream = StyleGroups.class.getResourceAsStream(propertyResource)) {
             Properties groupsProperties = new Properties();
@@ -21,8 +21,8 @@ public record StyleGroups(String name, List<StyleGroup> groups) {
                 groupList.add(styleGroup);
             }
             return new StyleGroups(name, groupList);
-        } catch (IOException e) {
-            throw new RuntimeException("IOException when reading property resource: " + propertyResource);
+        } catch (IOException ex) {
+            throw new JSONSchemaException("IOException when reading property resource: " + propertyResource);
         }
     }
 }
