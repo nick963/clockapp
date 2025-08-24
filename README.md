@@ -19,6 +19,24 @@ This project is both a functional desktop clock and an educational example of ho
 - Use JSON-driven design for flexible UI rendering.
 - Explore creative visualizations (traditional faces, futuristic designs, or playful experiments).
 ---
+## How to Run
+```
+# Clone the repo
+git clone https://github.com/nick963/clockapp.git
+cd clockapp
+mvn clean compile exec:java -Dexec.mainClass="org.clock.ClockApp"
+```
+---
+## Usage
+
+Right click on clock to explore the Clock App's functionality:
+- *Built-in clock faces*: Before the first separator in the popup menu you can load
+  pre-build clock faces.
+- **Load JSON Clock File...**: Allows you to load you own clock face see documentation
+  below for JSON Schema.
+- **Save Clock Image...**: Save a PNG of the current clock to your filesystem.
+- **Quit**: Quit the Clock App.
+---
 ## JSON Schema
 The schema to define clocks in JSON is minimal:
 ```json
