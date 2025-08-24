@@ -29,6 +29,9 @@ mvn clean compile exec:java -Dexec.mainClass="org.clock.ClockApp"
 ---
 ## Clock App Usage
 
+- Moving: To move the clock, click on it and drag.
+- Resize: To resize the clock, <shift> click on the clock and drag.
+
 Right click on clock to explore the Clock App's functionality:
 - *Built-in clock faces*: Before the first separator in the popup menu you can load
   pre-built clock faces.
