@@ -27,6 +27,7 @@ public interface Style {
         return false;
     }
     String getName();
+    String getDescription();
     void paintClockFace(Graphics2D graphics2D, OffsetRadius offsetRadius, HoursMinutesSeconds hoursMinutesSeconds);
     void paintMinuteHand(Graphics2D graphics2D, OffsetRadius offsetRadius, double minute);
     void paintHourHand(Graphics2D graphics2D, OffsetRadius offsetRadius, double hour);

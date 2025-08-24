@@ -1,5 +1,6 @@
 {
-  "name": "Coords",
+  "name": "JSON Coordinates",
+  "description": "Clock face illustrates the JSON coordinate system.",
   "clock_face": [
     { "shape": "rectangle", "fx": -1.0, "tx": 1.0, "fy": -1.0, "ty": 1.0, "color": "#D8EEDF" },
 

@@ -42,6 +42,10 @@ public class ColorfulStyle implements Style {
         return "Colorful Clock";
     }
 
+    public String getDescription() {
+        return "Rotating background gradient acts as a second hand.";
+    }
+
     public boolean staticClockFace() {
         return false;
     }

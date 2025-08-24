@@ -45,6 +45,9 @@ The schema to define clocks in JSON is minimal:
 - **X-axis**: The x-values increase as you move to the right. This is the same as a standard Cartesian coordinate system.
 - **Y-axis**: The y-values increase as you move down. This is the opposite of a standard Cartesian system, where y-values
   increase as you move up. This is consistent with computer screens and visual displays.
+- **Drawing Area**: The radius of the clock face is 1.0. The application will scale that clock if the user increases the
+  size.
+- ![image](./Coords.png)
 
 There are 4 shapes that can be used to construct the clocks: "rectangle", "polygon", "text", "circle".
 

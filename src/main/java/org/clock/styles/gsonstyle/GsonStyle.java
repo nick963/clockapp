@@ -33,30 +33,33 @@ import static org.clock.ClockUtils.paintOnClock;
 public class GsonStyle implements Style {
 
     private final String name;
+    private final String description;
     private final List<GraphicalElement> clockFaceElements;
     private final List<GraphicalElement> secondHandElements;
     private final List<GraphicalElement> minuteHandElements;
     private final List<GraphicalElement> hourHandElements;
+
+    public GsonStyle(Map<?, ?> jsonClockMap) throws JSONSchemaException {
+        name = jsonClockMap.get("name").toString();
+        description = jsonClockMap.containsKey("description") ? jsonClockMap.get("description").toString() : null;
+        clockFaceElements= toGraphicalElements((List<?>)jsonClockMap.get("clock_face"));
+        secondHandElements = toGraphicalElements((List<?>)jsonClockMap.get("second_hand"));
+        minuteHandElements = toGraphicalElements((List<?>)jsonClockMap.get("minute_hand"));
+        hourHandElements = toGraphicalElements((List<?>)jsonClockMap.get("hour_hand"));
+    }
+
+    public GsonStyle(Gson gson, InputStream styleStream) throws JSONSchemaException {
+        this(gson.fromJson(readContents(styleStream), Map.class));
+    }
+
     @Override
     public String getName() {
         return name;
     }
 
-    public GsonStyle(Map<?, ?> josonClockMap) throws JSONSchemaException {
-        name = josonClockMap.get("name").toString();
-
-        clockFaceElements= toGraphicalElements((List<?>)josonClockMap.get("clock_face"));
-        secondHandElements = toGraphicalElements((List<?>)josonClockMap.get("second_hand"));
-        minuteHandElements = toGraphicalElements((List<?>)josonClockMap.get("minute_hand"));
-        hourHandElements = toGraphicalElements((List<?>)josonClockMap.get("hour_hand"));
-    }
-
-    public boolean hasSecondHand() {
-        return !secondHandElements.isEmpty();
-    }
-
-    public GsonStyle(Gson gson, InputStream styleStream) throws JSONSchemaException {
-        this(gson.fromJson(readContents(styleStream), Map.class));
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     static String readContents(InputStream styleStream) throws JSONSchemaException {

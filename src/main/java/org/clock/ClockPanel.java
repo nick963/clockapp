@@ -135,7 +135,11 @@ public class ClockPanel extends JPanel {
     public void setGroupAndStyle(GroupAndStyle groupAndStyle) {
         currentGroupAndStyle = groupAndStyle;
         lastOffsetRadius = new OffsetRadius();
-        setToolTipText(groupAndStyle.style.getName());
+        StringBuilder builder = new StringBuilder("<html><b>").append(groupAndStyle.style.getName()).append("</b>");
+        if (groupAndStyle.style.getDescription() != null) {
+            builder.append("<BR>").append(groupAndStyle.style.getDescription());
+        }
+        setToolTipText(builder.append("</html>").toString());
         updateTimer.stop();
         updateTimer.setDelay(15);
         updateTimer.start();

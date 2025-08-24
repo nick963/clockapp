@@ -34,6 +34,11 @@ public class MetroStyle implements Style {
     }
 
     @Override
+    public String getDescription() {
+        return "Modeled after the clocks in Copenhagen Metro stations.";
+    }
+
+    @Override
     public void paintClockFace(Graphics2D graphics2D, OffsetRadius offsetRadius, HoursMinutesSeconds hoursMinutesSeconds) {
         RadialGradientPaint paint = new RadialGradientPaint(
                 new Point2D.Double(offsetRadius.offsetX(), offsetRadius.offsetY()),

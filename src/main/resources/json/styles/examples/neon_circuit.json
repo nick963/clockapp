@@ -1,5 +1,5 @@
 {
-  "name": "Neon Circuit",
+  "name": "Neon Circuit (ChatGPT generated)",
   "clock_face": [
     { "shape": "circle", "color": "#1E2A5A", "x": 0.0, "y": 0.0, "radius": 1.1 },
     { "shape": "circle", "color": "#0A0F1E", "x": 0.0, "y": 0.0, "radius": 0.94 },

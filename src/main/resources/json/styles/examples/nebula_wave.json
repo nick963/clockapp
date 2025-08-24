@@ -1,0 +1,58 @@
+{
+  "name": "Nebula Weave (kinda ChatGPT generated)",
+  "clock_face": [
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.99, "color": "#0B0F14" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.84, "color": "#101826" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.68, "color": "#0F172A" },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": 0.000, "y": -0.78 },
+        { "x": 0.085, "y": -0.52 },
+        { "x": 0.020, "y": -0.58 },
+        { "x": -0.020, "y": -0.58 },
+        { "x": -0.085, "y": -0.52 }
+      ],
+      "color": "#3BBA9C",
+      "ticks": 12
+    },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": 0.000, "y": -0.64 },
+        { "x": 0.055, "y": -0.36 },
+        { "x": -0.055, "y": -0.36 }
+      ],
+      "color": "#6C63FF",
+      "ticks": 24
+    },
+
+    { "shape": "circle", "x": 0, "y": -0.86, "radius": 0.010, "color": "#264653", "ticks": 60 },
+    { "shape": "circle", "x": 0, "y": -0.78, "radius": 0.012, "color": "#E76F51", "ticks": 12 },
+
+    { "shape": "rectangle", "fx": -0.004, "fy": -0.99, "tx": 0.004, "ty": -0.90, "color": "#C9D1D9", "ticks": 60 },
+    { "shape": "rectangle", "fx": -0.012, "fy": -0.99, "tx": 0.012, "ty": -0.86, "color": "#FFFFFF", "ticks": 12 },
+
+    { "shape": "text", "x": 0.000, "y": -0.82, "text": "12", "font": "SansSerif", "size": 0.22, "styles": "bold", "color": "#F2F2F2" },
+    { "shape": "text", "x": 0.84, "y": 0.0, "text": "3", "font": "SansSerif", "size": 0.22, "styles": "bold", "color": "#F2F2F2" },
+    { "shape": "text", "x": 0.000, "y": 0.82, "text": "6", "font": "SansSerif", "size": 0.22, "styles": "bold", "color": "#F2F2F2" },
+    { "shape": "text", "x": -0.88, "y": 0.0, "text": "9", "font": "SansSerif", "size": 0.22, "styles": "bold", "color": "#F2F2F2" },
+
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.035, "color": "#F2F2F2" }
+  ],
+
+  "second_hand": [
+    { "shape": "rectangle", "fx": 0.006, "fy": 0.92, "tx": -0.006, "ty": 0.0, "color": "#EF476F" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.02, "color": "#EF476F" }
+  ],
+
+  "minute_hand": [
+    { "shape": "rectangle", "fx": 0.010, "fy": 0.82, "tx": -0.010, "ty": 0.0, "color": "#FFFFFF" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.022, "color": "#FFFFFF" }
+  ],
+
+  "hour_hand": [
+    { "shape": "rectangle", "fx": 0.016, "fy": 0.56, "tx": -0.016, "ty": 0.0, "color": "#FFD166" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.024, "color": "#FFD166" }
+  ]
+}

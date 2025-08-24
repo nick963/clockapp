@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -100,6 +101,7 @@ class ClockMouseListener extends MouseAdapter {
         });
         popupMenu.add(loadJSONFile(popupMenu));
         reloadJSSONFile().ifPresent(popupMenu::add);
+        jsonSourceViewerMenuItem().ifPresent((popupMenu::add));
         popupMenu.add(new JSeparator());
         JMenuItem saveImage = new JMenuItem("Save Clock Image...");
         saveImage.addActionListener(ev -> saveImageAction());
@@ -180,6 +182,24 @@ class ClockMouseListener extends MouseAdapter {
         }
     }
 
+    private Optional<JMenuItem> jsonSourceViewerMenuItem() {
+        if (lastLoadedJSONFile == null) {
+            return Optional.empty();
+        }
+        JMenuItem menuItem = new JMenuItem(
+                String.format(
+                        "View JSON: \".../%s\"",
+                        lastLoadedJSONFile.getName()));
+        menuItem.addActionListener(ev -> {
+            try {
+                viewJSONFile(lastLoadedJSONFile);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return Optional.of(menuItem);
+    }
+
     void loadJSONFile(File file) {
         lastLoadedJSONFile = file;
         try {
@@ -190,6 +210,35 @@ class ClockMouseListener extends MouseAdapter {
                     windowContainingClock,
                     ex.getMessage(),
                     "Error Loading JSON Clock",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    void viewJSONFile(File file) {
+        lastLoadedJSONFile = file;
+        try (InputStream fis = new FileInputStream(file)) {
+            String json = new String(fis.readAllBytes());
+            JTextArea textArea = new JTextArea(json);
+            textArea.setEditable(false); // Make it non-editable but copyable
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(400, 200));
+            JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE);
+
+            // Use the JOptionPane to create a JDialog
+            JDialog dialog = optionPane.createDialog("Clock Face JSON");
+
+            // Make the dialog resizable
+            dialog.setResizable(true);
+
+            // Show the dialog
+            dialog.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    windowContainingClock,
+                    ex.getMessage(),
+                    "Error Viewing JSON Source",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
