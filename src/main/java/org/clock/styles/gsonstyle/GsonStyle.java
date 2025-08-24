@@ -38,8 +38,9 @@ public class GsonStyle implements Style {
     private final List<GraphicalElement> secondHandElements;
     private final List<GraphicalElement> minuteHandElements;
     private final List<GraphicalElement> hourHandElements;
+    private String sourceCode = null;
 
-    public GsonStyle(Map<?, ?> jsonClockMap) throws JSONSchemaException {
+    private GsonStyle(Map<?, ?> jsonClockMap) throws JSONSchemaException {
         name = jsonClockMap.get("name").toString();
         description = jsonClockMap.containsKey("description") ? jsonClockMap.get("description").toString() : null;
         clockFaceElements= toGraphicalElements((List<?>)jsonClockMap.get("clock_face"));
@@ -48,8 +49,18 @@ public class GsonStyle implements Style {
         hourHandElements = toGraphicalElements((List<?>)jsonClockMap.get("hour_hand"));
     }
 
+    public GsonStyle(Gson gson, String json) throws JSONSchemaException {
+        this(gson.fromJson(json, Map.class));
+        sourceCode = json;
+    }
+
     public GsonStyle(Gson gson, InputStream styleStream) throws JSONSchemaException {
-        this(gson.fromJson(readContents(styleStream), Map.class));
+        this(gson, readContents(styleStream));
+    }
+
+    @Override
+    public String getSourceCode() {
+        return sourceCode;
     }
 
     @Override

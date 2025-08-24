@@ -36,4 +36,7 @@ public interface Style {
     default boolean staticClockFace() {
         return true;
     }
+    default String getSourceCode() {
+        return null;
+    }
 }

@@ -183,16 +183,17 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     private Optional<JMenuItem> jsonSourceViewerMenuItem() {
-        if (lastLoadedJSONFile == null) {
+        ClockPanel.GroupAndStyle groupAndStyle = clock.getCurrentGroupAndStyle();
+        if (groupAndStyle.style().getSourceCode() == null) {
             return Optional.empty();
         }
         JMenuItem menuItem = new JMenuItem(
                 String.format(
-                        "View JSON: \".../%s\"",
-                        lastLoadedJSONFile.getName()));
+                        "View JSON: '%s'",
+                        groupAndStyle.style().getName()));
         menuItem.addActionListener(ev -> {
             try {
-                viewJSONFile(lastLoadedJSONFile);
+                viewJSONFile(groupAndStyle.style());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -214,10 +215,9 @@ class ClockMouseListener extends MouseAdapter {
         }
     }
 
-    void viewJSONFile(File file) {
-        lastLoadedJSONFile = file;
-        try (InputStream fis = new FileInputStream(file)) {
-            String json = new String(fis.readAllBytes());
+    void viewJSONFile(Style style) {
+        try {
+            String json = style.getSourceCode();
             JTextArea textArea = new JTextArea(json);
             textArea.setEditable(false); // Make it non-editable but copyable
             textArea.setLineWrap(true);
@@ -227,7 +227,7 @@ class ClockMouseListener extends MouseAdapter {
             JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE);
 
             // Use the JOptionPane to create a JDialog
-            JDialog dialog = optionPane.createDialog("Clock Face JSON");
+            JDialog dialog = optionPane.createDialog("JSON for " + style.getName());
 
             // Make the dialog resizable
             dialog.setResizable(true);

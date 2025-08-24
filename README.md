@@ -32,7 +32,8 @@ The schema to define clocks in JSON is minimal:
 ```
 | clock object keys | key description                                                                                      |
 |-------------------|------------------------------------------------------------------------------------------------------|
-| name              | Name of the clock specified as a string.                                                             |
+| name              | Name of the clock.                                                                                   |
+| description       | Description of the clock.                                                                            |
 | clock_face        | List of shapes for the clock's face.                                                                 |
 | second_hand       | List of shapes for the clock's second hand. It should be oriented towards 12:00 and will be rotated. |
 | minute_hand       | List of shapes for the clock's minute hand.                                                          |
