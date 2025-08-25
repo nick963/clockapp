@@ -17,6 +17,7 @@ package org.clock;
 
 import com.google.gson.Gson;
 import org.clock.styles.gsonstyle.GsonStyle;
+import org.clock.styles.gsonstyle.StyleGroups;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,12 +25,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -55,9 +58,15 @@ class ClockMouseListener extends MouseAdapter {
     private File lastLoadedJSONFile = null;
     private JMenuItem loadJSONFile = null;
 
+    private final JFileChooser jsonFileSelector = new JFileChooser();
+    private final JFileChooser savePngDialog = new JFileChooser();
+
     ClockMouseListener(Window windowContainingClock, ClockPanel clock) {
         this.windowContainingClock = windowContainingClock;
         this.clock = clock;
+        ImagePreviewAccessory preview = new ImagePreviewAccessory();
+        jsonFileSelector.setAccessory(preview);
+        jsonFileSelector.addPropertyChangeListener(preview);
     }
 
     @Override
@@ -142,15 +151,14 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     private void showJsonFileSelector(JPopupMenu popup) {
-        JFileChooser fileChooser = new JFileChooser();
         if (popup != null) {
-            fileChooser.setComponentPopupMenu(popup);
+            jsonFileSelector.setComponentPopupMenu(popup);
         }
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
-        fileChooser.addChoosableFileFilter(filter);
-        if (fileChooser.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
+        jsonFileSelector.addChoosableFileFilter(filter);
+        if (jsonFileSelector.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
             try {
-                loadJSONFile(fileChooser.getSelectedFile());
+                loadJSONFile(jsonFileSelector.getSelectedFile());
                 GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
                 clock.setStyle(style);
             } catch (Exception e) {
@@ -160,19 +168,14 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     private void showSavePngDialog(String baseName) {
-        JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files (*.png)", "png");
-        fileChooser.addChoosableFileFilter(filter);
-        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        fileChooser.setSelectedFile(new File(clock.getCurrentGroupAndStyle().style().getName() + ".png"));
-        if (fileChooser.showSaveDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+        savePngDialog.addChoosableFileFilter(filter);
+        savePngDialog.setDialogType(JFileChooser.SAVE_DIALOG);
+        savePngDialog.setSelectedFile(new File(clock.getCurrentGroupAndStyle().style().getName() + ".png"));
+        if (savePngDialog.showSaveDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = savePngDialog.getSelectedFile();
             if (selectedFile != null) {
-                BufferedImage image = new BufferedImage(clock.getWidth(), clock.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-                Graphics graphics = image.getGraphics();
-                graphics.setColor(new Color(0f, 0f, 0f, 0f));
-                graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-                clock.paint(graphics);
+                BufferedImage image = createImage(clock.getCurrentGroupAndStyle().style(), clock.getWidth());
                 try {
                     ImageIO.write(image, "png", selectedFile);
                 } catch (IOException ex) {
@@ -215,6 +218,23 @@ class ClockMouseListener extends MouseAdapter {
         }
     }
 
+    static BufferedImage createImage(Style style, int dimension) {
+        ClockPanel clockPanel = new ClockPanel(new StyleGroups("", new ArrayList<>()), Calendar::getInstance);
+        clockPanel.setSize(dimension,dimension);
+        clockPanel.setStyle(style);
+        BufferedImage image = new BufferedImage(dimension, dimension, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setComposite(AlphaComposite.Clear);
+        graphics.fillRect(0, 0, dimension, dimension); // Fill the entire image with transparent pixels
+        graphics.setComposite(AlphaComposite.Src);
+        Ellipse2D ellipse = new Ellipse2D.Double(0, 0, dimension, dimension);
+        graphics.setClip(ellipse);
+        clockPanel.paint(graphics);
+        return image;
+    }
+
     void viewJSONFile(Style style) {
         try {
             String json = style.getSourceCode();
@@ -223,11 +243,13 @@ class ClockMouseListener extends MouseAdapter {
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(400, 200));
+            scrollPane.setPreferredSize(new Dimension(500, 200));
             JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE);
+            optionPane.setIcon(new ImageIcon(createImage(style, 200)));
 
             // Use the JOptionPane to create a JDialog
             JDialog dialog = optionPane.createDialog("JSON for " + style.getName());
+
 
             // Make the dialog resizable
             dialog.setResizable(true);
@@ -247,6 +269,7 @@ class ClockMouseListener extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         initialWindowBounds = null;
         clockIsResizing = false;
+        clock.setDisplaySize(false);
     }
 
     @Override
@@ -256,6 +279,7 @@ class ClockMouseListener extends MouseAdapter {
             initialYOnScreen = e.getYOnScreen();
             initialWindowBounds = windowContainingClock.getBounds();
             this.clockIsResizing = e.isShiftDown();
+            clock.setDisplaySize(this.clockIsResizing);
         } else {
             if (clockIsResizing) {
                 int newWidth = Math.max(100, initialWindowBounds.width + e.getXOnScreen() - initialXOnScreen);

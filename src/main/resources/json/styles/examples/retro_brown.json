@@ -1,0 +1,71 @@
+{
+  "name": "Retro Brown",
+  "description": "Mid-century modern brown clock.",
+  "clock_face": [
+    { "shape": "circle", "x": 0, "y": 0, "radius": 1, "color": "#9E7148" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.95, "color": "#DEAC76" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.90, "color": "#9E7148" },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": -0.015, "y": -0.85 },
+        { "x": 0.015, "y": -0.85 },
+        { "x": 0.015, "y": -0.2 },
+        { "x": -0.015, "y": -0.2 }
+      ],
+      "ticks": 4,
+      "color": "#DEAC76"
+    },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": -0.005, "y": -0.75 },
+        { "x": 0.005, "y": -0.75 },
+        { "x": 0.005, "y": -0.2 },
+        { "x": -0.005, "y": -0.2 }
+      ],
+      "ticks": 12,
+      "color": "#DEAC76"
+    },
+    { "shape": "polygon",
+      "points": [
+        { "x": -0.006, "y": -0.85 },
+        { "x": 0.006, "y": -0.85 },
+        { "x": 0.006, "y": -0.2 },
+        { "x": -0.006, "y": -0.2 }
+      ],
+      "ticks": 4,
+      "color": "#9E7148"
+    }
+  ],
+  "second_hand": [
+    {
+      "shape": "rectangle",
+      "color": "#591F0B",
+      "fx": -0.008,
+      "fy": 0.85,
+      "tx": 0.008,
+      "ty": -0.1
+    },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.03, "color": "#591F0B" }
+  ],
+  "minute_hand": [
+    { "shape": "rectangle",
+      "fx": -0.015,
+      "fy": -0.1,
+      "tx": 0.015,
+      "ty": 0.85,
+      "color": "#0B0D0C"
+    }
+  ],
+
+  "hour_hand": [
+    { "shape": "rectangle",
+      "fx": -0.015,
+      "fy": -0.1,
+      "tx": 0.015,
+      "ty": 0.65,
+      "color": "#0B0D0C"
+    }
+  ]
+}

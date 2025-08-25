@@ -33,27 +33,28 @@ import java.util.function.Supplier;
 public class ClockPanel extends JPanel {
     private static final boolean BUFFER_CLOCK_FACE = true;
 
-    private final List<Style> clockStyles;
     private final StyleGroups clockStyleGroups;
     private GroupAndStyle currentGroupAndStyle;
     private Calendar calendar;
     private OffsetRadius lastOffsetRadius;
     private BufferedImage lastBufferedImage;
     private final Timer updateTimer;
+    private boolean displaySize = false;
 
-    public ClockPanel(List<Style> clockStyles, StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
+    public ClockPanel(StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
         updateTimer = new Timer(25, e -> {
             setCalendar(calendarSupplier.get());
             repaint();
         });
         updateTimer.setInitialDelay(15);
-        this.clockStyles = new ArrayList<>(clockStyles);
         this.clockStyleGroups = clockStyleGroups;
         this.calendar = Calendar.getInstance();
         lastOffsetRadius = new OffsetRadius(0,0,0);
         lastBufferedImage = null;
-        if (!clockStyles.isEmpty()) {
-            setGroupAndStyle(new GroupAndStyle(null, clockStyles.get(0)));
+        if (!clockStyleGroups.groups().isEmpty()) {
+            List<StyleGroup> groups = clockStyleGroups.groups();
+            StyleGroup firstGroup = groups.get(0);
+            setGroupAndStyle(new GroupAndStyle(firstGroup, firstGroup.getStyles().get(0)));
         }
     }
 
@@ -88,6 +89,24 @@ public class ClockPanel extends JPanel {
         style.paintMinuteHand(graphics2D, offsetRadius, hoursMinutesSeconds.minutes());
         style.paintHourHand(graphics2D, offsetRadius, hoursMinutesSeconds.hours());
         style.paintSecondHand(graphics2D, offsetRadius, hoursMinutesSeconds.seconds());
+        if (displaySize) {
+            String string = String.format(" %d x %d", getWidth(), getHeight());
+            graphics2D.setFont(new Font("Courier", Font.PLAIN, 14));
+            Rectangle2D stringBounds = graphics2D.getFontMetrics().getStringBounds(string, graphics2D);
+            double x = (getWidth() - stringBounds.getWidth())/2d;
+            double y = (getHeight() - stringBounds.getHeight())/2d;
+            Rectangle2D newBounds = new Rectangle2D.Double(
+                    x - 2,
+                    y - 1,
+                    stringBounds.getWidth() + 8,
+                    stringBounds.getHeight() + 8);
+            graphics2D.setColor(Color.WHITE);
+            graphics2D.fill(newBounds);
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.draw(newBounds);
+            graphics2D.drawString(string, (int) Math.round(x),
+                    (int) Math.round(y + stringBounds.getHeight()));
+        }
     }
 
     Rectangle2D.Double centerSquare() {
@@ -108,6 +127,13 @@ public class ClockPanel extends JPanel {
         setGroupAndStyle(new GroupAndStyle(null, style));
     }
 
+    public void setDisplaySize(boolean displaySize) {
+        if (this.displaySize != displaySize) {
+            this.displaySize = displaySize;
+            repaint();
+        }
+    }
+
     public record GroupAndStyle(StyleGroup group, Style style) {
         public boolean isSame(GroupAndStyle other) {
             if (group == null && other.group == null) {
@@ -123,7 +149,6 @@ public class ClockPanel extends JPanel {
 
     public java.util.List<GroupAndStyle> getGroupsAndStyles() {
         ArrayList<GroupAndStyle> list = new ArrayList<>();
-        clockStyles.forEach(s -> list.add(new GroupAndStyle(null, s)));
         clockStyleGroups.groups().forEach(g -> g.getStyles().forEach(s -> list.add(new GroupAndStyle(g, s))));
         return list;
     }

@@ -17,6 +17,7 @@ package org.clock;
 
 import org.clock.styles.colorful.ColorfulStyle;
 import org.clock.styles.gsonstyle.JSONSchemaException;
+import org.clock.styles.gsonstyle.StyleGroup;
 import org.clock.styles.gsonstyle.StyleGroups;
 import org.clock.styles.metro.MetroStyle;
 
@@ -30,16 +31,18 @@ import java.util.List;
 
 public class ClockApp {
 
-    private static final List<Style> CLOCK_STYLES;
     private static final StyleGroups CLOCK_STYLE_GROUPS;
 
     static {
         ArrayList<Style> clockStyles = new ArrayList<>();
         clockStyles.add(new MetroStyle());
         clockStyles.add(new ColorfulStyle());
-        CLOCK_STYLES = clockStyles;
+        StyleGroup javaStyles = new StyleGroup("Custom Java Clocks", clockStyles);
         try {
-            CLOCK_STYLE_GROUPS = StyleGroups.loadFromResource("/json/styles");
+            StyleGroups jsonStyleGroups = StyleGroups.loadFromResource("/json/styles");
+            ArrayList<StyleGroup> allGroups = new ArrayList<>(jsonStyleGroups.groups());
+            allGroups.add(javaStyles);
+            CLOCK_STYLE_GROUPS = new StyleGroups("All Groups", allGroups);
         } catch (JSONSchemaException ex) {
             throw new RuntimeException(ex);
         }
@@ -47,7 +50,7 @@ public class ClockApp {
 
     public static void main(String[] args) {
         Window window = createAppWindow();
-        ClockPanel clock = new ClockPanel(CLOCK_STYLES, CLOCK_STYLE_GROUPS, Calendar::getInstance);
+        ClockPanel clock = new ClockPanel(CLOCK_STYLE_GROUPS, Calendar::getInstance);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);
         clock.addMouseListener(clockMouseListener);

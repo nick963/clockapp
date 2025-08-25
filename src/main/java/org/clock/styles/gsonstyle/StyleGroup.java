@@ -16,19 +16,19 @@
 package org.clock.styles.gsonstyle;
 
 import com.google.gson.Gson;
+import org.clock.Style;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class StyleGroup {
     private final String name;
-    private final List<GsonStyle> styles;
+    private final List<Style> styles;
 
-    public StyleGroup(String name, List<GsonStyle> styles) {
+    public StyleGroup(String name, List<? extends Style> styles) {
         this.name = name;
         this.styles = new ArrayList<>(styles);
     }
@@ -37,7 +37,7 @@ public class StyleGroup {
         return name;
     }
 
-    public List<GsonStyle> getStyles() {
+    public List<Style> getStyles() {
         return styles;
     }
 

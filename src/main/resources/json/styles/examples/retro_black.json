@@ -1,0 +1,60 @@
+{
+  "name": "Retro Black",
+  "description": "Mid-century modern black clock.",
+  "clock_face": [
+    { "shape": "circle", "x": 0, "y": 0, "radius": 1, "color": "#A5A9B4" },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.985 },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": -0.005, "y": -0.95 },
+        { "x": 0.005, "y": -0.95 },
+        { "x": 0.005, "y": -0.75 },
+        { "x": -0.005, "y": -0.75 }
+      ],
+      "ticks": 12,
+      "color": "#FFFFFF"
+    },
+
+    { "shape": "polygon",
+      "points": [
+        { "x": -0.005, "y": -0.95 },
+        { "x": 0.005, "y": -0.95 },
+        { "x": 0.005, "y": -0.9 },
+        { "x": -0.005, "y": -0.9 }
+      ],
+      "ticks": 60,
+      "color": "#FFFFFF"
+    }
+  ],
+  "second_hand": [
+    {
+      "shape": "rectangle",
+      "color": "#FF0000",
+      "fx": -0.008,
+      "fy": 0.95,
+      "tx": 0.008,
+      "ty": -0.1
+    },
+    { "shape": "circle", "x": 0, "y": 0, "radius": 0.03, "color": "#FF0000" }
+  ],
+  "minute_hand": [
+    { "shape": "rectangle",
+      "fx": -0.015,
+      "fy": -0.1,
+      "tx": 0.015,
+      "ty": 0.85,
+      "color": "#A5A9B4"
+    }
+  ],
+
+  "hour_hand": [
+    { "shape": "rectangle",
+      "fx": -0.015,
+      "fy": -0.1,
+      "tx": 0.015,
+      "ty": 0.65,
+      "color": "#A5A9B4"
+    }
+  ]
+}
