@@ -35,6 +35,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
-src/ListFonts.java
+src/main/java/ListFonts.java
 /Clock App.app/
 scratch/*

@@ -41,6 +41,10 @@ public class ClockPanel extends JPanel {
     private final Timer updateTimer;
     private boolean displaySize = false;
 
+    public ClockPanel(Supplier<Calendar> calendarSupplier) {
+        this(new StyleGroups("", new ArrayList<>()), calendarSupplier);
+    }
+
     public ClockPanel(StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
         updateTimer = new Timer(25, e -> {
             setCalendar(calendarSupplier.get());
@@ -61,6 +65,9 @@ public class ClockPanel extends JPanel {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
+        if (currentGroupAndStyle == null || currentGroupAndStyle.style == null) {
+            return;
+        }
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -90,23 +97,27 @@ public class ClockPanel extends JPanel {
         style.paintHourHand(graphics2D, offsetRadius, hoursMinutesSeconds.hours());
         style.paintSecondHand(graphics2D, offsetRadius, hoursMinutesSeconds.seconds());
         if (displaySize) {
-            String string = String.format(" %d x %d", getWidth(), getHeight());
-            graphics2D.setFont(new Font("Courier", Font.PLAIN, 14));
-            Rectangle2D stringBounds = graphics2D.getFontMetrics().getStringBounds(string, graphics2D);
-            double x = (getWidth() - stringBounds.getWidth())/2d;
-            double y = (getHeight() - stringBounds.getHeight())/2d;
-            Rectangle2D newBounds = new Rectangle2D.Double(
-                    x - 2,
-                    y - 1,
-                    stringBounds.getWidth() + 8,
-                    stringBounds.getHeight() + 8);
-            graphics2D.setColor(Color.WHITE);
-            graphics2D.fill(newBounds);
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.draw(newBounds);
-            graphics2D.drawString(string, (int) Math.round(x),
-                    (int) Math.round(y + stringBounds.getHeight()));
+            paintClockPanelSize(graphics2D);
         }
+    }
+
+    private void paintClockPanelSize(Graphics2D graphics2D) {
+        String string = String.format(" %d x %d", getWidth(), getHeight());
+        graphics2D.setFont(new Font("Courier", Font.PLAIN, 14));
+        Rectangle2D stringBounds = graphics2D.getFontMetrics().getStringBounds(string, graphics2D);
+        double x = (getWidth() - stringBounds.getWidth())/2d;
+        double y = (getHeight() - stringBounds.getHeight())/2d;
+        Rectangle2D newBounds = new Rectangle2D.Double(
+                x - 2,
+                y - 1,
+                stringBounds.getWidth() + 8,
+                stringBounds.getHeight() + 8);
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fill(newBounds);
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.draw(newBounds);
+        graphics2D.drawString(string, (int) Math.round(x),
+                (int) Math.round(y + stringBounds.getHeight()));
     }
 
     Rectangle2D.Double centerSquare() {
@@ -160,6 +171,11 @@ public class ClockPanel extends JPanel {
     public void setGroupAndStyle(GroupAndStyle groupAndStyle) {
         currentGroupAndStyle = groupAndStyle;
         lastOffsetRadius = new OffsetRadius();
+        if (groupAndStyle.style == null) {
+            updateTimer.stop();
+            setToolTipText("");
+            return;
+        }
         StringBuilder builder = new StringBuilder("<html><b>").append(groupAndStyle.style.getName()).append("</b>");
         if (groupAndStyle.style.getDescription() != null) {
             builder.append("<BR>").append(groupAndStyle.style.getDescription());

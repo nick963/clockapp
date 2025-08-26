@@ -59,11 +59,15 @@ public class ClockApp {
     }
 
     static Window createAppWindow() {
-        //JWindow window = new JWindow();
         JFrame window = new JFrame();
         window.setUndecorated(true);
         window.setLayout(new BorderLayout());
-        window.setBounds(300, 300, 800, 800);
+        double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int preferredAppDimension = 397;
+        double appX = Math.round((screenWidth - preferredAppDimension)/2d);
+        double appY = Math.round((screenHeight - preferredAppDimension)/2d);
+        window.setBounds((int) appX, (int) appY, preferredAppDimension, preferredAppDimension);
         window.setShape(new RoundRectangle2D.Double(0, 0, window.getWidth(), window.getHeight(), window.getWidth(), window.getHeight()));
         window.addWindowListener(new WindowAdapter() {
             @Override

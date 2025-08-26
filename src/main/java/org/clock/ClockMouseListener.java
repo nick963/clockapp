@@ -36,6 +36,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static org.clock.StyleUtils.createImage;
+
 /**
  * MouseListener/MouseMotionListener for ClockPanel.
  * - Mouse drag with shift resizes clock
@@ -58,15 +60,15 @@ class ClockMouseListener extends MouseAdapter {
     private File lastLoadedJSONFile = null;
     private JMenuItem loadJSONFile = null;
 
-    private final JFileChooser jsonFileSelector = new JFileChooser();
+    private final JFileChooser openJsonFileDialog = new JFileChooser();
     private final JFileChooser savePngDialog = new JFileChooser();
 
     ClockMouseListener(Window windowContainingClock, ClockPanel clock) {
         this.windowContainingClock = windowContainingClock;
         this.clock = clock;
-        ImagePreviewAccessory preview = new ImagePreviewAccessory();
-        jsonFileSelector.setAccessory(preview);
-        jsonFileSelector.addPropertyChangeListener(preview);
+        ClockPreviewAccessory preview = new ClockPreviewAccessory(Calendar::getInstance);
+        openJsonFileDialog.setAccessory(preview);
+        openJsonFileDialog.addPropertyChangeListener(preview);
     }
 
     @Override
@@ -108,8 +110,8 @@ class ClockMouseListener extends MouseAdapter {
             windowContainingClock.setVisible(false);
             System.exit(0);
         });
-        popupMenu.add(loadJSONFile(popupMenu));
-        reloadJSSONFile().ifPresent(popupMenu::add);
+        popupMenu.add(openJsonFileMenuItem(popupMenu));
+        reloadJSSONFileMenuItem().ifPresent(popupMenu::add);
         jsonSourceViewerMenuItem().ifPresent((popupMenu::add));
         popupMenu.add(new JSeparator());
         JMenuItem saveImage = new JMenuItem("Save Clock Image...");
@@ -123,7 +125,7 @@ class ClockMouseListener extends MouseAdapter {
         showSavePngDialog(clock.getCurrentGroupAndStyle().style().getName());
     }
 
-    Optional<JMenuItem> reloadJSSONFile() {
+    private Optional<JMenuItem> reloadJSSONFileMenuItem() {
         if (lastLoadedJSONFile == null) {
             return Optional.empty();
         }
@@ -133,7 +135,7 @@ class ClockMouseListener extends MouseAdapter {
                         lastLoadedJSONFile.getName()));
         menuItem.addActionListener(ev -> {
             try {
-                loadJSONFile(lastLoadedJSONFile);
+                openJsonFileMenuItem(lastLoadedJSONFile);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -141,24 +143,24 @@ class ClockMouseListener extends MouseAdapter {
         return Optional.of(menuItem);
     }
 
-    JMenuItem loadJSONFile(JPopupMenu popup) {
+    private JMenuItem openJsonFileMenuItem(JPopupMenu popup) {
         if (loadJSONFile != null) {
             return loadJSONFile;
         }
-        loadJSONFile = new JMenuItem("Load JSON Clock File...");
+        loadJSONFile = new JMenuItem("Open JSON Clock File...");
         loadJSONFile.addActionListener(ev -> showJsonFileSelector(popup));
         return loadJSONFile;
     }
 
     private void showJsonFileSelector(JPopupMenu popup) {
         if (popup != null) {
-            jsonFileSelector.setComponentPopupMenu(popup);
+            openJsonFileDialog.setComponentPopupMenu(popup);
         }
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files (*.json)", "json");
-        jsonFileSelector.addChoosableFileFilter(filter);
-        if (jsonFileSelector.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
+        openJsonFileDialog.addChoosableFileFilter(filter);
+        if (openJsonFileDialog.showOpenDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
             try {
-                loadJSONFile(jsonFileSelector.getSelectedFile());
+                openJsonFileMenuItem(openJsonFileDialog.getSelectedFile());
                 GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(lastLoadedJSONFile));
                 clock.setStyle(style);
             } catch (Exception e) {
@@ -204,7 +206,7 @@ class ClockMouseListener extends MouseAdapter {
         return Optional.of(menuItem);
     }
 
-    void loadJSONFile(File file) {
+    void openJsonFileMenuItem(File file) {
         lastLoadedJSONFile = file;
         try {
             GsonStyle style = new GsonStyle(new Gson(), new FileInputStream(file));
@@ -216,23 +218,6 @@ class ClockMouseListener extends MouseAdapter {
                     "Error Loading JSON Clock",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    static BufferedImage createImage(Style style, int dimension) {
-        ClockPanel clockPanel = new ClockPanel(new StyleGroups("", new ArrayList<>()), Calendar::getInstance);
-        clockPanel.setSize(dimension,dimension);
-        clockPanel.setStyle(style);
-        BufferedImage image = new BufferedImage(dimension, dimension, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D graphics = (Graphics2D) image.getGraphics();
-        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics.setComposite(AlphaComposite.Clear);
-        graphics.fillRect(0, 0, dimension, dimension); // Fill the entire image with transparent pixels
-        graphics.setComposite(AlphaComposite.Src);
-        Ellipse2D ellipse = new Ellipse2D.Double(0, 0, dimension, dimension);
-        graphics.setClip(ellipse);
-        clockPanel.paint(graphics);
-        return image;
     }
 
     void viewJSONFile(Style style) {
@@ -285,6 +270,7 @@ class ClockMouseListener extends MouseAdapter {
                 int newWidth = Math.max(100, initialWindowBounds.width + e.getXOnScreen() - initialXOnScreen);
                 int newHeight = Math.max(100, initialWindowBounds.height + e.getYOnScreen() - initialYOnScreen);
                 int size = Math.min(newWidth, newHeight);
+                size = Math.min(size, 1024);
                 windowContainingClock.setSize(size, size);
                 windowContainingClock.setShape(new RoundRectangle2D.Double(0, 0, size, size, size, size));
 
