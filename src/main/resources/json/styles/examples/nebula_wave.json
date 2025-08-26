@@ -42,17 +42,17 @@
   ],
 
   "second_hand": [
-    { "shape": "rectangle", "fx": 0.006, "fy": 0.92, "tx": -0.006, "ty": 0.0, "color": "#EF476F" },
+    { "shape": "rectangle", "fx": 0.006, "fy": -0.92, "tx": -0.006, "ty": 0.0, "color": "#EF476F" },
     { "shape": "circle", "x": 0, "y": 0, "radius": 0.02, "color": "#EF476F" }
   ],
 
   "minute_hand": [
-    { "shape": "rectangle", "fx": 0.010, "fy": 0.82, "tx": -0.010, "ty": 0.0, "color": "#FFFFFF" },
+    { "shape": "rectangle", "fx": 0.010, "fy": -0.82, "tx": -0.010, "ty": 0.0, "color": "#FFFFFF" },
     { "shape": "circle", "x": 0, "y": 0, "radius": 0.022, "color": "#FFFFFF" }
   ],
 
   "hour_hand": [
-    { "shape": "rectangle", "fx": 0.016, "fy": 0.56, "tx": -0.016, "ty": 0.0, "color": "#FFD166" },
+    { "shape": "rectangle", "fx": 0.016, "fy": -0.56, "tx": -0.016, "ty": 0.0, "color": "#FFD166" },
     { "shape": "circle", "x": 0, "y": 0, "radius": 0.024, "color": "#FFD166" }
   ]
 }

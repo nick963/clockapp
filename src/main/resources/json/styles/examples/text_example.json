@@ -81,9 +81,9 @@
       "shape": "rectangle",
       "color": "#FF0000",
       "fx": -0.01,
-      "fy": 0.99,
+      "fy": -0.99,
       "tx": 0.01,
-      "ty": -0.1
+      "ty": 0.1
     }
   ],
   "minute_hand": [
@@ -91,9 +91,9 @@
       "shape": "rectangle",
       "color": "#a7a7a7",
       "fx": -0.016,
-      "fy": 0.99,
+      "fy": -0.99,
       "tx": 0.016,
-      "ty": -0.1
+      "ty": 0.1
     }
   ],
   "hour_hand": [
@@ -101,9 +101,9 @@
       "shape": "rectangle",
       "color": "#a7a7a7",
       "fx": -0.016,
-      "fy": 0.69,
+      "fy": -0.69,
       "tx": 0.016,
-      "ty": -0.1
+      "ty": 0.1
     }
   ]
 }

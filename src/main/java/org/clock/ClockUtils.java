@@ -28,7 +28,7 @@ public final class ClockUtils {
     }
 
     public static void paintOnClock(Graphics2D graphics2D, GraphicalElement poly, OffsetRadius offsetRadius, double fraction) {
-        double theta = toRadians(0.5d + fraction);
+        double theta = toRadians(fraction);
         GraphicalElement transformedPoly = poly.rotate(theta).adjust(offsetRadius);
         transformedPoly.draw(graphics2D);
     }

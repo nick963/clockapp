@@ -33,41 +33,41 @@ public class MetroConstants {
 
     public static FilledPoly SECOND_HAND_POLYGON = new FilledPoly(
             Color.RED,
-            new Point2D.Double(-0.01, 0.99),
-            new Point2D.Double(0.01, 0.99),
-            new Point2D.Double(0.01, -0.1),
-            new Point2D.Double(-0.01, -0.1));
+            new Point2D.Double(-0.01, -0.99),
+            new Point2D.Double(0.01, -0.99),
+            new Point2D.Double(0.01, 0.1),
+            new Point2D.Double(-0.01, 0.1));
 
 
     public static Line2D MINUTE_HAND_LINE = new Line2D.Double(0,1.0,0,0.9375);
 
     public static FilledPoly MINUTE_HAND_POLYGON = new FilledPoly(
             Color.BLACK,
-            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, 0.99),
-            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, 0.99),
-            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, -0.1),
-            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, -0.1));
+            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, -0.99),
+            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, -0.99),
+            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, 0.1),
+            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, 0.1));
 
     public static FilledPoly HOUR_HAND_POLYGON = new FilledPoly(
             Color.BLACK,
-            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, 0.69),
-            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, 0.69),
-            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, -0.1),
-            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, -0.1));
+            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, -0.69),
+            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, -0.69),
+            new Point2D.Double(HALF_HOUR_MINUTE_HAND_WIDTH, 0.1),
+            new Point2D.Double(-HALF_HOUR_MINUTE_HAND_WIDTH, 0.1));
 
     public static FilledPoly HOUR_HAND_MARKER = new FilledPoly(
             Color.BLACK,
-            new Point2D.Double(-0.005, 0.72),
-            new Point2D.Double(0.005, 0.72),
-            new Point2D.Double(0.005, 0.99),
-            new Point2D.Double(-0.005, 0.99));
+            new Point2D.Double(-0.005, -0.72),
+            new Point2D.Double(0.005, -0.72),
+            new Point2D.Double(0.005, -0.99),
+            new Point2D.Double(-0.005, -0.99));
 
     public static FilledPoly MINUTE_HAND_MARKER = new FilledPoly(
             Color.BLACK,
-            new Point2D.Double(-0.003, 0.89),
-            new Point2D.Double(0.003, 0.89),
-            new Point2D.Double(0.003, 0.99),
-            new Point2D.Double(-0.003, 0.99));
+            new Point2D.Double(-0.003, -0.89),
+            new Point2D.Double(0.003, -0.89),
+            new Point2D.Double(0.003, -0.99),
+            new Point2D.Double(-0.003, -0.99));
 
     public static final FilledPoly LOGO;
 

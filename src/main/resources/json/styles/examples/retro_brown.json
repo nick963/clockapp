@@ -43,18 +43,18 @@
       "shape": "rectangle",
       "color": "#591F0B",
       "fx": -0.008,
-      "fy": 0.85,
+      "fy": -0.85,
       "tx": 0.008,
-      "ty": -0.1
+      "ty": 0.1
     },
     { "shape": "circle", "x": 0, "y": 0, "radius": 0.03, "color": "#591F0B" }
   ],
   "minute_hand": [
     { "shape": "rectangle",
       "fx": -0.015,
-      "fy": -0.1,
+      "fy": 0.1,
       "tx": 0.015,
-      "ty": 0.85,
+      "ty": -0.85,
       "color": "#0B0D0C"
     }
   ],
@@ -62,9 +62,9 @@
   "hour_hand": [
     { "shape": "rectangle",
       "fx": -0.015,
-      "fy": -0.1,
+      "fy": 0.1,
       "tx": 0.015,
-      "ty": 0.65,
+      "ty": -0.65,
       "color": "#0B0D0C"
     }
   ]

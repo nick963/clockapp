@@ -1,5 +1,5 @@
 {
-  "name": "Quartz",
+  "name": "Retro Quartz",
   "clock_face": [
     {
       "shape": "circle",
@@ -74,18 +74,18 @@
     {
       "shape": "rectangle",
       "fx": -0.028,
-      "fy": 0.92,
+      "fy": -0.92,
       "tx": 0.028,
-      "ty": -0.15
+      "ty": 0.15
     }
   ],
   "hour_hand": [
     {
       "shape": "rectangle",
       "fx": -0.028,
-      "fy": 0.69,
+      "fy": -0.69,
       "tx": 0.028,
-      "ty": -0.15
+      "ty": 0.15
     }
   ]
 }
