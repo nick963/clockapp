@@ -17,21 +17,20 @@ package org.clock;
 
 import com.google.gson.Gson;
 import org.clock.styles.gsonstyle.GsonStyle;
-import org.clock.styles.gsonstyle.StyleGroups;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Optional;
@@ -105,6 +104,24 @@ class ClockMouseListener extends MouseAdapter {
             }
         }
         popupMenu.add(new JSeparator());
+        JMenuItem copyrightMenuItem = new JMenuItem("Copyright License...");
+        copyrightMenuItem.addActionListener(ev -> {
+            try {
+                String string = new String(ClockMouseListener.class.getClassLoader().getResourceAsStream("LICENSE").readAllBytes());
+                showViewTextDialog(windowContainingClock, "Copyright License", null, string);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        JMenuItem noticeMenuItem = new JMenuItem("Copyright Notice...");
+        noticeMenuItem.addActionListener(ev -> {
+            try {
+                String string = new String(ClockMouseListener.class.getClassLoader().getResourceAsStream("NOTICE").readAllBytes());
+                showViewTextDialog(windowContainingClock, "Copyright Notice", null, string);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(ev -> {
             windowContainingClock.setVisible(false);
@@ -114,9 +131,13 @@ class ClockMouseListener extends MouseAdapter {
         reloadJSSONFileMenuItem().ifPresent(popupMenu::add);
         jsonSourceViewerMenuItem().ifPresent((popupMenu::add));
         popupMenu.add(new JSeparator());
-        JMenuItem saveImage = new JMenuItem("Save Clock Image...");
+        JMenuItem saveImage = new JMenuItem("Save PNG of Clock Image...");
         saveImage.addActionListener(ev -> saveImageAction());
         popupMenu.add(saveImage);
+        popupMenu.add(new JSeparator());
+        popupMenu.add(copyrightMenuItem);
+        popupMenu.add(noticeMenuItem);
+        popupMenu.add(new JSeparator());
         popupMenu.add(quitMenuItem);
         return popupMenu;
     }
@@ -198,7 +219,12 @@ class ClockMouseListener extends MouseAdapter {
                         groupAndStyle.style().getName()));
         menuItem.addActionListener(ev -> {
             try {
-                viewJSONFile(groupAndStyle.style());
+                Style style = groupAndStyle.style();
+                showViewTextDialog(
+                        windowContainingClock,
+                        "JSON for " + style.getName(),
+                        createImage(style, 200),
+                        style.getSourceCode());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -220,21 +246,38 @@ class ClockMouseListener extends MouseAdapter {
         }
     }
 
-    void viewJSONFile(Style style) {
+    static void showViewTextDialog(Window parent, String title, Image image, String text) {
         try {
-            String json = style.getSourceCode();
-            JTextArea textArea = new JTextArea(json);
+            JTextArea textArea = new JTextArea(text);
             textArea.setEditable(false); // Make it non-editable but copyable
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.setPreferredSize(new Dimension(500, 200));
-            JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE);
-            optionPane.setIcon(new ImageIcon(createImage(style, 200)));
+            // Create a custom button
+            JButton copyButton = new JButton("Copy to Clipboard");
+
+            // Create the JOptionPane with custom options
+            Object[] options = {copyButton, "Close"};
+            JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE,
+                    JOptionPane.DEFAULT_OPTION,
+                    null, // Icon is null here, can be added later
+                    options,
+                    options[0]);
+            if (image != null) {
+                optionPane.setIcon(new ImageIcon(image));
+            } else {
+                optionPane.setIcon(new ImageIcon());
+            }
 
             // Use the JOptionPane to create a JDialog
-            JDialog dialog = optionPane.createDialog("JSON for " + style.getName());
-
+            JDialog dialog = optionPane.createDialog(title);
+            // Add action listener to the copy button
+            copyButton.addActionListener(e -> {
+                StringSelection stringSelection = new StringSelection(textArea.getText());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection, null);
+            });
 
             // Make the dialog resizable
             dialog.setResizable(true);
@@ -243,7 +286,7 @@ class ClockMouseListener extends MouseAdapter {
             dialog.setVisible(true);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
-                    windowContainingClock,
+                    parent,
                     ex.getMessage(),
                     "Error Viewing JSON Source",
                     JOptionPane.ERROR_MESSAGE);

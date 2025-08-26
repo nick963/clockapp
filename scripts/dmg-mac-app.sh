@@ -64,7 +64,8 @@ jpackage \
   --main-class "$MAIN_CLASS" \
   --type dmg \
   --vendor "$VENDOR_NAME" \
-  --mac-package-identifier "$MAC_PACKAGE_ID"
+  --mac-package-identifier "$MAC_PACKAGE_ID" \
+  --icon src/main/resources/output.icns
 
 if [ $? -ne 0 ]; then
     echo "jpackage failed. Aborting."
