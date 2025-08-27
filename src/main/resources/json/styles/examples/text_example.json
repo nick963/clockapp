@@ -3,107 +3,54 @@
   "clock_face": [
     {
       "shape": "circle",
-      "color": "#000000",
+      "color": "#c1c6c8",
       "x": 0.0,
       "y": 0.0,
       "radius": 1.0
     },
-    {
-      "shape": "text",
-      "color": "#FF0000",
-      "x": 0.5,
-      "y": 0.00,
-      "font": "Courier",
-      "size": 0.05,
-      "text": "red bold (0.5,0.0)",
-      "styles": "bold"
-    },
-    {
-      "shape": "circle",
-      "color": "#FF0000",
-      "x": 0.5,
-      "y": 0.04,
-      "radius": 0.01
-    },
-    {
-      "shape": "text",
-      "color": "#00FF00",
-      "x": -0.5,
-      "y": 0.00,
-      "font": "Courier",
-      "size": 0.05,
-      "text": "green italic (-0.5,0.0)",
-      "styles": "italic"
-    },
-    {
-      "shape": "circle",
-      "color": "#00FF00",
-      "x": -0.5,
-      "y": 0.04,
-      "radius": 0.01
-    },
-    {
-      "shape": "text",
-      "color": "#0000FF",
-      "x": 0.0,
-      "y": 0.50,
-      "font": "Courier",
-      "size": 0.05,
-      "text": "blue bold italic (0.0,0.5)",
-      "styles": "bold,italic"
-    },
-    {
-      "shape": "circle",
-      "color": "#0000FF",
-      "x": 0.0,
-      "y": 0.54,
-      "radius": 0.01
-    },
-    {
-      "shape": "text",
-      "color": "#FFFFFF",
-      "x": 0.0,
-      "y": -0.50,
-      "font": "Courier",
-      "size": 0.05,
-      "text": "white (0.0,-0.5)"
-    },
-    {
-      "shape": "circle",
-      "color": "#FFFFFF",
-      "x": 0.0,
-      "y": -0.46,
-      "radius": 0.01
-    }
+    { "shape": "text", "font": "Courier", "size": 0.05, "x":  0.5, "y":  0.5, "text": "(0.5,0.5)" },
+    { "shape": "text", "font": "Courier", "size": 0.05, "x":  0.5, "y": -0.5, "text": "(0.5,-0.5)" },
+    { "shape": "text", "font": "Courier", "size": 0.05, "x": -0.5, "y": -0.5, "text": "(-0.5,-0.5)" },
+    { "shape": "text", "font": "Courier", "size": 0.05, "x": -0.5, "y":  0.5, "text": "(-0.5,0.5)" },
+    { "shape": "text", "x": 0.0, "y": -0.2, "font": "Courier", "size": 0.05, "text": "plain" },
+    { "shape": "text", "x": 0.0, "y": -0.1, "font": "Courier", "size": 0.05, "text": "bold", "styles": "bold" },
+    { "shape": "text", "x": 0.0, "y":  0.1, "font": "Courier", "size": 0.05, "text": "italic", "styles": "italic" },
+    { "shape": "text", "x": 0.0, "y":  0.2, "font": "Courier", "size": 0.05, "text": "bold italic", "styles": "bold,italic" }
   ],
   "second_hand": [
     {
       "shape": "rectangle",
-      "color": "#FF0000",
+      "color": "#44FF0000",
       "fx": -0.01,
       "fy": -0.99,
       "tx": 0.01,
-      "ty": 0.1
+      "ty": 0
+    },
+    {
+      "shape": "circle",
+      "radius": 0.02, "color": "#000000",
+      "x": 0,
+      "y": 0
     }
   ],
   "minute_hand": [
     {
       "shape": "rectangle",
-      "color": "#a7a7a7",
+      "color": "#44a7a7a7",
       "fx": -0.016,
       "fy": -0.99,
       "tx": 0.016,
-      "ty": 0.1
+      "ty": 0
     }
   ],
   "hour_hand": [
     {
       "shape": "rectangle",
-      "color": "#a7a7a7",
+      "color": "#44a7a7a7",
       "fx": -0.016,
       "fy": -0.69,
       "tx": 0.016,
-      "ty": 0.1
+      "ty": 0
     }
   ]
 }

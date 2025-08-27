@@ -102,7 +102,7 @@ public class ClockPanel extends JPanel {
     }
 
     private void paintClockPanelSize(Graphics2D graphics2D) {
-        String string = String.format(" %d x %d", getWidth(), getHeight());
+        String string = String.format(" width:%d height:%d", getWidth(), getHeight());
         graphics2D.setFont(new Font("Courier", Font.PLAIN, 14));
         Rectangle2D stringBounds = graphics2D.getFontMetrics().getStringBounds(string, graphics2D);
         double x = (getWidth() - stringBounds.getWidth())/2d;

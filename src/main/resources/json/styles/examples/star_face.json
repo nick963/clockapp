@@ -39,10 +39,12 @@
       "fy": -0.005,
       "tx": 0.72,
       "ty": 0.005
-    },
+    }
+  ],
+  "second_hand": [
     {
       "shape": "polygon",
-      "color": "#33658A",
+      "color": "#5533658A",
       "points": [
         {
           "x": 0.0,
@@ -65,30 +67,6 @@
           "y": -0.809
         }
       ]
-    }
-  ],
-  "second_hand": [
-    {
-      "shape": "rectangle",
-      "color": "#F26419",
-      "fx": -0.01,
-      "fy": -0.99,
-      "tx": 0.01,
-      "ty": 0.1
-    },
-    {
-      "shape": "circle",
-      "color": "#2F4858",
-      "x": 0.0,
-      "y": 0.0,
-      "radius": 0.03
-    },
-    {
-      "shape": "circle",
-      "color": "#2F4858",
-      "x": 0.0,
-      "y": -0.50,
-      "radius": 0.03
     }
   ],
   "minute_hand": [

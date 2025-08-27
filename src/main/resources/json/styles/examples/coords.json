@@ -3,6 +3,8 @@
   "description": "Clock face illustrates the JSON coordinate system.",
   "clock_face": [
     { "shape": "rectangle", "fx": -1.0, "tx": 1.0, "fy": -1.0, "ty": 1.0, "color": "#FFFFFF" },
+    {"shape":  "rectangle", "fx":  0.005, "fy": -1, "tx": -0.005, "ty":  -0.9, "ticks":  12 },
+    {"shape":  "rectangle", "fx":  0.01, "fy": -1, "tx": -0.01, "ty":  -0.89, "color":"#FFFFFF","ticks":  4 },
 
     { "shape": "rectangle", "fx": 1.0, "tx": -1.0, "fy": 0.002, "ty": -0.002 },
     { "shape": "rectangle", "fy": 1.0, "ty": -1.0, "fx": 0.002, "tx": -0.002 },
@@ -44,16 +46,7 @@
     { "shape": "text", "y": -0.8,  "x": 0.12,  "text": "-0.8", "font": "SansSerif", "size": 0.06 },
 
     { "shape": "text", "y": -0.15,  "x": -0.8,  "text": "X axis", "font": "SansSerif", "size": 0.08 },
-    { "shape": "text", "y": -0.88,  "x": -0.2,  "text": "Y axis", "font": "SansSerif", "size": 0.08 },
-
-    { "shape": "circle", "x": 0.4250,  "y": 0.7361,  "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": 0.7361,  "y": 0.4250,  "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": 0.7361,  "y": -0.4250, "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": 0.4250,  "y": -0.7361, "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": -0.4250, "y": -0.7361, "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": -0.7361, "y": -0.4250, "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": -0.7361, "y": 0.4250,  "radius": 0.020, "color": "#b7bac5" },
-    { "shape": "circle", "x": -0.4250, "y": 0.7361,  "radius": 0.020, "color": "#b7bac5" }
+    { "shape": "text", "y": -0.88,  "x": -0.2,  "text": "Y axis", "font": "SansSerif", "size": 0.08 }
   ],
   "second_hand": [
     {
