@@ -43,10 +43,10 @@ public class GsonStyle implements Style {
     private GsonStyle(Map<?, ?> jsonClockMap) throws JSONSchemaException {
         name = jsonClockMap.get("name").toString();
         description = jsonClockMap.containsKey("description") ? jsonClockMap.get("description").toString() : null;
-        clockFaceElements= toGraphicalElements((List<?>)jsonClockMap.get("clock_face"));
-        secondHandElements = toGraphicalElements((List<?>)jsonClockMap.get("second_hand"));
-        minuteHandElements = toGraphicalElements((List<?>)jsonClockMap.get("minute_hand"));
-        hourHandElements = toGraphicalElements((List<?>)jsonClockMap.get("hour_hand"));
+        clockFaceElements = toGraphicalElements(jsonClockMap, "clock_face");
+        secondHandElements = toGraphicalElements(jsonClockMap, "second_hand");
+        minuteHandElements = toGraphicalElements(jsonClockMap, "minute_hand");
+        hourHandElements = toGraphicalElements(jsonClockMap, "hour_hand");
     }
 
     public GsonStyle(Gson gson, String json) throws JSONSchemaException {
@@ -81,30 +81,43 @@ public class GsonStyle implements Style {
         }
     }
 
-    List<GraphicalElement> toGraphicalElements(List<?> shapeList) throws JSONSchemaException {
+    List<GraphicalElement> toGraphicalElements(Map<?,?> jsonClockMap, String key) throws JSONSchemaException {
+        List<?> shapeList;
+        try {
+            shapeList = (List<?>) jsonClockMap.get(key);
+        } catch (ClassCastException classCastException) {
+            throw new JSONSchemaException(String.format("The value for '%s' is expected to be a JSON array.", key));
+        }
         ArrayList<GraphicalElement> graphicalElements = new ArrayList<>();
         if (shapeList != null) {
-            for (Object object : shapeList) {
-                var map = new JSONShapeMap((Map<?,?>)object);
-                String shape = map.getShape();
-                if (shape == null) {
-                    throw new JSONSchemaException("shape is not specified for graphical element.");
+                for (Object object : shapeList) {
+                    JSONShapeMap map;
+                    try {
+                        map = new JSONShapeMap((Map<?, ?>) object);
+                    } catch (ClassCastException exception) {
+                        throw new JSONSchemaException(String.format("The elements in '%s' are expected to be JSON objects.", key));
+                    }
+                    String shape = map.getShape();
+                    if (shape == null) {
+                        throw new JSONSchemaException(String.format("'%s' element is missing a value for 'shape'.", key));
+                    }
+                    try {
+                        GraphicalElement element = switch (shape) {
+                            case "polygon" -> new FilledPoly(map.getColor(), map.getPoints().toArray(new Point2D[0]));
+                            case "rectangle" ->
+                                    FilledPoly.rectangle(map.getColor(), map.getPoint("fx", "fy"), map.getPoint("tx", "ty"));
+                            case "circle" ->
+                                    new CircleGraphicalElement(map.getColor(), map.getPoint(), map.getRadius());
+                            case "text" ->
+                                    new TextGraphicalElement(map.getColor(), map.getText(), map.getPoint(), map.getFont(), map.getSize(), map.getStyles());
+                            default -> throw new JSONSchemaException(String.format("Unknown value for shape '%s'", shape));
+                        };
+                        Optional<Integer> ticks = map.getTicks();
+                        graphicalElements.add(ticks.map(t -> (GraphicalElement) CompositeGraphicalElement.ticks(element, t)).orElse(element));
+                    } catch (JSONSchemaException ex) {
+                        throw ex.setShape(shape);
+                    }
                 }
-                try {
-                    GraphicalElement element = switch (shape) {
-                        case "polygon" -> new FilledPoly(map.getColor(),  map.getPoints().toArray(new Point2D[0]));
-                        case "rectangle" ->
-                                FilledPoly.rectangle(map.getColor(),  map.getPoint("fx", "fy"), map.getPoint("tx", "ty"));
-                        case "circle" -> new CircleGraphicalElement(map.getColor(), map.getPoint(), map.getRadius());
-                        case "text" -> new TextGraphicalElement(map.getColor(), map.getText(), map.getPoint(), map.getFont(), map.getSize(), map.getStyles());
-                        default -> throw new JSONSchemaException("Invalid shape.");
-                    };
-                    Optional<Integer> ticks = map.getTicks();
-                    graphicalElements.add(ticks.map(t -> (GraphicalElement) CompositeGraphicalElement.ticks(element, t)).orElse(element));
-                } catch (JSONSchemaException ex) {
-                    throw ex.setShape(shape);
-                }
-            }
         }
         return graphicalElements;
     }

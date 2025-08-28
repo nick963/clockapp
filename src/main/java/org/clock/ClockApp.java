@@ -27,7 +27,6 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class ClockApp {
 
@@ -50,7 +49,7 @@ public class ClockApp {
 
     public static void main(String[] args) {
         Window window = createAppWindow();
-        ClockPanel clock = new ClockPanel(CLOCK_STYLE_GROUPS, Calendar::getInstance);
+        ClockComponent clock = new ClockComponent(CLOCK_STYLE_GROUPS, Calendar::getInstance);
         window.add(clock,BorderLayout.CENTER);
         ClockMouseListener clockMouseListener = new ClockMouseListener(window, clock);
         clock.addMouseListener(clockMouseListener);

@@ -23,8 +23,12 @@ import java.util.Map;
 import java.util.Optional;
 
 record JSONShapeMap(Map<?, ?> map) {
-    String getShape() {
-        return (String) map.get("shape");
+    String getShape() throws JSONSchemaException {
+        try {
+            return getString("shape");
+        } catch (ClassCastException classCastException) {
+            throw new JSONSchemaException("Value for 'shape' is expected to be a string.");
+        }
     }
 
     Color getColor() throws JSONSchemaException {
@@ -32,13 +36,17 @@ record JSONShapeMap(Map<?, ?> map) {
     }
 
     java.util.List<Point2D> getPoints() throws JSONSchemaException {
-        java.util.List<?> pointList = (java.util.List<?>) map.get("points");
-        List<Point2D> points = new ArrayList<>();
-        for (Object o : pointList) {
-            JSONShapeMap m = new JSONShapeMap((Map<?, ?>) o);
-            points.add(m.readPoint("x", "y"));
+        try {
+            java.util.List<?> pointList = (java.util.List<?>) map.get("points");
+            List<Point2D> points = new ArrayList<>();
+            for (Object o : pointList) {
+                JSONShapeMap m = new JSONShapeMap((Map<?, ?>) o);
+                points.add(m.readPoint("x", "y"));
+            }
+            return points;
+        } catch (ClassCastException classCastException) {
+            throw new JSONSchemaException("Value for 'points' is expected to be a list of objects.");
         }
-        return points;
     }
 
     Point2D getPoint() throws JSONSchemaException {
@@ -49,24 +57,40 @@ record JSONShapeMap(Map<?, ?> map) {
         return readPoint(xKey, yKey);
     }
 
-    double getRadius() {
-        return (double) map.get("radius");
+    double getRadius() throws JSONSchemaException {
+        return getDouble("radius");
     }
 
-    double getSize() {
-        return (double) map.get("size");
+    double getSize() throws JSONSchemaException {
+        return getDouble("size");
     }
 
-    String getText() {
-        return (String) map.get("text");
+    String getText() throws JSONSchemaException {
+        return getString("text");
     }
 
-    String getFont() {
-        return (String) map.get("font");
+    String getFont() throws JSONSchemaException {
+        return getString("font");
     }
 
-    int getStyles() {
-        String stylesString = (String) map.get("styles");
+    String getString(String key) throws JSONSchemaException {
+        try {
+            return (String) map.get(key);
+        } catch (ClassCastException classCastException) {
+            throw new JSONSchemaException(String.format("Value for '%s' is expected to be a string.", key));
+        }
+    }
+
+    double getDouble(String key) throws JSONSchemaException {
+        try {
+            return (double) map.get(key);
+        } catch (ClassCastException classCastException) {
+            throw new JSONSchemaException(String.format("Value for '%s' is expected to be a double.", key));
+        }
+    }
+
+    int getStyles() throws JSONSchemaException {
+        String stylesString = getString("styles");
         int styles = 0;
         if (stylesString != null) {
             String[] array = stylesString.split(",");
@@ -97,7 +121,7 @@ record JSONShapeMap(Map<?, ?> map) {
         if (!map.containsKey(xKey) || !map.containsKey(yKey)) {
             throw new JSONSchemaException(String.format("Point specified incorrectly (expecting: %s = <double>, %s = <double>).", xKey, yKey));
         }
-        return new Point2D.Double((double) map.get(xKey), (double) map.get(yKey));
+        return new Point2D.Double(getDouble(xKey), getDouble(yKey));
     }
 
     private static Optional<Color> parseColorWithAlpha(String hexString) {
@@ -123,6 +147,6 @@ record JSONShapeMap(Map<?, ?> map) {
                 // no-op, will throw exception below.
             }
         }
-        throw new JSONSchemaException("Invalid color format, expecting \"#FFFFFF\" format.");
+        throw new JSONSchemaException("Invalid color format, expecting string value in \"#FFFFFF\" format.");
     }
 }

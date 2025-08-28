@@ -46,7 +46,7 @@ import static org.clock.StyleUtils.createImage;
 class ClockMouseListener extends MouseAdapter {
 
     private final Window windowContainingClock;
-    private final ClockPanel clock;
+    private final ClockComponent clock;
 
     // "initial" fields are set at the start of moving or resizing the clock.
     private Rectangle initialWindowBounds = null;
@@ -62,7 +62,7 @@ class ClockMouseListener extends MouseAdapter {
     private final JFileChooser openJsonFileDialog = new JFileChooser();
     private final JFileChooser savePngDialog = new JFileChooser();
 
-    ClockMouseListener(Window windowContainingClock, ClockPanel clock) {
+    ClockMouseListener(Window windowContainingClock, ClockComponent clock) {
         this.windowContainingClock = windowContainingClock;
         this.clock = clock;
         ClockPreviewAccessory preview = new ClockPreviewAccessory(Calendar::getInstance);
@@ -82,9 +82,9 @@ class ClockMouseListener extends MouseAdapter {
     private JPopupMenu createPopup() {
         JPopupMenu popupMenu = new JPopupMenu();
         ButtonGroup buttonGroup = new ButtonGroup();
-        ClockPanel.GroupAndStyle currentStyleName = clock.getCurrentGroupAndStyle();
+        ClockComponent.GroupAndStyle currentStyleName = clock.getCurrentGroupAndStyle();
         HashMap<String, JMenu> submenus = new HashMap<>();
-        for (ClockPanel.GroupAndStyle groupAndStyle : clock.getGroupsAndStyles()) {
+        for (ClockComponent.GroupAndStyle groupAndStyle : clock.getGroupsAndStyles()) {
             JRadioButton radioButton = new JRadioButton(groupAndStyle.style().getName());
             if (currentStyleName.isSame(groupAndStyle)) {
                 radioButton.setSelected(true);
@@ -194,7 +194,7 @@ class ClockMouseListener extends MouseAdapter {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files (*.png)", "png");
         savePngDialog.addChoosableFileFilter(filter);
         savePngDialog.setDialogType(JFileChooser.SAVE_DIALOG);
-        savePngDialog.setSelectedFile(new File(clock.getCurrentGroupAndStyle().style().getName() + ".png"));
+        savePngDialog.setSelectedFile(new File(String.format("%s %dx%d.png", clock.getCurrentGroupAndStyle().style().getName(), clock.getWidth(), clock.getHeight())));
         if (savePngDialog.showSaveDialog(windowContainingClock) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = savePngDialog.getSelectedFile();
             if (selectedFile != null) {
@@ -209,7 +209,7 @@ class ClockMouseListener extends MouseAdapter {
     }
 
     private Optional<JMenuItem> jsonSourceViewerMenuItem() {
-        ClockPanel.GroupAndStyle groupAndStyle = clock.getCurrentGroupAndStyle();
+        ClockComponent.GroupAndStyle groupAndStyle = clock.getCurrentGroupAndStyle();
         if (groupAndStyle.style().getSourceCode() == null) {
             return Optional.empty();
         }
@@ -217,19 +217,25 @@ class ClockMouseListener extends MouseAdapter {
                 String.format(
                         "View JSON: '%s'",
                         groupAndStyle.style().getName()));
-        menuItem.addActionListener(ev -> {
-            try {
-                Style style = groupAndStyle.style();
-                showViewTextDialog(
-                        windowContainingClock,
-                        "JSON for " + style.getName(),
-                        createImage(style, 200),
-                        style.getSourceCode());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+        menuItem.addActionListener(ev -> showJsonDialog());
         return Optional.of(menuItem);
+    }
+
+    private void showJsonDialog() {
+        ClockComponent.GroupAndStyle groupAndStyle = clock.getCurrentGroupAndStyle();
+        if (groupAndStyle.style().getSourceCode() == null) {
+            return;
+        }
+        try {
+            Style style = groupAndStyle.style();
+            showViewTextDialog(
+                    windowContainingClock,
+                    "JSON for " + style.getName(),
+                    createImage(style, 128),
+                    style.getSourceCode());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void openJsonFileMenuItem(File file) {
@@ -241,7 +247,7 @@ class ClockMouseListener extends MouseAdapter {
             JOptionPane.showMessageDialog(
                     windowContainingClock,
                     ex.getMessage(),
-                    "Error Loading JSON Clock",
+                    String.format("Error Loading: %s", file.getName()),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -253,7 +259,7 @@ class ClockMouseListener extends MouseAdapter {
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(500, 200));
+            scrollPane.setPreferredSize(new Dimension(512, 256));
             // Create a custom button
             JButton copyButton = new JButton("Copy to Clipboard");
 
@@ -290,6 +296,13 @@ class ClockMouseListener extends MouseAdapter {
                     ex.getMessage(),
                     "Error Viewing JSON Source",
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            showJsonDialog();
         }
     }
 

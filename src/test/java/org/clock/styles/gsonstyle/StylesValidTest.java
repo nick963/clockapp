@@ -15,7 +15,7 @@
  */
 package org.clock.styles.gsonstyle;
 
-import org.clock.ClockPanel;
+import org.clock.ClockComponent;
 import org.clock.Style;
 import org.clock.styles.colorful.ColorfulStyle;
 import org.clock.styles.metro.MetroStyle;
@@ -31,12 +31,12 @@ public class StylesValidTest {
         new MetroStyle();
         new ColorfulStyle();
         StyleGroups groups = StyleGroups.loadFromResource("/json/styles");
-        ClockPanel clockPanel = new ClockPanel(groups, Calendar::getInstance);
+        ClockComponent clockPanel = new ClockComponent(groups, Calendar::getInstance);
         clockPanel.setSize(300, 300);
         BufferedImage image = new BufferedImage(300, 300, BufferedImage.TYPE_4BYTE_ABGR);
         for (StyleGroup group : groups.groups()) {
             for (Style style : group.getStyles()) {
-                clockPanel.setGroupAndStyle(new ClockPanel.GroupAndStyle(group, style));
+                clockPanel.setGroupAndStyle(new ClockComponent.GroupAndStyle(group, style));
                 long time = System.currentTimeMillis();
                 clockPanel.paint(image.getGraphics());
                 long time2 = System.currentTimeMillis();

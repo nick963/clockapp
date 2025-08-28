@@ -21,6 +21,8 @@ import org.clock.styles.gsonstyle.GsonStyle;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -28,14 +30,21 @@ import java.io.FileInputStream;
 import java.util.Calendar;
 import java.util.function.Supplier;
 
-public class ClockPreviewAccessory extends ClockPanel implements PropertyChangeListener {
+public class ClockPreviewAccessory extends ClockComponent implements PropertyChangeListener {
+    final int gap = 5;
+    final int thumbnailSize = 150;
 
     public ClockPreviewAccessory(Supplier< Calendar > calendarSupplier) {
         super(calendarSupplier);
-        final int gap = 10;
-        final int thumbnailSize = 150;
-        setPreferredSize(new Dimension(thumbnailSize + gap, thumbnailSize + gap));
         setBorder(new EmptyBorder(gap, gap, gap, gap));
+        setPreferredSize(new Dimension(thumbnailSize + gap, thumbnailSize + gap));
+        setVisible(false);
+    }
+
+    public void paint(Graphics graphics) {
+        Rectangle2D.Double rect = centerSquare();
+        graphics.setClip(new Ellipse2D.Double(rect.x,rect.y,rect.width, rect.height));
+        super.paint(graphics);
     }
 
     @Override
@@ -45,10 +54,12 @@ public class ClockPreviewAccessory extends ClockPanel implements PropertyChangeL
             if (newFile != null && newFile.isFile()) {
                 try {
                     setStyle(new GsonStyle(new Gson(), new FileInputStream(newFile)));
+                    setVisible(true);
                     return;
                 } catch (Exception ignored) {}
             }
             setStyle(null);
+            setVisible(false);
         }
     }
 }

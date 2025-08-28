@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 public class StyleUtils {
     static BufferedImage createImage(Style style, int dimension) {
-        ClockPanel clockPanel = new ClockPanel(new StyleGroups("", new ArrayList<>()), Calendar::getInstance);
+        ClockComponent clockPanel = new ClockComponent(new StyleGroups("", new ArrayList<>()), Calendar::getInstance);
         clockPanel.setSize(dimension,dimension);
         clockPanel.setStyle(style);
         BufferedImage image = new BufferedImage(dimension, dimension, BufferedImage.TYPE_4BYTE_ABGR);

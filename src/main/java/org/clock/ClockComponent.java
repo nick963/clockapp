@@ -16,7 +16,6 @@
 package org.clock;
 
 import org.clock.graphical.OffsetRadius;
-import org.clock.styles.gsonstyle.GsonStyle;
 import org.clock.styles.gsonstyle.StyleGroup;
 import org.clock.styles.gsonstyle.StyleGroups;
 
@@ -30,7 +29,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /** Displays a clock. */
-public class ClockPanel extends JPanel {
+public class ClockComponent extends JComponent {
     private static final boolean BUFFER_CLOCK_FACE = true;
 
     private final StyleGroups clockStyleGroups;
@@ -41,11 +40,11 @@ public class ClockPanel extends JPanel {
     private final Timer updateTimer;
     private boolean displaySize = false;
 
-    public ClockPanel(Supplier<Calendar> calendarSupplier) {
+    public ClockComponent(Supplier<Calendar> calendarSupplier) {
         this(new StyleGroups("", new ArrayList<>()), calendarSupplier);
     }
 
-    public ClockPanel(StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
+    public ClockComponent(StyleGroups clockStyleGroups, Supplier<Calendar> calendarSupplier) {
         updateTimer = new Timer(25, e -> {
             setCalendar(calendarSupplier.get());
             repaint();
@@ -72,7 +71,7 @@ public class ClockPanel extends JPanel {
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Rectangle2D.Double r = centerSquare();
-        OffsetRadius offsetRadius = new OffsetRadius(r.x + r.width/2, r.y + r.height/2, r.width/2);
+        OffsetRadius offsetRadius = new OffsetRadius(r.x + r.width/2, r.y + r.height/2, r.width /2);
         HoursMinutesSeconds hoursMinutesSeconds =
                 HoursMinutesSeconds.getHoursMinutesSeconds(calendar, currentGroupAndStyle.style.discreteTimeIntervals());
 
@@ -121,12 +120,13 @@ public class ClockPanel extends JPanel {
     }
 
     Rectangle2D.Double centerSquare() {
-        double w = getWidth();
-        double h = getHeight();
-        double centerX = w/2d;
-        double centerY = h/2d;
-        double radius = Math.min(w, h)/2d;
-        double diameter = radius * 2d;
+        Insets insets = getInsets();
+        double w = getWidth() - (insets.left + insets.right);
+        double h = getHeight() - (insets.top + insets.bottom);
+        double centerX = insets.left + w/2d;
+        double centerY = insets.top + h/2d;
+        double diameter = Math.min(w, h);
+        double radius = diameter/2d;
         return new Rectangle2D.Double(centerX - radius, centerY - radius, diameter, diameter);
     }
 
@@ -174,6 +174,7 @@ public class ClockPanel extends JPanel {
         if (groupAndStyle.style == null) {
             updateTimer.stop();
             setToolTipText("");
+            repaint();
             return;
         }
         StringBuilder builder = new StringBuilder("<html><b>").append(groupAndStyle.style.getName()).append("</b>");
