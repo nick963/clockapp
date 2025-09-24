@@ -26,13 +26,13 @@ public class CompositeGraphicalElement implements GraphicalElement {
     public static CompositeGraphicalElement ticks(GraphicalElement base, int ticks) {
         java.util.List<GraphicalElement> elements = new ArrayList<>();
         for (double i = 0; i < ticks; i++) {
-            double theta = toRadians(0.5d + i/ticks);
+            double theta = toRadians(i/ticks);
             elements.add(base.rotate(theta));
         }
         return new CompositeGraphicalElement(elements);
     }
 
-    private CompositeGraphicalElement(java.util.List<GraphicalElement> elements) {
+    public CompositeGraphicalElement(java.util.List<GraphicalElement> elements) {
         this.elements = elements;
     }
     @Override

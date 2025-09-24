@@ -6,29 +6,29 @@
       "color": "#c1c6c8",
       "x": 0.0,
       "y": 0.0,
-      "radius": 1.0
+      "circle_radius": 1.0
     },
-    { "shape": "text", "font": "Courier", "size": 0.05, "x":  0.5, "y":  0.5, "text": "(0.5,0.5)" },
-    { "shape": "text", "font": "Courier", "size": 0.05, "x":  0.5, "y": -0.5, "text": "(0.5,-0.5)" },
-    { "shape": "text", "font": "Courier", "size": 0.05, "x": -0.5, "y": -0.5, "text": "(-0.5,-0.5)" },
-    { "shape": "text", "font": "Courier", "size": 0.05, "x": -0.5, "y":  0.5, "text": "(-0.5,0.5)" },
-    { "shape": "text", "x": 0.0, "y": -0.2, "font": "Courier", "size": 0.05, "text": "plain" },
-    { "shape": "text", "x": 0.0, "y": -0.1, "font": "Courier", "size": 0.05, "text": "bold", "styles": "bold" },
-    { "shape": "text", "x": 0.0, "y":  0.1, "font": "Courier", "size": 0.05, "text": "italic", "styles": "italic" },
-    { "shape": "text", "x": 0.0, "y":  0.2, "font": "Courier", "size": 0.05, "text": "bold italic", "styles": "bold,italic" }
+    { "shape": "text", "text_font": "Courier", "text_size": 0.05, "x":  0.5, "y":  0.5, "text": "(0.5,0.5)" },
+    { "shape": "text", "text_font": "Courier", "text_size": 0.05, "x":  0.5, "y": -0.5, "text": "(0.5,-0.5)" },
+    { "shape": "text", "text_font": "Courier", "text_size": 0.05, "x": -0.5, "y": -0.5, "text": "(-0.5,-0.5)" },
+    { "shape": "text", "text_font": "Courier", "text_size": 0.05, "x": -0.5, "y":  0.5, "text": "(-0.5,0.5)" },
+    { "shape": "text", "x": 0.0, "y": -0.2, "text_font": "Courier", "text_size": 0.05, "text": "plain" },
+    { "shape": "text", "x": 0.0, "y": -0.1, "text_font": "Courier", "text_size": 0.05, "text": "bold", "text_styles": "bold" },
+    { "shape": "text", "x": 0.0, "y":  0.1, "text_font": "Courier", "text_size": 0.05, "text": "italic", "text_styles": "italic" },
+    { "shape": "text", "x": 0.0, "y":  0.2, "text_font": "Courier", "text_size": 0.05, "text": "bold italic", "text_styles": "bold,italic" }
   ],
   "second_hand": [
     {
       "shape": "rectangle",
       "color": "#44FF0000",
-      "fx": -0.01,
-      "fy": -0.99,
-      "tx": 0.01,
-      "ty": 0
+      "rectangle_fx": -0.01,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.01,
+      "rectangle_ty": 0
     },
     {
       "shape": "circle",
-      "radius": 0.02, "color": "#000000",
+      "circle_radius": 0.02, "color": "#000000",
       "x": 0,
       "y": 0
     }
@@ -37,20 +37,20 @@
     {
       "shape": "rectangle",
       "color": "#44a7a7a7",
-      "fx": -0.016,
-      "fy": -0.99,
-      "tx": 0.016,
-      "ty": 0
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0
     }
   ],
   "hour_hand": [
     {
       "shape": "rectangle",
       "color": "#44a7a7a7",
-      "fx": -0.016,
-      "fy": -0.69,
-      "tx": 0.016,
-      "ty": 0
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.69,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0
     }
   ]
 }

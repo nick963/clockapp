@@ -2,80 +2,80 @@
   "name": "JSON Coordinates",
   "description": "Clock face illustrates the JSON coordinate system.",
   "clock_face": [
-    { "shape": "rectangle", "fx": -1.0, "tx": 1.0, "fy": -1.0, "ty": 1.0, "color": "#FFFFFF" },
-    {"shape":  "rectangle", "fx":  0.005, "fy": -1, "tx": -0.005, "ty":  -0.9, "ticks":  12 },
-    {"shape":  "rectangle", "fx":  0.01, "fy": -1, "tx": -0.01, "ty":  -0.89, "color":"#FFFFFF","ticks":  4 },
+    {"shape": "rectangle", "rectangle_fx": -1.0, "rectangle_tx": 1.0, "rectangle_fy": -1.0, "rectangle_ty": 1.0, "color": "#FFFFFF" },
+    {"shape":  "rectangle", "rectangle_fx":  0.005, "rectangle_fy": -1, "rectangle_tx": -0.005, "rectangle_ty":  -0.9, "ticks":  12 },
+    {"shape":  "rectangle", "rectangle_fx":  0.01, "rectangle_fy": -1, "rectangle_tx": -0.01, "rectangle_ty":  -0.89, "color":"#FFFFFF","ticks":  4 },
 
-    { "shape": "rectangle", "fx": 1.0, "tx": -1.0, "fy": 0.002, "ty": -0.002 },
-    { "shape": "rectangle", "fy": 1.0, "ty": -1.0, "fx": 0.002, "tx": -0.002 },
+    { "shape": "rectangle", "rectangle_fx": 1.0, "rectangle_tx": -1.0, "rectangle_fy": 0.002, "rectangle_ty": -0.002 },
+    { "shape": "rectangle", "rectangle_fy": 1.0, "rectangle_ty": -1.0, "rectangle_fx": 0.002, "rectangle_tx": -0.002 },
 
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": -0.802, "ty": -0.798 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": -0.602, "ty": -0.598 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": -0.402, "ty": -0.398 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": -0.202, "ty": -0.198 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": 0.202, "ty": 0.198 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": 0.402, "ty": 0.398 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": 0.602, "ty": 0.598 },
-    { "shape": "rectangle", "fx": 0.05, "tx": -0.05, "fy": 0.802, "ty": 0.798 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": -0.802, "rectangle_ty": -0.798 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": -0.602, "rectangle_ty": -0.598 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": -0.402, "rectangle_ty": -0.398 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": -0.202, "rectangle_ty": -0.198 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": 0.202, "rectangle_ty": 0.198 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": 0.402, "rectangle_ty": 0.398 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": 0.602, "rectangle_ty": 0.598 },
+    { "shape": "rectangle", "rectangle_fx": 0.05, "rectangle_tx": -0.05, "rectangle_fy": 0.802, "rectangle_ty": 0.798 },
 
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": -0.802, "tx": -0.798 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": -0.602, "tx": -0.598 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": -0.402, "tx": -0.398 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": -0.202, "tx": -0.198 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": 0.202, "tx": 0.198 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": 0.402, "tx": 0.398 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": 0.602, "tx": 0.598 },
-    { "shape": "rectangle", "fy": 0.05, "ty": -0.05, "fx": 0.802, "tx": 0.798 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": -0.802, "rectangle_tx": -0.798 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": -0.602, "rectangle_tx": -0.598 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": -0.402, "rectangle_tx": -0.398 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": -0.202, "rectangle_tx": -0.198 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": 0.202, "rectangle_tx": 0.198 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": 0.402, "rectangle_tx": 0.398 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": 0.602, "rectangle_tx": 0.598 },
+    { "shape": "rectangle", "rectangle_fy": 0.05, "rectangle_ty": -0.05, "rectangle_fx": 0.802, "rectangle_tx": 0.798 },
 
-    { "shape": "text", "x": 0.2,  "y": 0.11,  "text": "0.2", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": 0.4,  "y": 0.11,  "text": "0.4", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": 0.6,  "y": 0.11,  "text": "0.6", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": 0.8,  "y": 0.11,  "text": "0.8", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": -0.2,  "y": 0.11,  "text": "-0.2", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": -0.4,  "y": 0.11,  "text": "-0.4", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": -0.6,  "y": 0.11,  "text": "-0.6", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "x": -0.8,  "y": 0.11,  "text": "-0.8", "font": "SansSerif", "size": 0.06 },
+    { "shape": "text", "x": 0.2,  "y": 0.11,  "text": "0.2", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": 0.4,  "y": 0.11,  "text": "0.4", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": 0.6,  "y": 0.11,  "text": "0.6", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": 0.8,  "y": 0.11,  "text": "0.8", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": -0.2,  "y": 0.11,  "text": "-0.2", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": -0.4,  "y": 0.11,  "text": "-0.4", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": -0.6,  "y": 0.11,  "text": "-0.6", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "x": -0.8,  "y": 0.11,  "text": "-0.8", "text_font": "SansSerif", "text_size": 0.06 },
 
-    { "shape": "text", "y": 0.2,  "x": 0.12,  "text": "0.2", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": 0.4,  "x": 0.12,  "text": "0.4", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": 0.6,  "x": 0.12,  "text": "0.6", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": 0.8,  "x": 0.12,  "text": "0.8", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": -0.2,  "x": 0.12,  "text": "-0.2", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": -0.4,  "x": 0.12,  "text": "-0.4", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": -0.6,  "x": 0.12,  "text": "-0.6", "font": "SansSerif", "size": 0.06 },
-    { "shape": "text", "y": -0.8,  "x": 0.12,  "text": "-0.8", "font": "SansSerif", "size": 0.06 },
+    { "shape": "text", "y": 0.2,  "x": 0.12,  "text": "0.2", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": 0.4,  "x": 0.12,  "text": "0.4", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": 0.6,  "x": 0.12,  "text": "0.6", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": 0.8,  "x": 0.12,  "text": "0.8", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": -0.2,  "x": 0.12,  "text": "-0.2", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": -0.4,  "x": 0.12,  "text": "-0.4", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": -0.6,  "x": 0.12,  "text": "-0.6", "text_font": "SansSerif", "text_size": 0.06 },
+    { "shape": "text", "y": -0.8,  "x": 0.12,  "text": "-0.8", "text_font": "SansSerif", "text_size": 0.06 },
 
-    { "shape": "text", "y": -0.15,  "x": -0.8,  "text": "X axis", "font": "SansSerif", "size": 0.08 },
-    { "shape": "text", "y": -0.88,  "x": -0.2,  "text": "Y axis", "font": "SansSerif", "size": 0.08 }
+    { "shape": "text", "y": -0.15,  "x": -0.8,  "text": "X axis", "text_font": "SansSerif", "text_size": 0.08 },
+    { "shape": "text", "y": -0.88,  "x": -0.2,  "text": "Y axis", "text_font": "SansSerif", "text_size": 0.08 }
   ],
   "second_hand": [
     {
       "shape": "rectangle",
       "color": "#32FF0000",
-      "fx": -0.01,
-      "fy": -0.99,
-      "tx": 0.01,
-      "ty": 0.1
+      "rectangle_fx": -0.01,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.01,
+      "rectangle_ty": 0.1
     }
   ],
   "minute_hand": [
     {
       "shape": "rectangle",
       "color": "#32000000",
-      "fx": -0.016,
-      "fy": -0.99,
-      "tx": 0.016,
-      "ty": 0.1
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0.1
     }
   ],
   "hour_hand": [
     {
       "shape": "rectangle",
       "color": "#32000000",
-      "fx": -0.016,
-      "fy": -0.69,
-      "tx": 0.016,
-      "ty": 0.1
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.69,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0.1
     }
   ]
 }

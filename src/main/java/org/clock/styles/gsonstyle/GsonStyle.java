@@ -105,7 +105,7 @@ public class GsonStyle implements Style {
                         GraphicalElement element = switch (shape) {
                             case "polygon" -> new FilledPoly(map.getColor(), map.getPoints().toArray(new Point2D[0]));
                             case "rectangle" ->
-                                    FilledPoly.rectangle(map.getColor(), map.getPoint("fx", "fy"), map.getPoint("tx", "ty"));
+                                    FilledPoly.rectangle(map.getColor(), map.getPoint("rectangle_fx", "rectangle_fy"), map.getPoint("rectangle_tx", "rectangle_ty"));
                             case "circle" ->
                                     new CircleGraphicalElement(map.getColor(), map.getPoint(), map.getRadius());
                             case "text" ->

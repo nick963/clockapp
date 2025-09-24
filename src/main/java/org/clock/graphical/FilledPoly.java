@@ -33,6 +33,10 @@ public class FilledPoly implements GraphicalElement {
         this.points = Arrays.copyOf(points, points.length);
     }
 
+    public java.util.List<Point2D> getPoints() {
+        return Arrays.asList(points);
+    }
+
     public void draw(Graphics2D graphics2D) {
         Path2D path2D = new Path2D.Double();
         path2D.moveTo(points[0].getX(), points[0].getY());

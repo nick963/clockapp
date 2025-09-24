@@ -1,11 +1,11 @@
 {
   "name": "Retro Off White",
   "clock_face": [
-    { "shape": "circle", "x": 0, "y": 0, "radius": 1 },
-    { "shape": "circle", "x": 0, "y": 0, "radius": 0.985, "color": "#F8F0E3" },
+    { "shape": "circle", "x": 0, "y": 0, "circle_radius": 1 },
+    { "shape": "circle", "x": 0, "y": 0, "circle_radius": 0.985, "color": "#F8F0E3" },
 
     { "shape": "polygon",
-      "points": [
+      "polygon_points": [
         { "x": -0.028, "y": -0.95 },
         { "x": 0.028, "y": -0.95 },
         { "x": 0.01, "y": -0.7 },
@@ -14,7 +14,7 @@
       "ticks": 12
     },
     { "shape": "polygon",
-      "points": [
+      "polygon_points": [
         { "x": -0.04, "y": -0.951 },
         { "x": 0.04, "y": -0.951 },
         { "x": 0.011, "y": -0.59 },
@@ -24,16 +24,16 @@
       "color": "#F8F0E3"
     },
 
-    { "shape": "text", "x": 0.000, "y": -0.78, "text": "12", "font": "Gill Sans", "size": 0.45, "styles": "bold" },
-    { "shape": "text", "x": 0.828, "y": 0.0, "text": "3", "font": "Gill Sans", "size": 0.45, "styles": "bold" },
-    { "shape": "text", "x": 0.000, "y": 0.78, "text": "6", "font": "Gill Sans", "size": 0.45, "styles": "bold" },
-    { "shape": "text", "x": -0.828, "y": 0.0, "text": "9", "font": "Gill Sans", "size": 0.45, "styles": "bold" }
+    { "shape": "text", "x": 0.000, "y": -0.78, "text": "12", "text_font": "Gill Sans", "text_size": 0.45, "text_styles": "bold" },
+    { "shape": "text", "x": 0.828, "y": 0.0, "text": "3", "text_font": "Gill Sans", "text_size": 0.45, "text_styles": "bold" },
+    { "shape": "text", "x": 0.000, "y": 0.78, "text": "6", "text_font": "Gill Sans", "text_size": 0.45, "text_styles": "bold" },
+    { "shape": "text", "x": -0.828, "y": 0.0, "text": "9", "text_font": "Gill Sans", "text_size": 0.45, "text_styles": "bold" }
 
   ],
 
   "minute_hand": [
     { "shape": "polygon",
-      "points": [
+      "polygon_points": [
         { "x": 0.065, "y": 0.3 },
         { "x":  0.00, "y": 0.33 },
         { "x":  -0.065, "y": 0.3 },
@@ -47,7 +47,7 @@
 
   "hour_hand": [
     { "shape": "polygon",
-      "points": [
+      "polygon_points": [
         { "x": 0.065, "y": 0.3 },
         { "x":  0.00, "y": 0.33 },
         { "x":  -0.065, "y": 0.3 },
@@ -57,6 +57,6 @@
       ],
       "color": "#333333"
     },
-    { "shape": "circle", "x": 0, "y": 0, "radius": 0.02 }
+    { "shape": "circle", "x": 0, "y": 0, "circle_radius": 0.02 }
   ]
 }

@@ -37,15 +37,15 @@ record JSONShapeMap(Map<?, ?> map) {
 
     java.util.List<Point2D> getPoints() throws JSONSchemaException {
         try {
-            java.util.List<?> pointList = (java.util.List<?>) map.get("points");
+            java.util.List<?> pointList = (java.util.List<?>) map.get("polygon_points");
             List<Point2D> points = new ArrayList<>();
             for (Object o : pointList) {
                 JSONShapeMap m = new JSONShapeMap((Map<?, ?>) o);
                 points.add(m.readPoint("x", "y"));
             }
             return points;
-        } catch (ClassCastException classCastException) {
-            throw new JSONSchemaException("Value for 'points' is expected to be a list of objects.");
+        } catch (ClassCastException|NullPointerException classCastException) {
+            throw new JSONSchemaException("Value for 'polygon_points' is expected to be a list of objects.");
         }
     }
 
@@ -58,11 +58,16 @@ record JSONShapeMap(Map<?, ?> map) {
     }
 
     double getRadius() throws JSONSchemaException {
-        return getDouble("radius");
+        try {
+            return getDouble("circle_radius");
+        } catch (JSONSchemaException ex) {
+            ex.setProperty("circleRadius");
+            throw ex;
+        }
     }
 
     double getSize() throws JSONSchemaException {
-        return getDouble("size");
+        return getDouble("text_size");
     }
 
     String getText() throws JSONSchemaException {
@@ -70,7 +75,7 @@ record JSONShapeMap(Map<?, ?> map) {
     }
 
     String getFont() throws JSONSchemaException {
-        return getString("font");
+        return getString("text_font");
     }
 
     String getString(String key) throws JSONSchemaException {
@@ -84,13 +89,13 @@ record JSONShapeMap(Map<?, ?> map) {
     double getDouble(String key) throws JSONSchemaException {
         try {
             return (double) map.get(key);
-        } catch (ClassCastException classCastException) {
+        } catch (ClassCastException|NullPointerException classCastException) {
             throw new JSONSchemaException(String.format("Value for '%s' is expected to be a double.", key));
         }
     }
 
     int getStyles() throws JSONSchemaException {
-        String stylesString = getString("styles");
+        String stylesString = getString("test_styles");
         int styles = 0;
         if (stylesString != null) {
             String[] array = stylesString.split(",");
@@ -109,10 +114,10 @@ record JSONShapeMap(Map<?, ?> map) {
     Optional<Integer> getTicks() throws JSONSchemaException {
         Object object = map.get("ticks");
         if (object != null) {
-            if (object instanceof Double d && d == (int) (double) d && d >= 2d && d < 61d) {
+            if (object instanceof Double d && d == (int) (double) d && d >= 1d && d < 61d) {
                 return Optional.of((int) (double) d);
             }
-            throw new JSONSchemaException("Key value \"ticks\" must be a whole number between 2 and 60.");
+            throw new JSONSchemaException("Key value \"ticks\" must be a whole number between 1 and 60.");
         }
         return Optional.empty();
     }

@@ -6,46 +6,46 @@
       "color": "#f6ae2d",
       "x": 0.0,
       "y": 0.00,
-      "radius": 1.0
+      "circle_radius": 1.0
     },
     {
       "shape": "rectangle",
       "color": "#2F4858",
-      "fx": -0.005,
-      "fy": 0.99,
-      "tx": 0.005,
-      "ty": 0.72
+      "rectangle_fx": -0.005,
+      "rectangle_fy": 0.99,
+      "rectangle_tx": 0.005,
+      "rectangle_ty": 0.72
     },
     {
       "shape": "rectangle",
       "color": "#2F4858",
-      "fx": -0.005,
-      "fy": -0.99,
-      "tx": 0.005,
-      "ty": -0.72
+      "rectangle_fx": -0.005,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.005,
+      "rectangle_ty": -0.72
     },
     {
       "shape": "rectangle",
       "color": "#2F4858",
-      "fx": -0.99,
-      "fy": -0.005,
-      "tx": -0.72,
-      "ty": 0.005
+      "rectangle_fx": -0.99,
+      "rectangle_fy": -0.005,
+      "rectangle_tx": -0.72,
+      "rectangle_ty": 0.005
     },
     {
       "shape": "rectangle",
       "color": "#2F4858",
-      "fx": 0.99,
-      "fy": -0.005,
-      "tx": 0.72,
-      "ty": 0.005
+      "rectangle_fx": 0.99,
+      "rectangle_fy": -0.005,
+      "rectangle_tx": 0.72,
+      "rectangle_ty": 0.005
     }
   ],
   "second_hand": [
     {
       "shape": "polygon",
       "color": "#5533658A",
-      "points": [
+      "polygon_points": [
         {
           "x": 0.0,
           "y": 1.0
@@ -73,20 +73,20 @@
     {
       "shape": "rectangle",
       "color": "#86BBD8",
-      "fx": -0.016,
-      "fy": -0.99,
-      "tx": 0.016,
-      "ty": 0.1
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.99,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0.1
     }
   ],
   "hour_hand": [
     {
       "shape": "rectangle",
       "color": "#86BBD8",
-      "fx": -0.016,
-      "fy": -0.69,
-      "tx": 0.016,
-      "ty": 0.1
+      "rectangle_fx": -0.016,
+      "rectangle_fy": -0.69,
+      "rectangle_tx": 0.016,
+      "rectangle_ty": 0.1
     }
   ]
 }

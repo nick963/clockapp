@@ -18,6 +18,7 @@ package org.clock.styles.gsonstyle;
 public class JSONSchemaException extends Exception {
     private String resource;
     private String shape;
+    private String property;
 
     public JSONSchemaException(String message) {
         super(message);
@@ -41,7 +42,14 @@ public class JSONSchemaException extends Exception {
         if (shape != null) {
             builder.append("Shape: \"").append(shape).append("\"\n");
         }
+        if (property != null) {
+            builder.append("Property: \"").append(property).append("\"\n");
+        }
         builder.append(super.getMessage());
         return builder.toString();
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
     }
 }
