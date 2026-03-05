@@ -36,5 +36,6 @@ build/
 .DS_Store
 
 src/main/java/ListFonts.java
+src/main/java/org/clock/scratch
 /Clock App.app/
 scratch/*

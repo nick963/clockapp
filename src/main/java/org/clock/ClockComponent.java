@@ -30,6 +30,8 @@ import java.util.function.Supplier;
 
 /** Displays a clock. */
 public class ClockComponent extends JComponent {
+    public static final Color CLEAR_COLOR = new Color(0, 0, 0, 0);
+
     private static final boolean BUFFER_CLOCK_FACE = true;
 
     private final StyleGroups clockStyleGroups;
@@ -59,6 +61,8 @@ public class ClockComponent extends JComponent {
             StyleGroup firstGroup = groups.get(0);
             setGroupAndStyle(new GroupAndStyle(firstGroup, firstGroup.getStyles().get(0)));
         }
+        setOpaque(false);
+        setBackground(Color.BLUE);
     }
 
     @Override
@@ -81,10 +85,19 @@ public class ClockComponent extends JComponent {
                 graphics2D.drawImage(lastBufferedImage, 0, 0, null);
             } else {
                 BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+                Graphics2D a = (Graphics2D) bufferedImage.getGraphics();
+                a.setComposite(AlphaComposite.Clear);
+                a.setColor(CLEAR_COLOR);
+                a.fillRect(0,0,getWidth(), getHeight());
+                a.dispose();
                 Graphics2D bufferedImageGraphics = (Graphics2D) bufferedImage.getGraphics();
+                //bufferedImageGraphics.setBackground(new Color(0,0,0,0));
                 bufferedImageGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 bufferedImageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                //bufferedImageGraphics.clearRect(0,0, getWidth(), getHeight());
+
                 style.paintClockFace(bufferedImageGraphics, offsetRadius, hoursMinutesSeconds);
+                graphics2D.setComposite(AlphaComposite.Clear);
                 graphics2D.drawImage(bufferedImage, 0, 0, null);
                 lastBufferedImage = bufferedImage;
                 lastOffsetRadius = offsetRadius;

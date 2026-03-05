@@ -20,13 +20,23 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Optional;
 
-public record TextGraphicalElement(Color color, String text, Point2D center, String fontName, double size, int styles) implements GraphicalElement {
+import static org.clock.ClockUtils.toRadians;
+
+public record TextGraphicalElement(
+        Color color,
+        String text,
+        Point2D center,
+        String fontName,
+        double size,
+        int styles,
+        Optional<Double> rotation) implements GraphicalElement {
 
     private static final boolean SHOW_TEXT_DIMENSIONS = false;
     @Override
     public GraphicalElement rotate(double theta) {
-        return new TextGraphicalElement(color, text, FilledPoly.rotatePoint(theta, center), fontName, size, styles);
+        return new TextGraphicalElement(color, text, FilledPoly.rotatePoint(theta, center), fontName, size, styles, rotation);
     }
 
     @Override
@@ -37,7 +47,8 @@ public record TextGraphicalElement(Color color, String text, Point2D center, Str
                 offsetRadius.adjust(center),
                 fontName,
                 offsetRadius.adjustDimension(size),
-                styles);
+                styles,
+                rotation);
     }
 
     @Override
@@ -53,8 +64,23 @@ public record TextGraphicalElement(Color color, String text, Point2D center, Str
         Shape textShape = textLayout.getOutline(transform);
 
         // fill text
-        graphics2D.setPaint(color);
-        graphics2D.fill(textShape);
+        if (rotation.isPresent()) {
+            AffineTransform originalTransform = graphics2D.getTransform();
+            double centerX = textShape.getBounds2D().getCenterX();
+            double centerY = textShape.getBounds2D().getCenterY();
+
+            // Apply transformations: translate to origin, rotate, translate back
+            graphics2D.translate(centerX, centerY); // Move origin to shape's center
+            double angle = toRadians(rotation.get());
+            graphics2D.rotate(angle);              // Rotate around the new origin
+            graphics2D.translate(-centerX, -centerY);
+            graphics2D.setPaint(color);
+            graphics2D.fill(textShape);
+            graphics2D.setTransform(originalTransform);
+        } else {
+            graphics2D.setPaint(color);
+            graphics2D.fill(textShape);
+        }
         if (SHOW_TEXT_DIMENSIONS) {
             Rectangle2D newBounds = new Rectangle2D.Double(
                     center.getX() - bounds.getWidth() / 2d,

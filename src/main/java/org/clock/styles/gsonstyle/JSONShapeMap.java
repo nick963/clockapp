@@ -17,10 +17,8 @@ package org.clock.styles.gsonstyle;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 record JSONShapeMap(Map<?, ?> map) {
     String getShape() throws JSONSchemaException {
@@ -35,6 +33,17 @@ record JSONShapeMap(Map<?, ?> map) {
         return readColor(map.get("color"));
     }
 
+    boolean getBoolean(String key) throws JSONSchemaException {
+        if (!map.containsKey(key)) {
+            return false;
+        }
+        try {
+            return (Boolean) map.get(key);
+        } catch (ClassCastException|NullPointerException classCastException) {
+            throw new JSONSchemaException("Value for '"+key+"' is expected to be a boolean.");
+        }
+    }
+
     java.util.List<Point2D> getPoints() throws JSONSchemaException {
         try {
             java.util.List<?> pointList = (java.util.List<?>) map.get("polygon_points");
@@ -46,6 +55,15 @@ record JSONShapeMap(Map<?, ?> map) {
             return points;
         } catch (ClassCastException|NullPointerException classCastException) {
             throw new JSONSchemaException("Value for 'polygon_points' is expected to be a list of objects.");
+        }
+    }
+
+    List<String> getStringArray(String key) throws JSONSchemaException {
+        try {
+            List<?> list = (List<?>) map.get(key);
+            return list.stream().map(v -> (String) v).toList();
+        } catch (ClassCastException|NullPointerException classCastException) {
+            throw new JSONSchemaException("Value for '"+key+"' is expected to be a list of strings.");
         }
     }
 
@@ -94,6 +112,14 @@ record JSONShapeMap(Map<?, ?> map) {
         }
     }
 
+    double getDouble(String key, double defaultValue) throws JSONSchemaException {
+        try {
+            return map.containsKey(key) ? (double) map.get(key) : defaultValue;
+        } catch (ClassCastException|NullPointerException classCastException) {
+            throw new JSONSchemaException(String.format("Value for '%s' is expected to be a double.", key));
+        }
+    }
+
     int getStyles() throws JSONSchemaException {
         String stylesString = getString("test_styles");
         int styles = 0;
@@ -111,6 +137,13 @@ record JSONShapeMap(Map<?, ?> map) {
         return styles;
     }
 
+    Optional<Double> getTextRotation() throws JSONSchemaException {
+        if (map.containsKey("text_rotation")) {
+            return Optional.of(getDouble("text_rotation"));
+        }
+        return Optional.empty();
+    }
+
     Optional<Integer> getTicks() throws JSONSchemaException {
         Object object = map.get("ticks");
         if (object != null) {
@@ -123,10 +156,7 @@ record JSONShapeMap(Map<?, ?> map) {
     }
 
     private Point2D readPoint(String xKey, String yKey) throws JSONSchemaException {
-        if (!map.containsKey(xKey) || !map.containsKey(yKey)) {
-            throw new JSONSchemaException(String.format("Point specified incorrectly (expecting: %s = <double>, %s = <double>).", xKey, yKey));
-        }
-        return new Point2D.Double(getDouble(xKey), getDouble(yKey));
+        return new Point2D.Double(getDouble(xKey, 0d), getDouble(yKey, 0d));
     }
 
     private static Optional<Color> parseColorWithAlpha(String hexString) {

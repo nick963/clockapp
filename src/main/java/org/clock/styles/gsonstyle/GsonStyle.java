@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.clock.ClockUtils.paintOnClock;
+import static org.clock.ClockUtils.toRadians;
 
 public class GsonStyle implements Style {
 
@@ -102,6 +103,7 @@ public class GsonStyle implements Style {
                         throw new JSONSchemaException(String.format("'%s' element is missing a value for 'shape'.", key));
                     }
                     try {
+                        Optional<Integer> ticks = map.getTicks();
                         GraphicalElement element = switch (shape) {
                             case "polygon" -> new FilledPoly(map.getColor(), map.getPoints().toArray(new Point2D[0]));
                             case "rectangle" ->
@@ -109,10 +111,10 @@ public class GsonStyle implements Style {
                             case "circle" ->
                                     new CircleGraphicalElement(map.getColor(), map.getPoint(), map.getRadius());
                             case "text" ->
-                                    new TextGraphicalElement(map.getColor(), map.getText(), map.getPoint(), map.getFont(), map.getSize(), map.getStyles());
+                                    new TextGraphicalElement(map.getColor(), map.getText(), map.getPoint(), map.getFont(), map.getSize(), map.getStyles(), map.getTextRotation());
+                            case "text_ticks" -> textTicks(map);
                             default -> throw new JSONSchemaException(String.format("Unknown value for shape '%s'", shape));
                         };
-                        Optional<Integer> ticks = map.getTicks();
                         graphicalElements.add(ticks.map(t -> (GraphicalElement) CompositeGraphicalElement.ticks(element, t)).orElse(element));
                     } catch (JSONSchemaException ex) {
                         throw ex.setShape(shape);
@@ -120,6 +122,29 @@ public class GsonStyle implements Style {
                 }
         }
         return graphicalElements;
+    }
+
+    static CompositeGraphicalElement textTicks(JSONShapeMap map) throws JSONSchemaException{
+        ArrayList<GraphicalElement> elements = new ArrayList<>();
+        Color color = map.getColor();
+        Point2D point = map.getPoint();
+        String font = map.getFont();
+        double size = map.getSize();
+        int styles = map.getStyles();
+        Optional<Double> textRotation = map.getTextRotation();
+        List<String> ticksElements = map.getStringArray("text_ticks_elements");
+        boolean rotateText = map.getBoolean("text_ticks_rotate_text");
+        for (int i = 0; i < ticksElements.size(); i++) {
+            String label = ticksElements.get(i);
+            Optional<Double> totalRotation = textRotation;
+            if (rotateText) {
+                totalRotation = Optional.of(textRotation.orElse(0d) + (double) i / (double) ticksElements.size());
+            }
+            GraphicalElement element = new TextGraphicalElement(color, label, point, font, size, styles, totalRotation);
+            element = element.rotate(toRadians(i/ (double) ticksElements.size()));
+            elements.add(element);
+        }
+        return new CompositeGraphicalElement(elements);
     }
 
     @Override
