@@ -39,3 +39,6 @@ src/main/java/ListFonts.java
 src/main/java/org/clock/scratch
 /Clock App.app/
 scratch/*
+
+# Packaged build output
+*.dmg
